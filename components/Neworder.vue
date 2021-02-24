@@ -6,9 +6,10 @@
           <b-card>
             <b-form @submit.prevent="adddetail" class="form-inline">
               <b-row>
+                <label for="">Select: </label>
                 <b-col cols="" class="form-inline">
-                  <label for="">Select: </label>
                   <b-form-input
+                    class="input"
                     list="input-list"
                     id="input-order-list"
                     placeholder="Enter barcode"
@@ -17,18 +18,20 @@
                   ></b-form-input>
                 </b-col>
 
-                <b-form-datalist id="input-list"
+                <b-form-datalist id="input-list" class="option"
                   ><option
+                    class="option"
                     v-for="product in productsState"
                     :key="product.product_barcode"
                     :value="product.product_barcode"
-                    >Name: {{ product.product_name }} Price: ${{
+                    >Name: {{ product.product_name }} | Price: ${{
                       product.price
                     }}
                   </option>
                 </b-form-datalist>
-                <b-col class="form-inline">
-                  <label for="">Quantity</label>
+
+                <label for="">Quantity: </label>
+                <b-col cols="" class="form-inline">
                   <b-form-input
                     class="form-control"
                     type="number"
@@ -37,54 +40,77 @@
                     v-model="order.quantity"
                   ></b-form-input>
 
-                  <b-button type="submit" variant="primary">Add</b-button>
+                  <b-button variant="primary">Add</b-button>
                 </b-col>
               </b-row>
             </b-form>
           </b-card>
-
-          <b-card
-            bg-variant="light"
-            title="Customer Details"
-            class="customercard"
-          >
-            <b-form class="modalmargin">
-              <label for="productname">Customer Name</label>
-              <b-form-input
-                class="form-control"
-                type="text"
-                placeholder="Enter Customer Name"
-                v-model="customer.fullname"
-                required
-              />
-
-              <label for="productdesc">Customer Address</label>
-              <b-form-input
-                class="form-control"
-                type="text"
-                placeholder="Enter Customer Address"
-                v-model="customer.address"
-                required
-              />
-              <b-form class="">
-                <label for="unitcost">Contact Number</label>
-                <input
+          <b-row>
+            <b-card
+              bg-variant="light"
+              title="Customer Details"
+              class="customercard"
+            >
+              <b-form class="modalmargin">
+                <label for="productname">Customer Name</label>
+                <b-form-input
                   class="form-control"
-                  type="number"
-                  placeholder="Enter Contact Number"
-                  v-model="customer.contact"
+                  type="text"
+                  placeholder="Enter Customer Name"
+                  v-model="customer.fullname"
                   required
                 />
+
+                <label for="productdesc">Customer Address</label>
+                <b-form-input
+                  class="form-control"
+                  type="text"
+                  placeholder="Enter Customer Address"
+                  v-model="customer.address"
+                  required
+                />
+                <b-form class="">
+                  <label for="unitcost">Contact Number</label>
+                  <input
+                    class="form-control"
+                    type="number"
+                    placeholder="Enter Contact Number"
+                    v-model="customer.contact"
+                    required
+                  />
+                </b-form>
+                <br />
+                <!-- <b-button @click="addtocustomer()" variant="primary"
+                  >Continue</b-button
+                >
+                <b-button class="reset" type="reset" variant="danger"
+                  >Reset</b-button
+                > -->
               </b-form>
-              <br />
-              <b-button @click="addtocustomer()" variant="primary"
-                >Continue</b-button
-              >
-              <b-button class="reset" type="reset" variant="danger"
-                >Reset</b-button
-              >
-            </b-form>
-          </b-card>
+            </b-card>
+            <b-col>
+              <b-card bg-variant="white" title="Order #XXX" class="paper">
+                <b-table
+                  responsive="sm"
+                  show-empty
+                  :items="productsStates"
+                  :fields="fields"
+                >
+                  <template #cell(productDesc)>
+                    {{ supplier.productDesc }}
+                  </template>
+                </b-table>
+
+                <!-- <b-button type="submit" variant="primary">End Sale</b-button>
+          <b-button class="cancel" variant="danger">Cancel </b-button> -->
+              </b-card>
+            </b-col>
+          </b-row>
+          <!-- <b-col cols="">
+          <b-button v-b-modal.modal-1 class="addBtn"
+            >Add Customer Detail</b-button
+          >
+        </b-col> -->
 
           <!-- <div class="mt-3">
           <b-pagination
@@ -97,13 +123,13 @@
           ></b-pagination>
         </div> -->
         </b-col>
-        <b-col cols="4">
-          <!-- <b-col cols="">
+        <!-- <b-col cols="4"> -->
+        <!-- <b-col cols="">
           <b-button v-b-modal.modal-1 class="addBtn"
             >Add Customer Detail</b-button
           >
         </b-col> -->
-          <b-card bg-variant="white" title="Order #XXX">
+        <!-- <b-card bg-variant="white" title="Order #XXX">
             <b-table
               responsive="sm"
               show-empty
@@ -113,12 +139,12 @@
               <template #cell(productDesc)>
                 {{ supplier.productDesc }}
               </template>
-            </b-table>
+            </b-table> -->
 
-            <!-- <b-button type="submit" variant="primary">End Sale</b-button>
+        <!-- <b-button type="submit" variant="primary">End Sale</b-button>
           <b-button class="cancel" variant="danger">Cancel </b-button> -->
-          </b-card>
-        </b-col>
+        <!-- </b-card> -->
+        <!-- </b-col> -->
       </b-row>
     </b-container>
   </div>
@@ -229,5 +255,17 @@ export default {
 .customercard {
   height: 350px;
   width: 350px;
+  margin: 15px 0 0 15px;
+}
+.input {
+  width: 500px;
+}
+.option {
+  width: 500px;
+  font-size: 20px;
+}
+.paper {
+  margin: 15px 0 0 0;
+  height: 650px;
 }
 </style>

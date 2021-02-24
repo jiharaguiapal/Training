@@ -83,7 +83,9 @@
             </li> -->
 
             <br />
-            <b-button @click="addtodelivery()" variant="primary"
+            <b-button
+              @click="$bvModal.show('confirmdelivery')"
+              variant="primary"
               >Submit</b-button
             >
             <b-button class="reset" type="reset" variant="danger"
@@ -198,17 +200,45 @@
               :per-page="perPage"
               aria-controls="delivery-table"
               align="center"
+              size="sm"
+              limit="3"
             ></b-pagination>
           </div>
         </b-card>
       </b-col>
     </b-form-row>
+    <b-modal id="confirmdelivery" centered hide-footer>
+      <template #modal-title> Confirm submit</template>
+      <div class="d-block text-center"></div>
+
+      <template #default="{ hide }">
+        <b-button
+          class="mt-3"
+          block
+          @click="$bvModal.hide('confirmdelivery'), addtodelivery()"
+          >Confirm</b-button
+        >
+
+        <b-button @click="hide()" block variant="danger"> Cancel</b-button>
+      </template>
+    </b-modal>
+    <b-alert
+      class="alert"
+      :show="alert.showAlert"
+      dismissible
+      :variant="alert.variant"
+      @dismissed="alert.showAlert = null"
+      @dismiss-count-down="countDownChanged"
+    >
+      {{ alert.message }}
+    </b-alert>
   </div>
 </template>
 
 <script>
 import { mapState, mapMutations, mapGetters } from "vuex";
 import moment from "moment";
+import DateRangePicker from "@gravitano/vue-date-range-picker";
 
 export default {
   data() {
@@ -217,6 +247,7 @@ export default {
       perPage: 7,
       currentPage: 1,
       delivery: [],
+      deliveries: [],
       filter: null,
       filterOn: [],
       options: [],
@@ -252,7 +283,15 @@ export default {
         {
           text: "1100002152"
         }
-      ]
+      ],
+      alert: {
+        showAlert: 0,
+        dismissSecs: 0,
+        variant: "success",
+        message: ""
+      },
+      dismissSecs: 5,
+      dismissCountDown: 0
     };
   },
   beforeCreate() {
@@ -272,7 +311,6 @@ export default {
   methods: {
     addtodelivery() {
       console.log("newdel", this.delivery);
-      this.isBusy = true;
       this.$store
         .dispatch("addDelivery", {
           delivery_code: this.delivery.delivery_code,
@@ -282,8 +320,18 @@ export default {
 
         .then(res => {
           console.log(res);
-          this.isBusy = false;
           this.delivery = [];
+          if (res == "Error: Request failed with status code 406") {
+            this.showAlert("Error: Please check delivery details", "danger");
+          } else {
+            this.showAlert(
+              " Delivery details was submitted successfully",
+              "success"
+            );
+          }
+        })
+        .catch(err => {
+          console.log("errhere", err.data.posted);
         });
     },
 
@@ -294,6 +342,17 @@ export default {
       }
       this.barcodes.push({ text: newbarcode });
       this.barcode = "";
+    },
+    countDownChanged(dismissCountDown) {
+      this.dismissCountDown = dismissCountDown;
+    },
+    showAlert(message, variant) {
+      this.dismissCountDown = this.dismissSecs;
+      this.alert = {
+        showAlert: 3,
+        variant,
+        message
+      };
     }
 
     // ...mapMutations(["ADD_DELIVERY"]),
@@ -346,6 +405,11 @@ export default {
   text-align: center;
 }
 .reset {
+  float: right;
+}
+.alert {
+  z-index: 10;
+  width: 500px;
   float: right;
 }
 </style>

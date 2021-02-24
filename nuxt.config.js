@@ -20,7 +20,11 @@ export default {
   css: ["@/assets/custom.scss"],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: ["@/plugins/daterangepicker", "@/plugins/fontawesome"],
+  plugins: [
+    "@/plugins/daterangepicker",
+    "@/plugins/fontawesome",
+    "@/plugins/Vuelidate"
+  ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,

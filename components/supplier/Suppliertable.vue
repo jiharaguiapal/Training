@@ -26,7 +26,11 @@
               <!-- second input field -->
               <label for="companyname">Company Name: </label>
               <b-form-input
-                class="form-control"
+                :state="
+                  $v.form.companyname.$dirty
+                    ? !$v.form.companyname.$error
+                    : null
+                "
                 type="text"
                 placeholder="Enter Company or Supplier name"
                 id=" company_name"
@@ -48,7 +52,7 @@
             </div>
             <div class="form-group">
               <!-- fourth input field -->
-              <label for="companycontact">Contact Number: </label>
+              <label for="companycontact">Company Contact: </label>
               <b-form-input
                 class="form-control"
                 type="tel"
@@ -59,7 +63,11 @@
               />
             </div>
             <br />
-            <b-button @click="$bvModal.show('confirm')" variant="primary">
+            <b-button
+              :class="$v.form.$invalid ? 'supplier-disabled' : 'supplier'"
+              @click="$bvModal.show('confirm')"
+              variant="primary"
+            >
               Submit</b-button
             >
             <b-button type="reset" variant="danger" class="reset"
@@ -78,7 +86,7 @@
             type="submit"
             class="mt-3"
             block
-            @click="$bvModal.hide('confirm'), addtosupplier(), showAlert()"
+            @click="$bvModal.hide('confirm'), addtosupplier()"
             >Confirm</b-button
           >
 
@@ -188,6 +196,8 @@
               :per-page="perPage"
               aria-controls="supplier-table"
               align="center"
+              size="sm"
+              limit="3"
             ></b-pagination>
           </div>
         </b-card>
@@ -197,13 +207,13 @@
     </b-form-row>
     <b-alert
       class="alert"
-      :show="dismissCountDown"
+      :show="alert.showAlert"
       dismissible
-      variant="warning"
-      @dismissed="dismissCountDown = 0"
+      :variant="alert.variant"
+      @dismissed="alert.showAlert = null"
       @dismiss-count-down="countDownChanged"
     >
-      Supplier details submitted successfully {{ message }}
+      {{ alert.message }}
     </b-alert>
   </div>
 </template>
@@ -211,6 +221,7 @@
 <script>
 name: "Suppliertable";
 import { mapState, mapMutations, mapGetters } from "vuex";
+import { required } from "vuelidate/lib/validators";
 
 export default {
   name: "Suppliertable",
@@ -223,7 +234,7 @@ export default {
         message: ""
       },
       rows: 100,
-      perPage: 7,
+      perPage: 8,
       currentPage: 1,
       item: [],
       filter: null,
@@ -257,6 +268,14 @@ export default {
   beforeCreate() {
     this.$store.dispatch("loadSuppliers");
   },
+  validations: {
+    form: {
+      companyname: { required },
+      contact: { required },
+      address: { required }
+    }
+  },
+
   computed: {
     ...mapGetters({
       suppliersState: "allSuppliers"
@@ -269,7 +288,6 @@ export default {
   methods: {
     addtosupplier() {
       console.log("newsup", this.supplier);
-      this.isBusy = true;
       this.$store
         .dispatch("addSupplier", {
           companyname: this.supplier.companyname,
@@ -278,12 +296,23 @@ export default {
         })
 
         .then(res => {
-          console.log(res);
-          this.isBusy = false;
+          console.log("err", res);
           this.supplier = [];
+          if (res == "Error: Request failed with status code 406") {
+            if (res == "Error: Network Error") {
+              this.showAlert("Network Error", "danger");
+            }
+            this.showAlert("Error: Please check supplier details", "danger");
+          } else {
+            this.showAlert(
+              "Supplier details was submitted successfully",
+              "success"
+            );
+          }
         })
         .catch(err => {
-          console.log("errhere", err.response.data.posted);
+          console.log(err);
+          this.showAlert(err.response.data.msg, "danger");
         });
     },
 
@@ -349,9 +378,15 @@ export default {
     countDownChanged(dismissCountDown) {
       this.dismissCountDown = dismissCountDown;
     },
-    showAlert() {
+    showAlert(message, variant) {
       this.dismissCountDown = this.dismissSecs;
-    }
+      this.alert = {
+        showAlert: 3,
+        variant,
+        message
+      };
+    },
+    submitform() {}
   }
 };
 </script>

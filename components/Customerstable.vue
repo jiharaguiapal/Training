@@ -146,6 +146,8 @@
               :per-page="perPage"
               aria-controls="supplier-table"
               align="center"
+              size="sm"
+              limit="3"
             ></b-pagination>
           </div>
         </b-card>
@@ -223,8 +225,8 @@ export default {
         { key: "customer_id", sortable: true, label: "Customer ID" },
         { key: "fullname", sortable: true, label: "Full Name" },
         { key: "contact", sortable: false, label: "Number" },
-        { key: "address", sortable: true, label: "Address" },
-        { key: "Actions", sortable: false, label: "Actions" }
+        { key: "address", sortable: true, label: "Address" }
+        // { key: "Actions", sortable: false, label: "Actions" }
       ]
     };
   },

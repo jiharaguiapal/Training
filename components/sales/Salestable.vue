@@ -65,7 +65,7 @@
             id="order-table"
             striped
             hover
-            :items="orders"
+            :items="getsales"
             show-empty
             :per-page="perPage"
             :current-page="currentPage"
@@ -129,7 +129,7 @@
   </div>
 </template>
 <script>
-import { mapState, mapMutations } from "vuex";
+import { mapState, mapMutations, mapGetters } from "vuex";
 export default {
   data() {
     return {
@@ -148,6 +148,7 @@ export default {
       product: [],
       order: [],
       fields: [
+        // { key: "order_id", sortable: true },
         { key: "order_code", sortable: true },
         { key: "order_date", sortable: true },
         { key: "total_payment", sortable: false },
@@ -156,29 +157,43 @@ export default {
       ]
     };
   },
+  beforeCreate() {
+    this.$store.dispatch("loadSales");
+  },
+  computed: {
+    ...mapGetters({
+      salesState: "allSales"
+    }),
+    getsales() {
+      console.log("sales", this.salesState[0]);
 
-  filters: {
-    capitalize: function(value) {
-      if (!value) return "";
-      value = value.toString();
-      return value.charAt(0).toUpperCase() + value.slice(1);
+      return this.salesState[0];
     }
   },
-  computed: mapState({
-    customers: state => state.customers,
-    orders: state => state.orders
-  }),
+
+  // filters: {
+  //   capitalize: function(value) {
+  //     if (!value) return "";
+  //     value = value.toString();
+  //     return value.charAt(0).toUpperCase() + value.slice(1);
+  //   }
+  // },
+
+  // computed: mapState({
+  //   customers: state => state.customers,
+  //   orders: state => state.orders
+  // }),
   methods: {
-    ...mapMutations(["ADD_CUSTOMER"]),
-    addcustomer: function() {
-      this.ADD_CUSTOMER(this.customer);
-      this.customer = [];
-    },
-    ...mapMutations(["ADD_ORDER"]),
-    addorder: function() {
-      this.ADD_ORDER(this.order);
-      this.order = [];
-    }
+    // ...mapMutations(["ADD_CUSTOMER"]),
+    // addcustomer: function() {
+    //   this.ADD_CUSTOMER(this.customer);
+    //   this.customer = [];
+    // },
+    // ...mapMutations(["ADD_ORDER"]),
+    // addorder: function() {
+    //   this.ADD_ORDER(this.order);
+    //   this.order = [];
+    // }
   }
 };
 </script>

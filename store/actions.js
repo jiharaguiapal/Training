@@ -37,7 +37,7 @@ export default {
 
         return res;
       })
-      .catch(err => console.log(err));
+      .catch(err => err);
   },
 
   async loadProducts({ commit }) {
@@ -93,7 +93,7 @@ export default {
 
         return res;
       })
-      .catch(err => console.log(err));
+      .catch(err => err);
   },
 
   async loadDeliveries({ commit }) {
@@ -140,15 +140,13 @@ export default {
         contact,
         address
       }
-    })
-      .then(res => {
-        console.log("supnew", res);
+    }).then(res => {
+      console.log("supnew", res);
 
-        commit("ADD_SUPPLIER", res.data.posted);
+      commit("ADD_SUPPLIER", res.data.posted);
 
-        return res;
-      })
-      .catch(err => console.log("this", err.data.posted));
+      return res;
+    });
   },
   async addOrder({ commit }, { barcode, quantity }) {
     console.log("look", barcode);
@@ -192,6 +190,22 @@ export default {
 
         return res;
       })
-      .catch(err => console.log(err));
+      .catch(err => err);
+  },
+  async loadSales({ commit }) {
+    console.log(this.$axios);
+    return await axios({
+      method: "GET",
+      url: `${this.$axios.defaults.baseURL}/orders/all/`
+    })
+      .then(res => {
+        console.log(res);
+        commit("SET_SALES", res.data.view);
+        console.log("supp", res.data.view);
+        return res.data;
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }
 };

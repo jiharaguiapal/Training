@@ -37,7 +37,7 @@
               <label for="unitcost">Cost per unit</label>
               <input
                 class="form-control"
-                type="text"
+                type="number"
                 placeholder="Enter cost per unit"
                 v-model="product.cost_unit"
                 required
@@ -45,7 +45,7 @@
               <label for="unitcost">Price</label>
               <input
                 class="form-control"
-                type="text"
+                type="number"
                 placeholder="Enter cost per unit"
                 v-model="product.price"
                 required
@@ -53,7 +53,7 @@
               <label for="productname">Stocks</label>
               <b-form-input
                 class="form-control"
-                type="text"
+                type="number"
                 placeholder="Enter product quantity"
                 v-model="product.stocks"
                 required
@@ -67,11 +67,7 @@
               />
               <label for="companyname">Select Delivery Code: </label>
 
-              <b-form-select
-                list="sup-list"
-                id="input-product-list"
-                v-model="product.delivery_code"
-              >
+              <b-form-select v-model="product.delivery_code">
                 <option
                   v-for="delivery in deliveriesState"
                   :key="delivery.delivery_code"
@@ -80,7 +76,7 @@
               >
             </b-form>
             <br />
-            <b-button @click="addtoproduct()" variant="primary"
+            <b-button @click="$bvModal.show('confirmproduct')" variant="primary"
               >Submit</b-button
             >
             <b-button class="reset" type="reset" variant="danger"
@@ -158,12 +154,40 @@
               :per-page="perPage"
               aria-controls="supplier-table"
               align="center"
+              size="sm"
+              limit="3"
             ></b-pagination>
           </div>
         </b-card>
         <!-- <Product /> -->
       </b-col>
     </b-form-row>
+    <b-modal id="confirmproduct" centered hide-footer>
+      <template #modal-title> Confirm submit</template>
+      <div class="d-block text-center"></div>
+      d
+      <template #default="{ hide }">
+        <b-button
+          type="submit"
+          class="mt-3"
+          block
+          @click="$bvModal.hide('confirmproduct'), addtoproduct()"
+          >Confirm</b-button
+        >
+
+        <b-button @click="hide()" block variant="danger"> Cancel</b-button>
+      </template>
+    </b-modal>
+    <b-alert
+      class="alert"
+      :show="alert.showAlert"
+      dismissible
+      :variant="alert.variant"
+      @dismissed="alert.showAlert = null"
+      @dismiss-count-down="countDownChanged"
+    >
+      {{ alert.message }}
+    </b-alert>
   </div>
 </template>
 
@@ -196,13 +220,21 @@ export default {
         { key: "product_description", sortable: true, label: "Details" },
         { key: "cost_unit", sortable: true, label: "Unit Cost" },
         { key: "price", label: "Price" },
-        { key: "stocks", sortable: true, label: "Stocks" },
+        { key: "stocks", sortable: true, label: "Quantity" },
         { key: "Expiry_date", sortable: true, label: "Expiration Date" },
         // { key: "supplierID", sortable: true, label: "Supplier ID" },
         { key: "delivery_code", sortable: true, label: "Delivery Code" },
         { key: "actions", sortable: false }
       ],
-      isBusy: false
+      isBusy: false,
+      alert: {
+        showAlert: 0,
+        dismissSecs: 0,
+        variant: "success",
+        message: ""
+      },
+      dismissSecs: 5,
+      dismissCountDown: 0
     };
   },
   beforeCreate() {
@@ -248,6 +280,14 @@ export default {
           console.log(res);
           this.product = [];
           this.isBusy = false;
+          if (res == "Error: Request failed with status code 406") {
+            this.showAlert("Error: Please check product details", "danger");
+          } else {
+            this.showAlert(
+              "Product details was submitted successfully",
+              "success"
+            );
+          }
         });
     },
 
@@ -294,6 +334,14 @@ export default {
     },
     deleteEvent(index) {
       this.products.splice(index, 1);
+    },
+    showAlert(message, variant) {
+      this.dismissCountDown = this.dismissSecs;
+      this.alert = {
+        showAlert: 3,
+        variant,
+        message
+      };
     }
   }
 };
@@ -304,6 +352,11 @@ export default {
   text-align: center;
 }
 .reset {
+  float: right;
+}
+.alert {
+  z-index: 10;
+  width: 500px;
   float: right;
 }
 </style>
