@@ -1,0 +1,11 @@
+// Your variable overrides
+// $custom: #2B7A78 !default;
+
+$theme-colors:("primary": #668D6B,
+  "secondary": #A1D6BF,
+  "light": #e9cdaf,
+  "dark": #5C9995,
+  "info":#A1D6BF);
+
+// Bootstrap and its default variables
+@import "../node_modules/bootstrap/scss/bootstrap";

@@ -1,0 +1,35 @@
+// Your variable overrides
+// $custom: #2B7A78 !default;
+$body-bg:#D5DEE6;
+;
+
+$theme-colors:("primary":#043F8C,
+
+  "secondary":#017A8F,
+  "light":#D5DEE6,
+  "dark":#95ABC1,
+  "info":#8AB0BF);
+
+// Bootstrap and its default variables
+@import "../node_modules/bootstrap/scss/bootstrap";
+
+$formTitle: #024059;
+
+.modal .modal-huge {
+  max-width: 90%;
+}
+h1{
+font-family: 'Montserrat',
+sans-serif;
+}
+button{
+  font-family: 'Montserrat',
+  sans-serif;
+  
+}
+body{
+  font-family: 'Montserrat',
+  sans-serif;
+}
+
+
