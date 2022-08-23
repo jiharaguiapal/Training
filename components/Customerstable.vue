@@ -80,7 +80,7 @@
         <b-card class="card bg-info shadow p-4 mb-5 bg-white rounded">
           <b-form-group>
             <!-- group for search bar -->
-            <b-input-group size="">
+            <b-input-group size="sm">
               <b-form-input
                 id="filter-input"
                 v-model="filter"
@@ -224,10 +224,13 @@ export default {
       fields: [
         { key: "customer_id", sortable: true, label: "Customer ID" },
         { key: "fullname", sortable: true, label: "Full Name" },
-        { key: "contact", sortable: false, label: "Number" },
-        { key: "address", sortable: true, label: "Address" }
+        { key: "contact", sortable: false, label: "Address" },
+        { key: "address", sortable: true, label: "Number" }
         // { key: "Actions", sortable: false, label: "Actions" }
-      ]
+      ],
+      resetInfoModal: "",
+      modalheadbg: "",
+      onFiltered: []
     };
   },
 
@@ -242,7 +245,9 @@ export default {
   //     });
   // },
   beforeCreate() {
-    this.$store.dispatch("loadCustomers");
+    this.$store.dispatch("loadCustomers", {
+      SecretKey: localStorage.SecretKey
+    });
   },
   created() {
     console.log("yow", this.customers);
@@ -251,6 +256,11 @@ export default {
     this.customerModal.title = `${customer.product_name}`;
     this.customerModal.content = JSON.stringify(customer, null, 2);
     this.$root.$emit("bv::show::modal", this.customerModal.id, button);
+  },
+  onFiltered(filteredItems) {
+    // Trigger pagination to update the number of buttons/pages due to filtering
+    this.totalRows = filteredItems.length;
+    this.currentPage = 1;
   },
   resetInfoModal() {
     this.customerModal.title = "";

@@ -34,7 +34,7 @@ export default {
   SET_SALES(state, sale) {
     state.salesState.push(sale);
   },
-  NEW_LOGIN(state, user) {
+  LOGIN_USER(state, user) {
     state.usersState.push(user);
   }
 };

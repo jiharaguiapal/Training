@@ -14,9 +14,25 @@ $theme-colors:("primary":#043F8C,
 @import "../node_modules/bootstrap/scss/bootstrap";
 
 $formTitle: #024059;
+.btnadd{
+  // border: 1px solid red;
+}
+.new-order-btn{
+  margin-top: 8px;
+    // border: 1px solid red;
+    height: 40px;
+
+}
+.select-date{
+  border-top-left-radius: 0.2rem !important;
+  border-bottom-left-radius: 0.2rem !important;
+    // border: 1px solid red;
+// 
+}
 
 .modal .modal-huge {
-  max-width: 80%;
+  max-width: 90%;
+ 
 }
 h1{
 font-family: 'Montserrat',
@@ -25,11 +41,25 @@ sans-serif;
 button{
   font-family: 'Montserrat',
   sans-serif;
-  
+ 
 }
 body{
   font-family: 'Montserrat',
   sans-serif;
+  background-color:white;
+}
+table{
+  font-size: small;
+}
+form{
+  font-size: small;
+}
+header{
+
+  background-color: #017A8F;
+  color: white;
+  
+  
 }
 
 

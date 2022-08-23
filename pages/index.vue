@@ -7,18 +7,19 @@
        
         </a>
       </div> -->
-      <nuxt-link :to="{ name: 'main' }"> main</nuxt-link>
+      <!-- <nuxt-link :to="{ name: 'main' }"> main</nuxt-link> -->
 
       <b-form>
         <div>
-          <b-img center src="@/assets/img/shop.svg" class="shop-img"></b-img>
+          <b-img src="@/assets/img/shop.svg" class="shop-img"></b-img>
         </div>
+        <h2 class="titlecard">Lou Geh</h2>
         <h2 class="titlecard">Supermarket</h2>
         <label for=""></label>
         <b-form-input
           class="input"
           placeholder="Enter username"
-          v-model="username"
+          v-model="user.username"
           required
         ></b-form-input>
 
@@ -26,12 +27,14 @@
         <b-form-input
           placeholder="Enter password"
           type="password"
-          v-model="password"
+          v-model="user.password"
           required
           class="input"
         ></b-form-input>
         <br />
-        <b-button pill block @click="login()" class="login-btn">Login</b-button>
+        <b-button pill block @click="loginUser" class="login-btn"
+          >Login</b-button
+        >
         <div class="link">
           <nuxt-link :to="{ name: 'registeruser' }">Create New User</nuxt-link>
         </div>
@@ -57,6 +60,8 @@
 </template>
 
 <script>
+import { mapState, mapMutations, mapGetters } from "vuex";
+
 import axios from "axios";
 import VueAxios from "vue-axios";
 
@@ -64,7 +69,8 @@ export default {
   name: "Login",
   data() {
     return {
-      posts: [],
+      users: [],
+      user: [],
       errors: [],
       username: "",
       password: "",
@@ -75,7 +81,6 @@ export default {
         message: ""
       }
     };
-    head;
   },
 
   created() {
@@ -110,17 +115,45 @@ export default {
   //     }
   //   }
   // }
+  // computed: {
+  //   inputValidation() {
+  //     if (this.username.length > 0 && this.username.length <= 20) {
+  //       return true;
+  //     } else {
+  //       return false;
+  //     }
+  //   }
+  // },
   computed: {
-    inputValidation() {
-      if (this.username.length > 0 && this.username.length <= 20) {
-        return true;
-      } else {
-        return false;
-      }
-    }
+    ...mapGetters({
+      userState: "allUsers"
+    })
   },
-
   methods: {
+    loginUser() {
+      console.log("newlogin", this.user);
+      this.$router.push("/main");
+
+      // this.$store
+      //   .dispatch("loginUser", {
+      //     username: this.user.username,
+      //     password: this.user.password
+      //   })
+
+      //   .then(res => {
+      //     localStorage.username = this.user.username;
+      //     localStorage.SecretKey = res.data.posted.SecretKey;
+      //     this.user = [];
+
+      //     this.$router.push("/main");
+      //     // this.showAlert(
+      //     //   "Supplier details was submitted successfully",
+      //     //   "success"
+      //     // );
+      //   })
+      //   .catch(err => err);
+    },
+
     showAlert(message, variant) {
       this.alert = {
         showAlert: 3,
@@ -196,8 +229,9 @@ label {
   border-radius: 25px;
 }
 .bcard {
+  border: none;
   border-radius: 15px;
-  margin-top: 190px;
+  margin-top: 80px;
 
   height: 580px;
 }

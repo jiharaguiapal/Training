@@ -16,7 +16,12 @@
           </div>
 
           <b-navbar-nav class="ml-auto">
-            <b-button size="" variant="outline-light" v-b-modal.ordermodal>
+            <b-button
+              size="sm"
+              variant="outline-light"
+              v-b-modal.ordermodal
+              class="new-order-btn"
+            >
               <font-awesome-icon icon="cart-plus" /> New Order</b-button
             >
             <b-nav-item-dropdown right>
@@ -30,7 +35,14 @@
       </b-navbar>
 
       <div>
-        <b-modal id="ordermodal" size="huge" class="order-modal">
+        <b-modal
+          id="ordermodal"
+          size="huge"
+          class="order-modal"
+          title="New Order"
+          hide-footer
+          scrollable
+        >
           <Neworder />
         </b-modal>
       </div>
@@ -77,5 +89,8 @@ export default {
 }
 modal-xl {
   width: 700px !important;
+}
+.modal-dialog {
+  height: 90vh;
 }
 </style>

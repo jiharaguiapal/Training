@@ -6,13 +6,13 @@
         <label for="">First Name</label>
 
         <b-form-input
-          class="input"
+          class="input "
           placeholder="Enter first name"
           v-model="firstname"
           required
         ></b-form-input>
 
-        <label for="">Last Name</label>
+        <label class="mt-3" for="">Last Name</label>
 
         <b-form-input
           class="input"
@@ -21,7 +21,7 @@
           required
         ></b-form-input>
 
-        <label for="">Create Username</label>
+        <label class="mt-3" for="">Create Username</label>
         <b-form-input
           class="input"
           placeholder="Enter username"
@@ -29,7 +29,7 @@
           required
         ></b-form-input>
 
-        <label for="">Creare Password</label>
+        <label class="mt-3" for="">Create Password</label>
         <b-form-input
           placeholder="Enter password"
           type="password"
@@ -37,7 +37,7 @@
           required
           class="input"
         ></b-form-input>
-        <label for="">Select User Type</label>
+        <label class="mt-3" for="">Select User Type</label>
         <b-form-select v-model="usertype" class="input">
           <b-form-select-option :value="null"
             >Please select an option</b-form-select-option
@@ -96,7 +96,7 @@ export default {
 }
 
 .input {
-  border-radius: 25px;
+  border-radius: 10px;
 }
 .login-btn {
   margin-top: 30px;
@@ -108,6 +108,6 @@ export default {
 .bcard {
   border-radius: 15px;
   margin-top: 190px;
-  height: 580px;
+  /* height: 580px; */
 }
 </style>

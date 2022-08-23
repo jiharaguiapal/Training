@@ -46,7 +46,7 @@
       <b-col cols="">
         <b-card class="card bg-info shadow p-4 mb-5 bg-white rounded">
           <b-form-group>
-            <b-input-group size="">
+            <b-input-group size="sm">
               <b-form-input
                 id="filter-input"
                 v-model="filter"
@@ -76,7 +76,19 @@
             :sort-desc.sync="sortDesc"
             responsive="sm"
           >
+            <template #cell(actions)="row">
+              <b-button
+                size="sm"
+                @click="info(row.item, row.index, $event.target)"
+                class="mr-1"
+                variant="secondary"
+                pill
+              >
+                <font-awesome-icon icon="archive" />
+              </b-button>
+            </template>
           </b-table>
+
           <div class="mt-3">
             <b-pagination
               v-model="currentPage"
@@ -154,16 +166,26 @@ export default {
         { key: "total_payment", sortable: false },
         { key: "customer_name", sortable: true },
         { key: "Actions", sortable: false }
-      ]
+      ],
+      sale: [],
+      sales: [],
+      onFiltered: []
     };
   },
   beforeCreate() {
-    this.$store.dispatch("loadSales");
+    console.log("hereee");
+    this.$store.dispatch("loadSales", {
+      SecretKey: localStorage.SecretKey
+    });
+  },
+  created() {
+    console.log("sal");
   },
   computed: {
     ...mapGetters({
       salesState: "allSales"
     }),
+
     getsales() {
       console.log("sales", this.salesState[0]);
 
@@ -194,6 +216,11 @@ export default {
     //   this.ADD_ORDER(this.order);
     //   this.order = [];
     // }
+  },
+  onFiltered(filteredItems) {
+    // Trigger pagination to update the number of buttons/pages due to filtering
+    this.totalRows = filteredItems.length;
+    this.currentPage = 1;
   }
 };
 </script>

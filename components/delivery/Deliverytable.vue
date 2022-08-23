@@ -1,6 +1,6 @@
 <template>
-  <div class="tablecon">
-    <b-form-row>
+  <div class="fluid">
+    <!-- <b-form-row>
       <b-col cols="3">
         <b-card class="bg-secondary">
           <h3 class="formTitle">
@@ -28,23 +28,23 @@
                 :key="supplier.companyname"
                 >{{ supplier.companyname }}
               </option></b-form-select
-            >
-            <!-- :value="supplier.supplier_id" -->
-            <!-- <label for="companyname"> Supplier Code: </label>
+            > -->
+    <!-- :value="supplier.supplier_id" -->
+    <!-- <label for="companyname"> Supplier Code: </label>
             <b-form-input
               list="supplier-list"
               id="select-supplier"
               v-model="delivery.suppliername"
               required
             > -->
-            <!-- <b-form-datalist id="select-supplier">
+    <!-- <b-form-datalist id="select-supplier">
                 <option v-for="supplier in suppliersState" :key="supplier"
                   >{{ item }}
                 </option>
               </b-form-datalist> -->
-            <!-- </b-form-input> -->
+    <!-- </b-form-input> -->
 
-            <!-- <label for="supplieraddress">Delivery Number: </label>
+    <!-- <label for="supplieraddress">Delivery Number: </label>
             <b-form-input
               class="form-control "
               type="text"
@@ -52,7 +52,7 @@
               v-model="delivery.deliveryID"
               required
             /> -->
-            <label for="companycontact">Date Received: </label>
+    <!-- <label for="companycontact">Date Received: </label>
             <b-form-datepicker
               class="form-control col-sm"
               type="date"
@@ -65,9 +65,9 @@
               <option v-for="item in items" :key="item"
                 >{{ item.company_name }}
               </option>
-            </b-form-datalist>
+            </b-form-datalist> -->
 
-            <!-- <label for="">Add Delivered Item:</label>
+    <!-- <label for="">Add Delivered Item:</label>
             <b-row>
               <b-col cols="10">
                 <b-form-input
@@ -77,12 +77,12 @@
               ></b-col>
 
               <b-button v-on:click="add()">Add</b-button> -->
-            <!-- </b-row> -->
-            <!-- <li v-for="barcode in barcodes" :key="barcode">
+    <!-- </b-row> -->
+    <!-- <li v-for="barcode in barcodes" :key="barcode">
               <span>{{ barcode.text }}</span>
             </li> -->
 
-            <br />
+    <!-- <br />
             <b-button
               @click="$bvModal.show('confirmdelivery')"
               variant="primary"
@@ -92,8 +92,8 @@
               >Reset</b-button
             >
           </b-form>
-        </b-card>
-        <!-- <div>
+        </b-card> -->
+    <!-- <div>
           <b-alert
             class="alert"
             variant="info"
@@ -105,74 +105,76 @@
             Successful!
           </b-alert>
         </div> -->
-      </b-col>
-      <b-col cols="9">
-        <b-card class="card bg-info shadow p-3 mb-5 bg-white rounded">
-          <b-form-group>
-            <b-row>
-              <b-col cols="4 form-inline">
-                <b-input-group size="">
-                  <label for=""> Select date: </label>
-                  <date-range-picker
-                    v-model="range"
-                    :options="options"
-                    format="YYYY-MM-DD"
-                    class=" form-control"
-                  />
-                </b-input-group>
-              </b-col>
-              <b-col>
-                <b-input-group size="">
-                  <b-form-input
-                    id="filter-input"
-                    v-model="filter"
-                    type="search"
-                    placeholder="Type to Search"
-                  ></b-form-input>
+    <!-- </b-col> -->
+    <b-col cols="">
+      <b-card class="card bg-info shadow p-3 mb-5 bg-white rounded">
+        <b-form-group>
+          <b-row>
+            <b-col cols="4 form-inline">
+              <b-input-group size="sm">
+                <b-input-group-append>
+                  <b-button class="select-date">Select date</b-button>
+                </b-input-group-append>
+                <!-- <label for=""> Select date: </label> -->
+                <date-range-picker
+                  :options="options"
+                  format="YYYY-MM-DD"
+                  class=" form-control"
+                />
+              </b-input-group>
+            </b-col>
+            <b-col>
+              <b-input-group size="sm">
+                <b-form-input
+                  id="filter-input"
+                  v-model="filter"
+                  type="search"
+                  placeholder="Type to Search"
+                ></b-form-input>
 
-                  <b-input-group-append>
-                    <b-button :disabled="!filter" @click="filter = ''"
-                      >Clear</b-button
-                    >
-                  </b-input-group-append>
-                </b-input-group>
-              </b-col>
-            </b-row>
-          </b-form-group>
-          <b-table
-            hover
-            :items="deliveriesState"
-            id="delivery-table"
-            :per-page="perPage"
-            :current-page="currentPage"
-            :filter="filter"
-            @filtered="onFiltered"
-            show-empty
-            primary-key=""
-            :fields="fields"
-            :sort-by.sync="sortBy"
-            :sort-desc.sync="sortDesc"
-          >
-            <template #cell(actions)="row">
-              <b-button
-                size="sm"
-                @click="info(row.item, row.index, $event.target)"
-                class="mr-1"
-                variant="primary"
-                pill
-              >
-                <font-awesome-icon icon="edit" />
-              </b-button>
-              <b-button
-                size="sm"
-                @click="info(row.item, row.index, $event.target)"
-                class="mr-1"
-                variant="primary"
-                pill
-              >
-                <font-awesome-icon icon="archive" />
-              </b-button>
-              <!-- <b-button
+                <b-input-group-append>
+                  <b-button :disabled="!filter" @click="filter = ''"
+                    >Clear</b-button
+                  >
+                </b-input-group-append>
+              </b-input-group>
+            </b-col>
+          </b-row>
+        </b-form-group>
+        <b-table
+          hover
+          :items="deliveriesState"
+          id="delivery-table"
+          :per-page="perPage"
+          :current-page="currentPage"
+          :filter="filter"
+          @filtered="onFiltered"
+          show-empty
+          primary-key=""
+          :fields="fields"
+          :sort-by.sync="sortBy"
+          :sort-desc.sync="sortDesc"
+        >
+          <template #cell(actions)="row">
+            <!-- <b-button
+              size="sm"
+              @click="info(row.item, row.index, $event.target)"
+              class="mr-1"
+              variant="primary"
+              pill
+            >
+              <font-awesome-icon icon="edit" />
+            </b-button> -->
+            <b-button
+              size="sm"
+              @click="info(row.item, row.index, $event.target)"
+              class="mr-1"
+              variant="secondary"
+              pill
+            >
+              <font-awesome-icon icon="archive" />
+            </b-button>
+            <!-- <b-button
                 size="sm"
                 @click="deleteEvent(row.index)"
                 class="mr-1"
@@ -181,32 +183,33 @@
               >
                 <font-awesome-icon icon="trash-alt" />
               </b-button> -->
-            </template>
-          </b-table>
-          <b-modal
-            :header-bg-variant="modalheadbg"
-            :id="deliveryModal.id"
-            :title="deliveryModal.title"
-            ok-only
-            @hide="resetInfoModal"
-          >
-            <pre>{{ deliveryModal.content }}</pre>
-          </b-modal>
-          <div class="mt-3">
-            <b-pagination
-              v-model="currentPage"
-              pills
-              :total-rows="rows"
-              :per-page="perPage"
-              aria-controls="delivery-table"
-              align="center"
-              size="sm"
-              limit="3"
-            ></b-pagination>
-          </div>
-        </b-card>
-      </b-col>
-    </b-form-row>
+          </template>
+        </b-table>
+        <b-modal
+          :header-bg-variant="modalheadbg"
+          :id="deliveryModal.id"
+          :title="deliveryModal.title"
+          ok-only
+          @hide="resetInfoModal"
+        >
+          <pre>{{ deliveryModal.content }}</pre>
+        </b-modal>
+        <div class="mt-3">
+          <b-pagination
+            v-model="currentPage"
+            pills
+            :total-rows="rows"
+            :per-page="perPage"
+            aria-controls="delivery-table"
+            align="center"
+            size="sm"
+            limit="3"
+            @input="updatePage(currentPage)"
+          ></b-pagination>
+        </div>
+      </b-card>
+    </b-col>
+    <!-- </b-form-row> -->
     <b-modal id="confirmdelivery" centered hide-footer>
       <template #modal-title> Confirm submit</template>
       <div class="d-block text-center"></div>
@@ -291,12 +294,18 @@ export default {
         message: ""
       },
       dismissSecs: 5,
-      dismissCountDown: 0
+      dismissCountDown: 0,
+      // onFiltered:[],
+      resetInfoModal: ""
     };
   },
   beforeCreate() {
-    this.$store.dispatch("loadDeliveries");
-    this.$store.dispatch("loadSuppliers");
+    this.$store.dispatch("loadDeliveries", {
+      SecretKey: localStorage.SecretKey
+    });
+    this.$store.dispatch("loadSuppliers", {
+      SecretKey: localStorage.SecretKey
+    });
   },
   computed: {
     ...mapGetters({
@@ -315,7 +324,8 @@ export default {
         .dispatch("addDelivery", {
           delivery_code: this.delivery.delivery_code,
           suppliername: this.delivery.suppliername,
-          delivery_received_date: this.delivery.delivery_received_date
+          delivery_received_date: this.delivery.delivery_received_date,
+          SecretKey: localStorage.SecretKey
         })
 
         .then(res => {
@@ -345,6 +355,11 @@ export default {
     },
     countDownChanged(dismissCountDown) {
       this.dismissCountDown = dismissCountDown;
+    },
+    onFiltered(filteredItems) {
+      // Trigger pagination to update the number of buttons/pages due to filtering
+      this.totalRows = filteredItems.length;
+      this.currentPage = 1;
     },
     showAlert(message, variant) {
       this.dismissCountDown = this.dismissSecs;
@@ -396,7 +411,8 @@ export default {
   },
   deleteEvent(index) {
     this.deliveries.splice(index, 1);
-  }
+  },
+  updatePage() {}
 };
 </script>
 <style scoped>

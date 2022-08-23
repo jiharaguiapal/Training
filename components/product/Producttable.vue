@@ -1,6 +1,6 @@
 <template>
   <div class="protab">
-    <b-form-row>
+    <!-- <b-form-row>
       <b-col cols="3">
         <b-card class="bg-secondary">
           <h3 class="formTitle">
@@ -84,13 +84,214 @@
             >
           </b-form>
         </b-card>
-      </b-col>
-      <b-col cols="9">
-        <b-card class="card bg-info shadow p-3 mb-5 bg-white rounded">
-          <b-form-group>
-            <b-input-group size="">
+      </b-col> -->
+    <b-modal
+      id="productmodal"
+      size="huge"
+      class="product-modal"
+      hide-footer
+      title="Add Product"
+      scrollable
+    >
+      <div>
+        <b-row>
+          <b-col cols="">
+            <b-card>
+              <b-form @submit.prevent="adddetail">
+                <b-row class="form-inline">
+                  <label for="">Select: </label>
+                  <b-col cols="4">
+                    <b-form-select
+                      class="input"
+                      list="sup-list"
+                      id="input-product-list"
+                      v-model="Supplier"
+                    >
+                      <option
+                        v-for="(supplier, supplier_id) in suppliersState"
+                        :key="supplier_id"
+                        >{{ supplier.companyname }}
+                      </option></b-form-select
+                    >
+                  </b-col>
+                  <label for="">Date Received: </label>
+                  <b-col>
+                    <b-form-datepicker
+                      class="form-control col-sm"
+                      type="date"
+                      placeholder="Select Delivery Date"
+                      v-model="Date_Received"
+                      required
+                    />
+                  </b-col>
+                </b-row>
+              </b-form>
+            </b-card>
+            <b-row>
+              <b-card
+                bg-variant="light"
+                title="Product Details"
+                class="productcard"
+              >
+                <b-form class="modalmargin">
+                  <!-- <label for="">Enter Delivery Code: </label>
+                    <b-form-input
+                      id="input-delivery-code"
+                      v-model="delivery_code"
+                      required
+                    ></b-form-input> -->
+
+                  <!-- <label for="companyname">Select Supplier: </label> -->
+
+                  <label for="productcode">Product Barcode</label>
+                  <b-form-input
+                    class="form-control"
+                    type="text"
+                    placeholder="Enter Product Barcode"
+                    v-model="product_barcode"
+                    required
+                  />
+                  <label for="productname">Product Name</label>
+                  <b-form-input
+                    class="form-control"
+                    type="text"
+                    placeholder="Enter Product Name"
+                    v-model="product_name"
+                    required
+                  />
+                  <label for="productdesc">Product Description</label>
+                  <b-form-input
+                    class="form-control"
+                    type="text"
+                    placeholder="Enter Product Description"
+                    v-model="product_description"
+                    required
+                  />
+                  <b-form class="">
+                    <label for="unitcost">Cost per unit</label>
+                    <input
+                      class="form-control"
+                      type="number"
+                      placeholder="Enter cost per unit"
+                      v-model="cost_unit"
+                      required
+                    />
+                    <label for="unitcost">Price</label>
+                    <input
+                      class="form-control"
+                      type="number"
+                      placeholder="Enter cost per unit"
+                      v-model="price"
+                      required
+                    />
+                    <label for="productname">Stocks</label>
+                    <b-form-input
+                      class="form-control"
+                      type="number"
+                      placeholder="Enter product quantity"
+                      v-model="quantity"
+                      required
+                    />
+                    <label for="productname">Expiry Date</label>
+                    <b-form-datepicker
+                      class="form-control col-sm"
+                      type="date"
+                      v-model="Expiry_date"
+                      required
+                    />
+                    <!-- <label for="companyname">Select Delivery Code: </label>
+
+              <b-form-select v-model="product.delivery_code">
+                <option
+                  v-for="delivery in deliveriesState"
+                  :key="delivery.delivery_code"
+                  >{{ delivery.delivery_code }}
+                </option></b-form-select
+              > -->
+                  </b-form>
+                  <br />
+                  <b-button @click="add_product" variant="primary"
+                    >Add</b-button
+                  >
+                  <!-- <b-button @click="$bvModal.show('confirmproduct')" variant="primary"
+              >Add</b-button
+            > -->
+                  <b-button class="reset" type="reset" variant="danger"
+                    >Reset</b-button
+                  >
+                </b-form>
+              </b-card>
+              <b-col>
+                <b-card
+                  bg-variant="white"
+                  title="Pending Products"
+                  class="paper"
+                >
+                  <!-- <b-table
+                  responsive="sm"
+                  show-empty
+                  :items="productsStates"
+                  :fields="fields"
+                >
+                  <template #cell(productDesc)>
+                    {{ supplier.productDesc }}
+                  </template>
+                </b-table> -->
+
+                  <table class="table mt-5">
+                    <thead>
+                      <tr>
+                        <th scope="col">List</th>
+                        <th scope="col">Barcode</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Details</th>
+                        <th scope="col">Unit Cost</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Expiration Date</th>
+                        <!-- <th scope="col">Delivery Code</th> -->
+                        <th scope="col">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr v-for="(product, index) in list" :key="index">
+                        <th scope="row">{{ ++index }}</th>
+                        <td>{{ product.product_barcode }}</td>
+                        <td>{{ product.product_name }}</td>
+                        <td>{{ product.product_description }}</td>
+                        <td>{{ product.cost_unit }}</td>
+                        <td>{{ product.price }}</td>
+                        <td>{{ product.quantity }}</td>
+                        <td>{{ product.Expiry_date }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </b-card>
+              </b-col>
+            </b-row>
+          </b-col>
+        </b-row>
+        <div class="btngrp">
+          <b-button @click="$bvModal.show('confirmproduct')" variant="primary"
+            >Submit</b-button
+          >
+          <b-button @click="clearpending()" variant="danger">Clear</b-button>
+        </div>
+      </div>
+    </b-modal>
+
+    <b-card class="card bg-info shadow p-3 mb-5 bg-white rounded">
+      <b-form-group>
+        <b-row>
+          <b-col cols="4">
+            <b-button v-b-modal.productmodal variant="primary" size="sm">
+              <font-awesome-icon icon="plus-circle" /> Add product</b-button
+            >
+          </b-col>
+          <b-col>
+            <b-input-group size="sm">
               <b-form-input
-                id="filter-input"
+                id="filter-product"
                 v-model="filter"
                 type="search"
                 placeholder="Type to Search"
@@ -101,32 +302,34 @@
                 >
               </b-input-group-append>
             </b-input-group>
-          </b-form-group>
-          <b-table
-            hover
-            id="supplier-table"
-            :per-page="perPage"
-            :current-page="currentPage"
-            :items="productsState"
-            :filter="filter"
-            @filtered="onFiltered"
-            show-empty
-            :fields="fields"
-            :sort-by.sync="sortBy"
-            :sort-desc.sync="sortDesc"
-            responsive="sm"
+          </b-col>
+        </b-row>
+      </b-form-group>
+      <b-table
+        hover
+        id="supplier-table"
+        :per-page="perPage"
+        :current-page="currentPage"
+        :items="productsState"
+        :filter="filter"
+        @filtered="onFiltered"
+        show-empty
+        :fields="fields"
+        :sort-by.sync="sortBy"
+        :sort-desc.sync="sortDesc"
+        responsive="sm"
+      >
+        <template #cell(actions)="row">
+          <b-button
+            size="sm"
+            @click="info(row.item, row.index, $event.target)"
+            class="mr-1"
+            variant="primary"
+            pill
           >
-            <template #cell(actions)="row">
-              <b-button
-                size="sm"
-                @click="info(row.item, row.index, $event.target)"
-                class="mr-1"
-                variant="primary"
-                pill
-              >
-                <font-awesome-icon icon="edit" />
-              </b-button>
-              <!-- <b-button
+            <font-awesome-icon icon="edit" />
+          </b-button>
+          <!-- <b-button
                 size="sm"
                 @click="deleteEvent(row.index)"
                 class="mr-1"
@@ -135,33 +338,33 @@
               >
                 <font-awesome-icon icon="trash-alt" />
               </b-button>  -->
-            </template></b-table
-          >
-          <b-modal
-            :header-bg-variant="modalheadbg"
-            :id="productModal.id"
-            :title="productModal.title"
-            ok-only
-            @hide="resetInfoModal"
-          >
-            <pre>{{ productModal.content }}</pre>
-          </b-modal>
-          <div class="mt-3">
-            <b-pagination
-              v-model="currentPage"
-              pills
-              :total-rows="rows"
-              :per-page="perPage"
-              aria-controls="supplier-table"
-              align="center"
-              size="sm"
-              limit="3"
-            ></b-pagination>
-          </div>
-        </b-card>
-        <!-- <Product /> -->
-      </b-col>
-    </b-form-row>
+        </template></b-table
+      >
+      <b-modal
+        :header-bg-variant="modalheadbg"
+        :id="productModal.id"
+        :title="productModal.title"
+        ok-only
+        @hide="resetInfoModal"
+      >
+        <pre>{{ productModal.content }}</pre>
+      </b-modal>
+      <div class="mt-3">
+        <b-pagination
+          v-model="currentPage"
+          pills
+          :total-rows="rows"
+          :per-page="perPage"
+          aria-controls="supplier-table"
+          align="center"
+          size="sm"
+          limit="3"
+        ></b-pagination>
+      </div>
+    </b-card>
+    <!-- <Product /> -->
+
+    <!-- </b-form-row> -->
     <b-modal id="confirmproduct" centered hide-footer>
       <template #modal-title> Confirm submit</template>
       <div class="d-block text-center"></div>
@@ -171,7 +374,9 @@
           type="submit"
           class="mt-3"
           block
-          @click="$bvModal.hide('confirmproduct'), addtoproduct()"
+          @click="
+            $bvModal.hide('confirmproduct'), addpendingProduct(), addtoproduct()
+          "
           >Confirm</b-button
         >
 
@@ -184,7 +389,6 @@
       dismissible
       :variant="alert.variant"
       @dismissed="alert.showAlert = null"
-      @dismiss-count-down="countDownChanged"
     >
       {{ alert.message }}
     </b-alert>
@@ -192,7 +396,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations, mapGetters } from "vuex";
+import { mapState, mapMutations, mapGetters, createLogger } from "vuex";
 export default {
   data() {
     return {
@@ -216,14 +420,14 @@ export default {
       sortDesc: false,
       fields: [
         { key: "product_barcode", sortable: true, label: "Barcode" },
-        { key: "product_name", sortable: true, label: "Product Description" },
+        { key: "product_name", sortable: true, label: "Product Name" },
         { key: "product_description", sortable: true, label: "Details" },
         { key: "cost_unit", sortable: true, label: "Unit Cost" },
         { key: "price", label: "Price" },
         { key: "stocks", sortable: true, label: "Quantity" },
         { key: "Expiry_date", sortable: true, label: "Expiration Date" },
         // { key: "supplierID", sortable: true, label: "Supplier ID" },
-        { key: "delivery_code", sortable: true, label: "Delivery Code" },
+        // { key: "delivery_code", sortable: true, label: "Delivery Code" },
         { key: "actions", sortable: false }
       ],
       isBusy: false,
@@ -234,19 +438,42 @@ export default {
         message: ""
       },
       dismissSecs: 5,
-      dismissCountDown: 0
+      dismissCountDown: 0,
+
+      allDetails: [],
+      delivery_code: "",
+      Supplier: "",
+      barcode: "",
+      Date_Received: "",
+      product_barcode: "",
+      product_name: "",
+      product_description: "",
+      cost_unit: "",
+      price: "",
+      quantity: "",
+      Expiry_date: "",
+      products: [],
+      product: []
+      //  onFiltered:[]
     };
   },
   beforeCreate() {
-    this.$store.dispatch("loadProducts");
-    this.$store.dispatch("loadDeliveries");
+    this.$store.dispatch("loadProducts", {
+      SecretKey: localStorage.SecretKey
+    });
+    this.$store.dispatch("loadDeliveries", {
+      SecretKey: localStorage.SecretKey
+    });
+    this.$store.dispatch("loadSuppliers", {
+      SecretKey: localStorage.SecretKey
+    });
   },
   // created() {
   //   console.log("prod", this.products);
   // },
 
   // addProduct() {
-  //   console.log("yowww", productsState.products);
+  //   console.log("yowww", productsState.produ cts);
   // },
   // computed: mapState({
   //   products: state => state.products,
@@ -255,32 +482,34 @@ export default {
   computed: {
     ...mapGetters({
       productsState: "allProducts",
-      deliveriesState: "allDeliveries"
-    })
+      deliveriesState: "allDeliveries",
+      suppliersState: "allSuppliers"
+    }),
+
+    list() {
+      return this.allDetails;
+    }
   },
 
   methods: {
     addtoproduct() {
-      console.log("newprod", this.product);
-      this.isBusy = true;
+      console.log("newprod", this.products[0], this.Supplier);
 
       this.$store
 
         .dispatch("addProduct", {
-          product_barcode: this.product.product_barcode,
-          product_name: this.product.product_name,
-          product_description: this.product.product_description,
-          cost_unit: this.product.cost_unit,
-          price: this.product.price,
-          stocks: this.product.stocks,
-          Expiry_date: this.product.Expiry_date,
-          delivery_code: this.product.delivery_code
+          SecretKey: localStorage.SecretKey,
+          products: this.allDetails,
+          Supplier: this.Supplier,
+          Date_Received: this.Date_Received
         })
         .then(res => {
-          console.log(res);
-          this.product = [];
-          this.isBusy = false;
+          console.log("heere");
+
           if (res == "Error: Request failed with status code 406") {
+            if (res == "Error: Network Error") {
+              this.showAlert("Network Error", "danger");
+            }
             this.showAlert("Error: Please check product details", "danger");
           } else {
             this.showAlert(
@@ -288,7 +517,50 @@ export default {
               "success"
             );
           }
-        });
+        })
+        .catch(err => err);
+    },
+    add_product() {
+      this.allDetails.push({
+        // delivery_code: this.delivery_code,
+        product_barcode: this.product_barcode,
+        product_name: this.product_name,
+        product_description: this.product_description,
+        cost_unit: this.cost_unit,
+        price: this.price,
+        quantity: this.quantity,
+        Expiry_date: this.Expiry_date
+      });
+
+      this.clear();
+      console.log("tet", this.allDetails);
+    },
+
+    clear() {
+      this.delivery_code = "";
+      this.product_barcode = "";
+      // this.supplier.companyname = "";
+      // this.delivery_received_date = "";
+      this.product_name = "";
+      this.product_description = "";
+      this.cost_unit = "";
+      this.price = "";
+      this.quantity = "";
+      this.Expiry_date = "";
+    },
+    addpendingProduct() {
+      this.products.push({
+        products: this.allDetails,
+        Supplier: this.Supplier,
+        Date_Received: this.Date_Received
+      });
+
+      console.log("pend", this.products, this.Date_Received);
+    },
+    clearpending() {
+      this.allDetails = [];
+      this.supplier.Supplier = "";
+      this.Date_Received = "";
     },
 
     // check() {
@@ -312,6 +584,11 @@ export default {
     resetInfoModal() {
       this.productModal.title = "";
       this.productModal.content = "";
+    },
+    onFiltered(filteredItems) {
+      // Trigger pagination to update the number of buttons/pages due to filtering
+      this.totalRows = filteredItems.length;
+      this.currentPage = 1;
     },
     showMsgBoxTwo() {
       this.boxTwo = "";
@@ -355,8 +632,38 @@ export default {
   float: right;
 }
 .alert {
-  z-index: 10;
+  z-index: 100;
   width: 500px;
   float: right;
+}
+.card {
+  background-color: #95abc1;
+}
+.card h4 {
+  text-align: center;
+}
+.addBtn {
+  margin: 0 10px 15px -15px;
+}
+.productcard {
+  width: 350px;
+  margin: 15px 0 0 15px;
+}
+.input {
+  width: 400px;
+}
+.option {
+  width: 500px;
+  font-size: 20px;
+}
+.paper {
+  margin: 15px 0 0 0;
+}
+.btngrp {
+  float: right;
+  margin-top: 10px;
+}
+.modal-dialog {
+  height: 90vh;
 }
 </style>

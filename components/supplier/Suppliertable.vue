@@ -1,13 +1,21 @@
 <template class="supplierTable">
   <div>
     <b-form-row>
-      <b-col cols="3">
-        <b-card class="bg-secondary">
+      <b-modal
+        id="suppliermodal"
+        size=""
+        class="supplier-modal"
+        hide-footer
+        title="Add Supplier Details"
+      >
+        <!-- <b-col cols="3"> -->
+        <div class="supborder">
+          <!-- <b-card >
           <h3 class="formTitle">
             <font-awesome-icon icon="store" /> Add Supplier
           </h3>
-        </b-card>
-        <b-card>
+        </b-card> -->
+          <!-- <b-card> -->
           <b-form class="supplierform" id="app">
             <!-- form starts here-->
             <!-- <div class="form-group">
@@ -26,11 +34,6 @@
               <!-- second input field -->
               <label for="companyname">Company Name: </label>
               <b-form-input
-                :state="
-                  $v.form.companyname.$dirty
-                    ? !$v.form.companyname.$error
-                    : null
-                "
                 type="text"
                 placeholder="Enter Company or Supplier name"
                 id=" company_name"
@@ -74,8 +77,10 @@
               >Reset</b-button
             >
           </b-form>
-        </b-card>
-      </b-col>
+        </div>
+        <!-- </b-card> -->
+      </b-modal>
+      <!-- </b-col> -->
 
       <b-modal id="confirm" centered hide-footer>
         <template #modal-title> Confirm submit</template>
@@ -93,7 +98,7 @@
           <b-button @click="hide()" block variant="danger"> Cancel</b-button>
         </template>
       </b-modal>
-      <b-col cols="9">
+      <b-col cols="">
         <!-- column for whole table -->
         <!-- <b-card bg-variant="info"> -->
         <!-- card for nav card -->
@@ -113,23 +118,38 @@
           <!-- card for whole table -->
           <b-form-group>
             <!-- group for search bar -->
-            <b-input-group size="">
-              <b-form-input
-                id="filter-input"
-                v-model="filter"
-                type="search"
-                placeholder="Type to Search"
-              ></b-form-input>
-
-              <b-input-group-append>
-                <b-button :disabled="!filter" @click="filter = ''"
-                  >Clear</b-button
+            <b-row>
+              <b-col cols="4">
+                <b-button
+                  v-b-modal.suppliermodal
+                  variant="primary"
+                  class="btnadd"
+                  size="sm"
                 >
-              </b-input-group-append>
-            </b-input-group>
+                  <font-awesome-icon icon="plus-circle" /> &nbsp; Add Supplier
+                </b-button>
+              </b-col>
+              <b-col>
+                <b-input-group size="sm">
+                  <b-form-input
+                    id="filter-supplier"
+                    v-model="filter"
+                    type="search"
+                    placeholder="Type to Search"
+                  ></b-form-input>
+
+                  <b-input-group-append>
+                    <b-button :disabled="!filter" @click="filter = ''"
+                      >Clear</b-button
+                    >
+                  </b-input-group-append>
+                </b-input-group>
+              </b-col>
+            </b-row>
           </b-form-group>
 
           <!-- supplier table starts here -->
+
           <b-table
             hover
             id="supplier-table"
@@ -147,7 +167,7 @@
             <template #cell(actions)="row">
               <b-button
                 size="sm"
-                @click="info(row.item, row.index, $event.target)"
+                @click="$bvModal.show('editsupplier')"
                 class="mr-1"
                 variant="primary"
                 pill
@@ -174,6 +194,7 @@
               </b-button> -->
             </template>
           </b-table>
+
           <!-- modal for edit button-->
           <b-modal
             :header-bg-variant="modalheadbg"
@@ -183,6 +204,43 @@
             @hide="resetInfoModal"
           >
             <pre>{{ infoModal.content }}</pre>
+          </b-modal>
+          <b-modal :header-bg-variant="modalheadbg" id="editsupplier">
+            <div class="form-group">
+              <!-- second input field -->
+              <label for="companyname">Company Name: </label>
+              <b-form-input
+                type="text"
+                placeholder="Enter Company or Supplier name"
+                id=" company_name"
+                v-model.trim="supplier.companyname"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <!-- third input field -->
+              <label for="supplieraddress"> Company Address: </label>
+              <b-form-input
+                class="form-control"
+                type="text"
+                placeholder=" Enter Company address"
+                id="company_address"
+                v-model.trim="supplier.address"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <!-- fourth input field -->
+              <label for="companycontact">Company Contact: </label>
+              <b-form-input
+                class="form-control"
+                type="tel"
+                placeholder="Enter Company contact number"
+                id="contact_number"
+                v-model.trim="supplier.contact"
+                required
+              />
+            </div>
           </b-modal>
 
           <!-- <b-table hover :items="items"></b-table> -->
@@ -211,7 +269,6 @@
       dismissible
       :variant="alert.variant"
       @dismissed="alert.showAlert = null"
-      @dismiss-count-down="countDownChanged"
     >
       {{ alert.message }}
     </b-alert>
@@ -263,10 +320,13 @@ export default {
       suppliers: [],
       dismissSecs: 5,
       dismissCountDown: 0
+      // onFiltered:[]
     };
   },
   beforeCreate() {
-    this.$store.dispatch("loadSuppliers");
+    this.$store.dispatch("loadSuppliers", {
+      SecretKey: localStorage.SecretKey
+    });
   },
   validations: {
     form: {
@@ -292,7 +352,8 @@ export default {
         .dispatch("addSupplier", {
           companyname: this.supplier.companyname,
           contact: this.supplier.contact,
-          address: this.supplier.address
+          address: this.supplier.address,
+          SecretKey: localStorage.SecretKey
         })
 
         .then(res => {
@@ -323,7 +384,7 @@ export default {
     // },
 
     info(item, index, button) {
-      this.infoModal.title = `${item.company_name}`; // modal title for selected item
+      this.infoModal.title = `${item.companyname}`; // modal title for selected item
       this.infoModal.content = JSON.stringify(item, null, 2); //row contentc to string
       this.$root.$emit("bv::show::modal", this.infoModal.id, button);
     },
@@ -400,8 +461,11 @@ export default {
   float: right;
 }
 .alert {
-  z-index: 10;
+  z-index: 100;
   width: 500px;
   float: right;
+}
+.supborder {
+  margin: 10px;
 }
 </style>
