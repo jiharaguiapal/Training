@@ -216,7 +216,7 @@ export default {
 }
 .titlecard {
   text-align: center;
-  color: #024059;
+  color: #28594b;
 }
 .shop-img {
   height: 110px;

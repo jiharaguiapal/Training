@@ -18,7 +18,7 @@
           <b-navbar-nav class="ml-auto">
             <b-button
               size="sm"
-              variant="outline-light"
+              variant="outline-white"
               v-b-modal.ordermodal
               class="new-order-btn"
             >

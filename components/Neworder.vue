@@ -1,91 +1,80 @@
 <template>
   <div>
-      <b-row>
-        <b-col cols="">
-          <b-card>
-            <b-form @submit.prevent="adddetail" class="form-inline">
-              <b-row>
-                   <label for="">Select: </label>
-               
-                <b-col cols="" class="form-inline">
-                  <b-form-input
-                    class="input"
-                    list="input-list"
-                    id="input-order-list"
-                    placeholder="Enter barcode"
-                    v-model="barcode"
-                    @change="selectBarcode"
-                  ></b-form-input>
-                </b-col>
+    <b-row>
+      <b-col cols="">
+        <b-card bg-variant="white" class="card-outline">
+          <b-form @submit.prevent="adddetail" class="form-inline">
+            <b-row>
+              <label for="">Select: </label>
 
-                <b-form-datalist id="input-list" class="option"
-                  ><option
-                    class="option"
-                    v-for="product in productsState"
-                    :key="product.product_barcode"
-                    :value="product.product_barcode"
-                    >Name: {{ product.product_name }} | Price: ${{
-                      product.price
-                    }}
-                  </option>
-                </b-form-datalist>
+              <b-col cols="" class="form-inline">
+                <b-form-input
+                  class="input"
+                  list="input-list"
+                  id="input-order-list"
+                  placeholder="Enter Barcode"
+                  v-model="barcode"
+                  @change="selectBarcode"
+                ></b-form-input>
+              </b-col>
 
-                   <label for="">Name: </label>
+              <b-form-datalist id="input-list" class="option"
+                ><option
+                  class="option"
+                  v-for="product in productsState"
+                  :key="product.product_barcode"
+                  :value="product.product_barcode"
+                  >Name: {{ product.product_name }} | Price: ${{
+                    product.price
+                  }}
+                </option>
+              </b-form-datalist>
 
-                <b-col cols="" class="form-inline">
-                  <b-form-input
-                    class="form-control"
-                    type="text"
-                    placeholder=""
-                    v-model="Product_name"
-                    readonly
-                  ></b-form-input>
-                </b-col>
-                
-                    <label for="">Price: </label>
+              <label for="">Name: </label>
 
-                <b-col cols="" class="form-inline">
-                  <b-form-input
-                   class="priceinput"
-                    type="number"
-                    placeholder=""
-                    v-model="Price"
-                    readonly
-                  ></b-form-input>
-                </b-col>
+              <b-col cols="" class="form-inline">
+                <b-form-input
+                  class="form-control"
+                  type="text"
+                  placeholder=""
+                  v-model="Product_name"
+                  readonly
+                ></b-form-input>
+              </b-col>
 
-               
-                  <label for="">Quantity: </label>
-            
+              <label for="">Price: </label>
 
-                <b-col cols="" class="form-inline">
-                  <b-form-input
-                   class="priceinput"
-                    type="number"
-                    placeholder="0"
-                    v-model="Quantity"
-                    @input="totalPlusqty"
-                  
-                  ></b-form-input>
-                  </b-col>
-                  <b-button variant="primary" @click="add_table" >Add</b-button>
-                  <b-col>
-                  <b-button variant="danger" @click="clear" >Clear</b-button>
-               </b-col>
+              <b-col cols="" class="form-inline">
+                <b-form-input
+                  class="priceinput"
+                  type="number"
+                  placeholder=""
+                  v-model="Price"
+                  readonly
+                ></b-form-input>
+              </b-col>
 
-                 
-                
-              </b-row>
-            </b-form>
-          </b-card>
-          <b-row>
+              <label for="">Quantity: </label>
 
-      <div  class="customercard">
-            <b-card
-              bg-variant="light"
-              title="Customer Details"
-             
-            >
+              <b-col cols="" class="form-inline">
+                <b-form-input
+                  class="priceinput"
+                  type="number"
+                  placeholder="0"
+                  v-model="Quantity"
+                  @input="totalPlusqty"
+                ></b-form-input>
+              </b-col>
+              <b-button variant="primary" @click="add_table">Add</b-button>
+              <b-col>
+                <b-button variant="danger" @click="clear">Clear</b-button>
+              </b-col>
+            </b-row>
+          </b-form>
+        </b-card>
+        <b-row>
+          <div class="customercard">
+            <b-card bg-variant="white" title="Customer Details">
               <b-form class="modalmargin">
                 <label for="productname">Customer Name</label>
                 <b-form-input
@@ -113,9 +102,14 @@
                     v-model="contact_number"
                     required
                   />
-                   <b-col>
-                  <b-button variant="danger" @click="clearCustomer" class="clearBtn" >Clear</b-button>
-               </b-col>
+                  <b-col>
+                    <b-button
+                      variant="danger"
+                      @click="clearCustomer"
+                      class="clearBtn"
+                      >Clear</b-button
+                    >
+                  </b-col>
                   <!-- <label for="unitcost">Total Payment</label>
                   <input
                     class="form-control"
@@ -133,54 +127,43 @@
                   >Reset</b-button
                 > -->
               </b-form>
-               </b-card>
-              <div class="totals">
-                <b-card bg-variant="light">
-               <b-row>
-                 
-                          <b-col cols="">
-                 <label for="">Initial Total: </label>
-                  </b-col>
-                <b-col cols="" >
-                  <b-form-input
-                   
-
-                    type="number"
-                    placeholder="0"
-                    v-model="Total"
-                    readonly
-                  ></b-form-input>
-                  </b-col>
-                  </b-row>
+            </b-card>
+            <div class="totals">
+              <b-card bg-variant="white">
                 <b-row>
                   <b-col cols="">
-                  <label for="unitcost">Total Payment: </label>
+                    <label for="">Initial Total: </label>
                   </b-col>
                   <b-col cols="">
-                  <b-form-input
-                  
-                    placeholder="0"
-                    type="number"
-                    v-model="total_payment"
-                    required
-                    readonly
-
-                  />
-               
-          
+                    <b-form-input
+                      type="number"
+                      placeholder="0"
+                      v-model="Total"
+                      readonly
+                    ></b-form-input>
                   </b-col>
-                  
-                  </b-row>
-                  </b-card>
-                  
-          </div>
-           
+                </b-row>
+                <b-row>
+                  <b-col cols="">
+                    <label for="unitcost">Total Payment: </label>
+                  </b-col>
+                  <b-col cols="">
+                    <b-form-input
+                      placeholder="0"
+                      type="number"
+                      v-model="total_payment"
+                      required
+                      readonly
+                    />
+                  </b-col>
+                </b-row>
+              </b-card>
             </div>
-            
+          </div>
 
-             <b-col>
-              <b-card bg-variant="white"  class="paper">
-                <!-- <b-table
+          <b-col>
+            <b-card bg-variant="white" class="paper">
+              <!-- <b-table
                   responsive="sm"
                   show-empty
                   :items="productsStates"
@@ -191,36 +174,34 @@
                   </template>
                 </b-table> -->
 
-                <!-- <b-button type="submit" variant="primary">End Sale</b-button>
+              <!-- <b-button type="submit" variant="primary">End Sale</b-button>
               <b-button class="cancel" variant="danger">Cancel </b-button> -->
 
-                <table class="table mt-5">
-                  <thead>
-                    <tr>
-                      <th scope="col">List</th>
-                      <th scope="col">Barcode</th>
-                      <th scope="col">Product Name</th>
-                      <th scope="col">Quantity</th>
-                      <th scope="col">Price</th>
-                      <th scope="col">Total</th>
+              <table class="table mt-5">
+                <thead>
+                  <tr>
+                    <th scope="col">List</th>
+                    <th scope="col">Barcode</th>
+                    <th scope="col">Product Name</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Total</th>
 
-                      <!-- <th scope="col">Actions</th> -->
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr v-for="(item, i) in list" :key="i">
-                      <th scope="row">{{ ++i }}</th>
-                      <td>{{ item.barcode }}</td>
-                      <td>{{ item.Product_name }}</td>
-                      <td>{{ item.Quantity }}</td>
-                      <td>{{ item.Price }}</td>
-                      <td>{{ item.Total }}</td>
-                  
-                   
-                    </tr>
-                  </tbody>
-                </table>
-                <!-- <b-table
+                    <!-- <th scope="col">Actions</th> -->
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="(item, i) in list" :key="i">
+                    <th scope="row">{{ ++i }}</th>
+                    <td>{{ item.barcode }}</td>
+                    <td>{{ item.Product_name }}</td>
+                    <td>{{ item.Quantity }}</td>
+                    <td>{{ item.Price }}</td>
+                    <td>{{ item.Total }}</td>
+                  </tr>
+                </tbody>
+              </table>
+              <!-- <b-table
               
                 :fields="fields"
                 v-for="(item, i) in list"
@@ -234,22 +215,17 @@
 
 
                 </b-table> -->
+            </b-card>
+          </b-col>
+        </b-row>
 
-                       
-        
-              </b-card>
-             
-            </b-col>
-          </b-row>
-         
-           
-          <!-- <b-col cols="">
+        <!-- <b-col cols="">
           <b-button v-b-modal.modal-1 class="addBtn"
             >Add Customer Detail</b-button
           >
         </b-col> -->
 
-          <!-- <div class="mt-3">
+        <!-- <div class="mt-3">
           <b-pagination
             v-model="currentPage"
             pills
@@ -259,24 +235,25 @@
             align="center"
           ></b-pagination>
         </div> -->
-          <b-col>
-         <div class="btngrp">
-                <b-button @click=" $bvModal.show('orderconfirm')" variant="primary"
-                  >Submit</b-button
-                >
-                <b-button @click="clearpending()" variant="danger"
-                  >Clear</b-button
-                >
-              </div>
-        </b-col>  
+        <b-col>
+          <div class="btngrp">
+            <b-button
+              class="mr-2"
+              @click="$bvModal.show('orderconfirm')"
+              variant="primary"
+              >Submit</b-button
+            >
+            <b-button @click="clearpending()" variant="danger">Clear</b-button>
+          </div>
         </b-col>
-        <!-- <b-col cols="4"> -->
-        <!-- <b-col cols="">
+      </b-col>
+      <!-- <b-col cols="4"> -->
+      <!-- <b-col cols="">
           <b-button v-b-modal.modal-1 class="addBtn"
             >Add Customer Detail</b-button
           >
         </b-col> -->
-        <!-- <b-card bg-variant="white" title="Order #XXX">
+      <!-- <b-card bg-variant="white" title="Order #XXX">
             <b-table
               responsive="sm"
               show-empty
@@ -288,42 +265,38 @@
               </template>
             </b-table> -->
 
-        <!-- <b-button type="submit" variant="primary">End Sale</b-button>
+      <!-- <b-button type="submit" variant="primary">End Sale</b-button>
           <b-button class="cancel" variant="danger">Cancel </b-button> -->
-        <!-- </b-card> -->
-        <!-- </b-col> -->
-      
- </b-row>
- 
-               <b-modal id="orderconfirm" centered hide-footer>
-        <template #modal-title> Confirm submit</template>
-        <div class="d-block text-center"></div>
+      <!-- </b-card> -->
+      <!-- </b-col> -->
+    </b-row>
 
-        <template #default="{ hide }">
-          <b-button
-            type="submit"
-            class="mt-3"
-            block
-            @click="$bvModal.hide('orderconfirm'), addtocustomer(), addtoorder()"
-            >Confirm</b-button
-          >
+    <b-modal id="orderconfirm" centered hide-footer>
+      <template #modal-title> Confirm submit</template>
+      <div class="d-block text-center"></div>
 
-          <b-button @click="hide()" block variant="danger"> Cancel</b-button>
-        </template>
-      </b-modal>
-                  <b-alert
+      <template #default="{ hide }">
+        <b-button
+          type="submit"
+          class="mt-3"
+          block
+          @click="$bvModal.hide('orderconfirm'), addtocustomer(), addtoorder()"
+          >Confirm</b-button
+        >
+
+        <b-button @click="hide()" block variant="danger"> Cancel</b-button>
+      </template>
+    </b-modal>
+    <b-alert
       class="alert"
       :show="alert.showAlert"
       dismissible
       :variant="alert.variant"
       @dismissed="alert.showAlert = null"
-   
     >
       {{ alert.message }}
     </b-alert>
   </div>
-
-  
 </template>
 
 <script>
@@ -349,7 +322,7 @@ export default {
       customermodal: false,
 
       fields: [
-        { key: "barcode", label:"Barcode" },
+        { key: "barcode", label: "Barcode" },
         { key: "Product_name", label: "Product Name" },
         { key: "Quantity" },
         { key: "Price", label: "Price" },
@@ -373,20 +346,18 @@ export default {
       Price: "",
       Total: "",
       item: "",
-      customer_name:"",
-      customer_address:"",
-      contact_number:"",
-      total_payment:"0",
-      initial_total:"0",
-      items: [
-
-      ],
-       alert: {
+      customer_name: "",
+      customer_address: "",
+      contact_number: "",
+      total_payment: "0",
+      initial_total: "0",
+      items: [],
+      alert: {
         showAlert: 0,
         dismissSecs: 0,
         variant: "success",
         message: ""
-      },
+      }
     };
   },
 
@@ -425,34 +396,27 @@ export default {
           SecretKey: localStorage.SecretKey,
           fullname: this.customer_name,
           address: this.customer_address,
-          contact: this.contact_number,
-         
-       
+          contact: this.contact_number
         })
         .then(res => {
- console.log("hoyhoy");
-
-
+          console.log("hoyhoy");
         })
-         .catch(err => err);
+        .catch(err => err);
       this.customer = [];
-     
     },
-    addtoorder(){
-       console.log("iii", this.allDetails, this.customer_name);
+    addtoorder() {
+      console.log("iii", this.allDetails, this.customer_name);
 
-      this.$store.dispatch("addOrder",
-      { 
-        product_table: this.allDetails,
-         SecretKey: localStorage.SecretKey,
+      this.$store
+        .dispatch("addOrder", {
+          product_table: this.allDetails,
+          SecretKey: localStorage.SecretKey,
           customer_name: this.customer_name,
           customer_address: this.customer_address,
           contact_number: this.contact_number,
-          total_payment:this.total_payment
-         
-      })
-       .then(res => {
-
+          total_payment: this.total_payment
+        })
+        .then(res => {
           console.log("orderinfo");
           if (res == "Error: Request failed with status code 406") {
             if (res == "Error: Network Error") {
@@ -463,24 +427,19 @@ export default {
             this.showAlert(
               "Order details was submitted successfully",
               "success"
-            );}
-
-
+            );
+          }
         })
-         .catch(err => err);
+        .catch(err => err);
     },
 
-    totalPlusqty(){
-     
-     this.Total= this.Quantity * this.Price;
-            console.log("totaltest", this.Total);
-
+    totalPlusqty() {
+      this.Total = this.Quantity * this.Price;
+      console.log("totaltest", this.Total);
     },
-    totalAll(){
-     
-     this.total_payment= this.Quantity * this.Price;
-            console.log("totaltest", this.item.Total);
-
+    totalAll() {
+      this.total_payment = this.Quantity * this.Price;
+      console.log("totaltest", this.item.Total);
     },
 
     add_table() {
@@ -489,13 +448,13 @@ export default {
         Product_name: this.Product_name,
         Quantity: this.Quantity,
         Price: this.Price,
-        Total:this.Total 
+        Total: this.Total
       });
 
       this.initial_total = parseInt(this.initial_total) + parseInt(this.Total);
 
-       this.total_payment= this.initial_total ;
-            console.log("totaltest", this.initial_total);
+      this.total_payment = this.initial_total;
+      console.log("totaltest", this.initial_total);
       console.log(this.allDetails);
       this.clear();
     },
@@ -504,18 +463,16 @@ export default {
         (this.Product_name = ""),
         (this.Price = ""),
         (this.Quantity = ""),
-        (this.Total="");
-
+        (this.Total = "");
     },
     clearCustomer() {
       (this.customer_name = ""),
         (this.customer_address = ""),
-        (this.customer_number= "");
-    
+        (this.customer_number = "");
     },
-    clearpending(){
-        this.allDetails=""
-        this.total_payment=""
+    clearpending() {
+      this.allDetails = "";
+      this.total_payment = "";
     },
 
     selectBarcode() {
@@ -536,7 +493,7 @@ export default {
         variant,
         message
       };
-    },
+    }
   }
 };
 </script>
@@ -563,9 +520,8 @@ export default {
 }
 .customercard {
   height: 350px;
-   width: 350px;
+  width: 350px;
   margin: 15px 0 0 15px;
- 
 }
 .input {
   width: 200px;
@@ -576,19 +532,21 @@ export default {
 }
 .paper {
   margin: 15px 0 0 0;
- 
+  height: 460px;
 }
- .btngrp {
-align-items:flex-end;
+.btngrp {
+  align-items: flex-end;
   float: right;
-  margin-top: 80px
-  
+  margin-top: 10px;
+  /* align-items: bo; */
+  position: relative;
+  /* bottom: 20px; */
+  left: 15px;
 }
-.priceinput{
+.priceinput {
   width: 100px;
 }
-.totals{
-  
+.totals {
   margin: 15px 0 0 0;
 }
 .alert {
@@ -596,9 +554,8 @@ align-items:flex-end;
   width: 500px;
   float: right;
 }
-.clearBtn{
+.clearBtn {
   margin: 10px -15px 0 0;
   float: right;
 }
-
 </style>

@@ -3,17 +3,23 @@
 $body-bg:#D5DEE6;
 ;
 
-$theme-colors:("primary":#043F8C,
+$theme-colors:("primary":#8C4A3B,
 
-  "secondary":#017A8F,
-  "light":#D5DEE6,
-  "dark":#95ABC1,
-  "info":#8AB0BF);
+  "secondary":#28594B,
+  "light":#bbaeab,
+  "dark":#28594B,
+  "info":#BF926B,
+  "danger":#A62929,
+  "white":#fff
+  );
 
 // Bootstrap and its default variables
 @import "../node_modules/bootstrap/scss/bootstrap";
 
 $formTitle: #024059;
+.card-outline{
+  border: none;
+}
 .btnadd{
   // border: 1px solid red;
 }
@@ -56,7 +62,7 @@ form{
 }
 header{
 
-  background-color: #017A8F;
+  background-color: #BF926B;
   color: white;
   
   
