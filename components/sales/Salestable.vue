@@ -91,6 +91,7 @@
 
           <div class="mt-3">
             <b-pagination
+              size="sm"
               v-model="currentPage"
               pills
               :total-rows="rows"

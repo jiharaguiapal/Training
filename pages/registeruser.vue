@@ -8,7 +8,7 @@
         <b-form-input
           class="input "
           placeholder="Enter first name"
-          v-model="firstname"
+          v-model="firstName"
           required
         ></b-form-input>
 
@@ -17,7 +17,7 @@
         <b-form-input
           class="input"
           placeholder="Enter last name"
-          v-model="lastname"
+          v-model="lastName"
           required
         ></b-form-input>
 
@@ -25,7 +25,7 @@
         <b-form-input
           class="input"
           placeholder="Enter username"
-          v-model="username"
+          v-model="userName"
           required
         ></b-form-input>
 
@@ -38,7 +38,7 @@
           class="input"
         ></b-form-input>
         <label class="mt-3" for="">Select User Type</label>
-        <b-form-select v-model="usertype" class="input">
+        <b-form-select v-model="userType" class="input">
           <b-form-select-option :value="null"
             >Please select an option</b-form-select-option
           >
@@ -69,12 +69,17 @@
 
 <script>
 export default {
-  date() {
+  data() {
     return {
+      firstName: "",
+      lastName: "",
+      userName: "",
+      password: "",
+      userType: "",
       optionss: [
         { value: null, text: "Please select user type" },
-        { value: warehouse, text: Warehouse },
-        { value: sales, text: Sales }
+        { value: "warehouse", text: "Warehouse" },
+        { value: "sales", text: "Sales" }
       ]
     };
   }
