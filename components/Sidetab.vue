@@ -18,7 +18,8 @@
         ><Deliverytable
       /></b-tab>
       <b-tab title="Product">
-        <template #title> <font-awesome-icon icon="boxes" /> Product </template
+        <template #title>
+          <font-awesome-icon icon="boxes" class="mr-1" /> Product </template
         ><Producttable
       /></b-tab>
       <!-- <b-tab title="New Order">
@@ -27,7 +28,9 @@
           ><Neworder
         /></b-tab> -->
       <b-tab title="Sales">
-        <template #title> <font-awesome-icon icon="receipt" /> Sales </template
+        <template #title>
+          <font-awesome-icon icon="receipt" class="mr-2" />
+          Sales </template
         ><Salestable
       /></b-tab>
       <b-tab title="Customers">
