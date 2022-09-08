@@ -167,10 +167,12 @@
             </b-button> -->
             <b-button
               size="sm"
-              @click="info(row.item, row.index, $event.target)"
+              @click="info(row.item, row.index)"
               class="mr-1"
               variant="secondary"
               pill
+              title="View Delivery Details"
+              v-b-tooltip.hover
             >
               <font-awesome-icon icon="archive" />
             </b-button>
@@ -296,7 +298,7 @@ export default {
       dismissSecs: 5,
       dismissCountDown: 0,
       // onFiltered:[],
-      resetInfoModal: ""
+      resetInfo: ""
     };
   },
   beforeCreate() {
@@ -368,7 +370,7 @@ export default {
         variant,
         message
       };
-    }
+    },
 
     // ...mapMutations(["ADD_DELIVERY"]),
     // adddelivery: function() {
@@ -380,39 +382,40 @@ export default {
     //   this.ADD_ITEM(this.item);
     //   this.item = [];
     // },
-  },
-  info(delivery, index, button) {
-    this.deliveryModal.title = `${delivery.company_name}`;
-    this.deliveryModal.content = JSON.stringify(delivery, null, 2);
-    this.$root.$emit("bv::show::modal", this.deliveryModal.id, button);
-  },
-  resetInfoModal() {
-    this.deliveryModal.title = "";
-    this.deliveryModal.content = "";
-  },
-  showMsgBoxTwo() {
-    this.boxTwo = "";
-    this.$bvModal
-      .msgBoxOk("Data was submitted successfully", {
-        title: "Confirmation",
-        size: "sm",
-        buttonSize: "sm",
-        okVariant: "success",
-        headerClass: "p-2 border-bottom-0",
-        footerClass: "p-2 border-top-0",
-        centered: true
-      })
-      .then(value => {
-        this.boxTwo = value;
-      })
-      .catch(err => {
-        // An error occurred
-      });
-  },
-  deleteEvent(index) {
-    this.deliveries.splice(index, 1);
-  },
-  updatePage() {}
+
+    info(delivery, index, button) {
+      this.deliveryModal.title = `${delivery.company_name}`;
+      this.deliveryModal.content = JSON.stringify(delivery, null, 2);
+      this.$root.$emit("bv::show::modal", this.deliveryModal.id, button);
+    },
+    resetInfoModal() {
+      this.deliveryModal.title = "";
+      this.deliveryModal.content = "";
+    },
+    showMsgBoxTwo() {
+      this.boxTwo = "";
+      this.$bvModal
+        .msgBoxOk("Data was submitted successfully", {
+          title: "Confirmation",
+          size: "sm",
+          buttonSize: "sm",
+          okVariant: "success",
+          headerClass: "p-2 border-bottom-0",
+          footerClass: "p-2 border-top-0",
+          centered: true
+        })
+        .then(value => {
+          this.boxTwo = value;
+        })
+        .catch(err => {
+          // An error occurred
+        });
+    },
+    deleteEvent(index) {
+      this.deliveries.splice(index, 1);
+    },
+    updatePage() {}
+  }
 };
 </script>
 <style scoped>

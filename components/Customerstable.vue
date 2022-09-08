@@ -228,7 +228,7 @@ export default {
         { key: "address", sortable: true, label: "Number" }
         // { key: "Actions", sortable: false, label: "Actions" }
       ],
-      resetInfoModal: "",
+      resetInfo: "",
       modalheadbg: "",
       onFiltered: []
     };

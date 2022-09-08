@@ -28,7 +28,11 @@
               <!-- Using 'button-content' slot -->
               <template #button-content> <em>User</em> </template>
               <b-dropdown-item href="#">Profile</b-dropdown-item>
-              <li><NuxtLink :to="{ name: 'index' }">Sign out</NuxtLink></li>
+              <b-dropdown-item href="#"
+                ><NuxtLink class="link" :to="{ name: 'index' }"
+                  >Sign out</NuxtLink
+                ></b-dropdown-item
+              >
             </b-nav-item-dropdown>
           </b-navbar-nav>
         </b-collapse>
@@ -58,7 +62,7 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss" scoped>
 /* .container {
  
 } */
@@ -92,5 +96,15 @@ modal-xl {
 }
 .modal-dialog {
   height: 90vh;
+}
+.link {
+  // border: 1px solid red;
+  text-decoration: none;
+  &:hover {
+    text-decoration: none;
+  }
+  &:active {
+    color: white;
+  }
 }
 </style>
