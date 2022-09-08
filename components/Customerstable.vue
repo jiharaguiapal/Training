@@ -207,8 +207,8 @@ export default {
       customer_address: "",
       customer_number: "",
       options: [],
-      rows: 100,
-      perPage: 10,
+      // rows: 100,
+      perPage: 8,
       currentPage: 1,
       item: [],
       filter: null,
@@ -287,6 +287,9 @@ export default {
   },
   //
   computed: {
+    rows() {
+      return this.customersState.length;
+    },
     ...mapGetters({
       customersState: "allCustomers"
     })

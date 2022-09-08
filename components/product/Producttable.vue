@@ -403,8 +403,8 @@ import { mapState, mapMutations, mapGetters, createLogger } from "vuex";
 export default {
   data() {
     return {
-      rows: 100,
-      perPage: 7,
+      // rows: 100,
+      perPage: 8,
       currentPage: 1,
       product: [],
       filter: null,
@@ -483,6 +483,9 @@ export default {
   //   items: state => state.items
   // }),
   computed: {
+    rows() {
+      return this.productsState.length;
+    },
     ...mapGetters({
       productsState: "allProducts",
       deliveriesState: "allDeliveries",

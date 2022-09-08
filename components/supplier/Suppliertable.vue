@@ -291,7 +291,7 @@ export default {
         variant: "success",
         message: ""
       },
-      rows: 100,
+      // rows: 100,
       perPage: 8,
       currentPage: 1,
       item: [],
@@ -338,6 +338,9 @@ export default {
   },
 
   computed: {
+    rows() {
+      return this.suppliersState.length;
+    },
     ...mapGetters({
       suppliersState: "allSuppliers"
     })

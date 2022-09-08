@@ -150,8 +150,8 @@ export default {
   data() {
     return {
       options: [],
-      rows: 100,
-      perPage: 10,
+      // rows: 100,
+      perPage: 8,
       currentPage: 1,
 
       filter: null,
@@ -186,6 +186,9 @@ export default {
     console.log("sal");
   },
   computed: {
+    rows() {
+      return this.salesState.length;
+    },
     ...mapGetters({
       salesState: "allSales"
     }),

@@ -248,8 +248,8 @@ import DateRangePicker from "@gravitano/vue-date-range-picker";
 export default {
   data() {
     return {
-      rows: 100,
-      perPage: 7,
+      // rows: 100,
+      perPage: 8,
       currentPage: 1,
       delivery: [],
       deliveries: [],
@@ -310,6 +310,9 @@ export default {
     });
   },
   computed: {
+    rows() {
+      return this.deliveriesState.length;
+    },
     ...mapGetters({
       deliveriesState: "allDeliveries",
       suppliersState: "allSuppliers"
