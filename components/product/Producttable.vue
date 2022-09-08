@@ -128,11 +128,7 @@
               </b-form>
             </b-card>
             <b-row>
-              <b-card
-                bg-variant="light"
-                title="Product Details"
-                class="productcard"
-              >
+              <b-card title="Product Details" class="productcard">
                 <b-form class="modalmargin">
                   <!-- <label for="">Enter Delivery Code: </label>
                     <b-form-input
@@ -237,8 +233,37 @@
                     {{ supplier.productDesc }}
                   </template>
                 </b-table> -->
-
-                  <table class="table mt-5">
+                  <b-table
+                    hover
+                    :fields="pendingFields"
+                    :per-page="perPagePending"
+                    :current-page="currentPagePending"
+                    show-empty
+                    :sort-by.sync="sortBy"
+                    :sort-desc.sync="sortDesc"
+                    :items="list"
+                  >
+                  </b-table>
+                  <b-row class="pagination-bottom">
+                    <b-col>
+                      <div size="sm">
+                        {{ bottomLabelModal(list) }}
+                      </div>
+                    </b-col>
+                    <b-col>
+                      <b-pagination
+                        v-model="currentPagePending"
+                        pills
+                        :total-rows="rowsPending"
+                        :per-page="perPagePending"
+                        aria-controls="delivery-table"
+                        align="right"
+                        size="sm"
+                        limit="3"
+                      ></b-pagination>
+                    </b-col>
+                  </b-row>
+                  <!-- <table class="table mt-5">
                     <thead>
                       <tr>
                         <th scope="col">List</th>
@@ -249,7 +274,6 @@
                         <th scope="col">Price</th>
                         <th scope="col">Quantity</th>
                         <th scope="col">Expiration Date</th>
-                        <!-- <th scope="col">Delivery Code</th> -->
                         <th scope="col">Actions</th>
                       </tr>
                     </thead>
@@ -265,18 +289,22 @@
                         <td>{{ product.Expiry_date }}</td>
                       </tr>
                     </tbody>
-                  </table>
+                  </table> -->
+                  <div class="btngrp ">
+                    <b-button
+                      @click="$bvModal.show('confirmproduct')"
+                      variant="primary"
+                      >Submit</b-button
+                    >
+                    <b-button @click="clearpending()" variant="danger"
+                      >Clear</b-button
+                    >
+                  </div>
                 </b-card>
               </b-col>
             </b-row>
           </b-col>
         </b-row>
-        <div class="btngrp">
-          <b-button @click="$bvModal.show('confirmproduct')" variant="primary"
-            >Submit</b-button
-          >
-          <b-button @click="clearpending()" variant="danger">Clear</b-button>
-        </div>
       </div>
     </b-modal>
 
@@ -354,7 +382,7 @@
       </b-modal>
       <div class="mt-3">
         <b-pagination
-          v-model="currentPage"
+          v-model="currentPagePending"
           pills
           :total-rows="rows"
           :per-page="perPage"
@@ -370,8 +398,7 @@
     <!-- </b-form-row> -->
     <b-modal id="confirmproduct" centered hide-footer>
       <template #modal-title> Confirm submit</template>
-      <div class="d-block text-center"></div>
-      d
+
       <template #default="{ hide }">
         <b-button
           type="submit"
@@ -405,6 +432,8 @@ export default {
     return {
       // rows: 100,
       perPage: 8,
+      perPagePending: 8,
+      currentPagePending: 1,
       currentPage: 1,
       product: [],
       filter: null,
@@ -421,6 +450,18 @@ export default {
       modalheadbg: "info",
       sortBy: " ",
       sortDesc: false,
+      pendingFields: [
+        { key: "product_barcode", sortable: true, label: "Barcode" },
+        { key: "product_name", sortable: true, label: "Product Name" },
+        { key: "product_description", sortable: true, label: "Details" },
+        { key: "cost_unit", sortable: true, label: "Unit Cost" },
+        { key: "price", label: "Price" },
+        { key: "stocks", sortable: true, label: "Quantity" },
+        { key: "Expiry_date", sortable: true, label: "Expiration Date" },
+        // { key: "supplierID", sortable: true, label: "Supplier ID" },
+        // { key: "delivery_code", sortable: true, label: "Delivery Code" },
+        { key: "actions", sortable: false }
+      ],
       fields: [
         { key: "product_barcode", sortable: true, label: "Barcode" },
         { key: "product_name", sortable: true, label: "Product Name" },
@@ -483,6 +524,9 @@ export default {
   //   items: state => state.items
   // }),
   computed: {
+    rowsPending() {
+      return this.list.length;
+    },
     rows() {
       return this.productsState.length;
     },
@@ -498,6 +542,26 @@ export default {
   },
 
   methods: {
+    bottomLabelModal(Code) {
+      let end = this.perPagePending * this.currentPagePending;
+
+      if (!Code) {
+        return;
+      }
+
+      if (end > Code.length) {
+        end = Code.length;
+      }
+
+      let entry = "";
+      if (Code.length <= 1) {
+        entry = "entry";
+      } else {
+        entry = "entries";
+      }
+
+      return `Showing a total of ${Code.length} ${entry}`;
+    },
     addtoproduct() {
       console.log("newprod", this.products[0], this.Supplier);
 
@@ -662,10 +726,17 @@ export default {
 }
 .paper {
   margin: 15px 0 0 0;
+  height: 65vh;
 }
 .btngrp {
-  float: right;
+  /* float: left; */
   margin-top: 10px;
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+}
+.pagination-bottom {
+  margin-top: 30px;
 }
 .modal-dialog {
   height: 90vh;
