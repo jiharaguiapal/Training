@@ -1,90 +1,5 @@
 <template>
   <div class="protab">
-    <!-- <b-form-row>
-      <b-col cols="3">
-        <b-card class="bg-secondary">
-          <h3 class="formTitle">
-            <font-awesome-icon icon="boxes" /> Add Product
-          </h3>
-        </b-card>
-        <b-card>
-          <b-form class="modalmargin">
-            <label for="productcode">Product Barcode</label>
-            <b-form-input
-              class="form-control"
-              type="text"
-              placeholder="Enter Product Barcode"
-              v-model="product.product_barcode"
-              required
-            />
-            <label for="productname">Product Name</label>
-            <b-form-input
-              class="form-control"
-              type="text"
-              placeholder="Enter Product Name"
-              v-model="product.product_name"
-              required
-            />
-            <label for="productdesc">Product Description</label>
-            <b-form-input
-              class="form-control"
-              type="text"
-              placeholder="Enter Product Description"
-              v-model="product.product_description"
-              required
-            />
-            <b-form class="">
-              <label for="unitcost">Cost per unit</label>
-              <input
-                class="form-control"
-                type="number"
-                placeholder="Enter cost per unit"
-                v-model="product.cost_unit"
-                required
-              />
-              <label for="unitcost">Price</label>
-              <input
-                class="form-control"
-                type="number"
-                placeholder="Enter cost per unit"
-                v-model="product.price"
-                required
-              />
-              <label for="productname">Stocks</label>
-              <b-form-input
-                class="form-control"
-                type="number"
-                placeholder="Enter product quantity"
-                v-model="product.stocks"
-                required
-              />
-              <label for="productname">Expiry Date</label>
-              <b-form-datepicker
-                class="form-control col-sm"
-                type="date"
-                v-model="product.Expiry_date"
-                required
-              />
-              <label for="companyname">Select Delivery Code: </label>
-
-              <b-form-select v-model="product.delivery_code">
-                <option
-                  v-for="delivery in deliveriesState"
-                  :key="delivery.delivery_code"
-                  >{{ delivery.delivery_code }}
-                </option></b-form-select
-              >
-            </b-form>
-            <br />
-            <b-button @click="$bvModal.show('confirmproduct')" variant="primary"
-              >Submit</b-button
-            >
-            <b-button class="reset" type="reset" variant="danger"
-              >Reset</b-button
-            >
-          </b-form>
-        </b-card>
-      </b-col> -->
     <b-modal
       id="productmodal"
       size="huge"
@@ -141,61 +56,69 @@
 
                   <label for="productcode">Product Barcode</label>
                   <b-form-input
+                    size="sm"
                     class="form-control"
                     type="text"
                     placeholder="Enter Product Barcode"
                     v-model="product_barcode"
                     required
                   />
-                  <label for="productname">Product Name</label>
+                  <label class="mt-2" for="productname">Product Name</label>
                   <b-form-input
+                    size="sm"
                     class="form-control"
                     type="text"
                     placeholder="Enter Product Name"
                     v-model="product_name"
                     required
                   />
-                  <label for="productdesc">Product Description</label>
+                  <label class="mt-2" for="productdesc"
+                    >Product Description</label
+                  >
                   <b-form-input
+                    size="sm"
                     class="form-control"
                     type="text"
                     placeholder="Enter Product Description"
                     v-model="product_description"
                     required
                   />
-                  <b-form class="">
-                    <label for="unitcost">Cost per unit</label>
-                    <input
-                      class="form-control"
-                      type="number"
-                      placeholder="Enter cost per unit"
-                      v-model="cost_unit"
-                      required
-                    />
-                    <label for="unitcost">Price</label>
-                    <input
-                      class="form-control"
-                      type="number"
-                      placeholder="Enter cost per unit"
-                      v-model="price"
-                      required
-                    />
-                    <label for="productname">Stocks</label>
-                    <b-form-input
-                      class="form-control"
-                      type="number"
-                      placeholder="Enter product quantity"
-                      v-model="quantity"
-                      required
-                    />
-                    <label for="productname">Expiry Date</label>
-                    <b-form-datepicker
-                      class="form-control col-sm"
-                      type="date"
-                      v-model="Expiry_date"
-                      required
-                    />
-                    <!-- <label for="companyname">Select Delivery Code: </label>
+                  <label class="mt-2" for="unitcost">Cost per unit</label>
+                  <b-form-input
+                    size="sm"
+                    class="form-control"
+                    type="number"
+                    placeholder="Enter cost per unit"
+                    v-model="cost_unit"
+                    required
+                  />
+                  <label class="mt-2" for="unitcost">Price</label>
+                  <b-form-input
+                    size="sm"
+                    class="form-control"
+                    type="number"
+                    placeholder="Enter cost per unit"
+                    v-model="price"
+                    required
+                  />
+                  <label class="mt-2" for="productname">Stocks</label>
+                  <b-form-input
+                    size="sm"
+                    class="form-control"
+                    type="number"
+                    placeholder="Enter product quantity"
+                    v-model="quantity"
+                    required
+                  />
+                  <label class="mt-2" for="productname">Expiry Date</label>
+                  <b-form-datepicker
+                    size="sm"
+                    class="form-control col-sm"
+                    type="date"
+                    v-model="Expiry_date"
+                    required
+                  />
+                  <!-- <label for="companyname">Select Delivery Code: </label>
 
               <b-form-select v-model="product.delivery_code">
                 <option
@@ -204,18 +127,15 @@
                   >{{ delivery.delivery_code }}
                 </option></b-form-select
               > -->
-                  </b-form>
-                  <br />
-                  <b-button @click="add_product" variant="primary"
-                    >Add</b-button
-                  >
-                  <!-- <b-button @click="$bvModal.show('confirmproduct')" variant="primary"
+                </b-form>
+                <br />
+                <b-button @click="add_product" variant="primary">Add</b-button>
+                <!-- <b-button @click="$bvModal.show('confirmproduct')" variant="primary"
               >Add</b-button
             > -->
-                  <b-button class="reset" type="reset" variant="danger"
-                    >Reset</b-button
-                  >
-                </b-form>
+                <b-button class="reset" type="reset" variant="danger"
+                  >Reset</b-button
+                >
               </b-card>
               <b-col>
                 <b-card
@@ -730,10 +650,10 @@ export default {
 }
 .btngrp {
   /* float: left; */
-  margin-top: 10px;
   position: absolute;
   bottom: 10px;
   right: 10px;
+  margin: 15px;
 }
 .pagination-bottom {
   margin-top: 30px;
