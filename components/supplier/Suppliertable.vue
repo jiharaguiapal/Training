@@ -84,7 +84,6 @@
 
       <b-modal id="confirm" centered hide-footer>
         <template #modal-title> Confirm submit</template>
-        <div class="d-block text-center"></div>
 
         <template #default="{ hide }">
           <b-button
@@ -111,10 +110,7 @@
           </b-form-row>
         </b-card> -->
 
-        <b-card
-          class="card bg-info shadow p-4 mb-5 bg-white rounded"
-          id="suppliertable"
-        >
+        <b-card class="card-table" id="suppliertable">
           <!-- card for whole table -->
           <b-form-group>
             <!-- group for search bar -->
@@ -151,6 +147,7 @@
           <!-- supplier table starts here -->
 
           <b-table
+            bordered
             hover
             id="supplier-table"
             :items="suppliersState"
@@ -171,6 +168,8 @@
                 class="mr-1"
                 variant="primary"
                 pill
+                title="Edit Supplier Details"
+                v-b-tooltip.hover
               >
                 <font-awesome-icon icon="edit" />
               </b-button>
@@ -180,6 +179,8 @@
                 class="mr-1"
                 variant="secondary"
                 pill
+                title="View Supplier Details"
+                v-b-tooltip.hover
               >
                 <font-awesome-icon icon="archive" />
               </b-button>

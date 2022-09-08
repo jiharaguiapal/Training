@@ -1,5 +1,5 @@
 <template>
-  <div class="fluid">
+  <div class="protab">
     <!-- <b-form-row>
       <b-col cols="3">
         <b-card class="bg-secondary">
@@ -106,57 +106,58 @@
           </b-alert>
         </div> -->
     <!-- </b-col> -->
-    <b-col cols="">
-      <b-card class="card bg-info shadow p-3 mb-5 bg-white rounded">
-        <b-form-group>
-          <b-row>
-            <b-col cols="4 form-inline">
-              <b-input-group size="sm">
-                <b-input-group-append>
-                  <b-button class="select-date">Select date</b-button>
-                </b-input-group-append>
-                <!-- <label for=""> Select date: </label> -->
-                <date-range-picker
-                  :options="options"
-                  format="YYYY-MM-DD"
-                  class=" form-control"
-                />
-              </b-input-group>
-            </b-col>
-            <b-col>
-              <b-input-group size="sm">
-                <b-form-input
-                  id="filter-input"
-                  v-model="filter"
-                  type="search"
-                  placeholder="Type to Search"
-                ></b-form-input>
 
-                <b-input-group-append>
-                  <b-button :disabled="!filter" @click="filter = ''"
-                    >Clear</b-button
-                  >
-                </b-input-group-append>
-              </b-input-group>
-            </b-col>
-          </b-row>
-        </b-form-group>
-        <b-table
-          hover
-          :items="deliveriesState"
-          id="delivery-table"
-          :per-page="perPage"
-          :current-page="currentPage"
-          :filter="filter"
-          @filtered="onFiltered"
-          show-empty
-          primary-key=""
-          :fields="fields"
-          :sort-by.sync="sortBy"
-          :sort-desc.sync="sortDesc"
-        >
-          <template #cell(actions)="row">
-            <!-- <b-button
+    <b-card class="card-table">
+      <b-form-group>
+        <b-row>
+          <b-col cols="4 form-inline">
+            <b-input-group size="sm">
+              <b-input-group-append>
+                <b-button class="select-date">Select date</b-button>
+              </b-input-group-append>
+              <!-- <label for=""> Select date: </label> -->
+              <date-range-picker
+                :options="options"
+                format="YYYY-MM-DD"
+                class=" form-control"
+              />
+            </b-input-group>
+          </b-col>
+          <b-col>
+            <b-input-group size="sm">
+              <b-form-input
+                id="filter-input"
+                v-model="filter"
+                type="search"
+                placeholder="Type to Search"
+              ></b-form-input>
+
+              <b-input-group-append>
+                <b-button :disabled="!filter" @click="filter = ''"
+                  >Clear</b-button
+                >
+              </b-input-group-append>
+            </b-input-group>
+          </b-col>
+        </b-row>
+      </b-form-group>
+      <b-table
+        bordered
+        hover
+        :items="deliveriesState"
+        id="delivery-table"
+        :per-page="perPage"
+        :current-page="currentPage"
+        :filter="filter"
+        @filtered="onFiltered"
+        show-empty
+        primary-key=""
+        :fields="fields"
+        :sort-by.sync="sortBy"
+        :sort-desc.sync="sortDesc"
+      >
+        <template #cell(actions)="row">
+          <!-- <b-button
               size="sm"
               @click="info(row.item, row.index, $event.target)"
               class="mr-1"
@@ -165,18 +166,18 @@
             >
               <font-awesome-icon icon="edit" />
             </b-button> -->
-            <b-button
-              size="sm"
-              @click="info(row.item, row.index)"
-              class="mr-1"
-              variant="secondary"
-              pill
-              title="View Delivery Details"
-              v-b-tooltip.hover
-            >
-              <font-awesome-icon icon="archive" />
-            </b-button>
-            <!-- <b-button
+          <b-button
+            size="sm"
+            @click="info(row.item, row.index)"
+            class="mr-1"
+            variant="secondary"
+            pill
+            title="View Delivery Details"
+            v-b-tooltip.hover
+          >
+            <font-awesome-icon icon="archive" />
+          </b-button>
+          <!-- <b-button
                 size="sm"
                 @click="deleteEvent(row.index)"
                 class="mr-1"
@@ -185,32 +186,31 @@
               >
                 <font-awesome-icon icon="trash-alt" />
               </b-button> -->
-          </template>
-        </b-table>
-        <b-modal
-          :header-bg-variant="modalheadbg"
-          :id="deliveryModal.id"
-          :title="deliveryModal.title"
-          ok-only
-          @hide="resetInfoModal"
-        >
-          <pre>{{ deliveryModal.content }}</pre>
-        </b-modal>
-        <div class="mt-3">
-          <b-pagination
-            v-model="currentPage"
-            pills
-            :total-rows="rows"
-            :per-page="perPage"
-            aria-controls="delivery-table"
-            align="center"
-            size="sm"
-            limit="3"
-            @input="updatePage(currentPage)"
-          ></b-pagination>
-        </div>
-      </b-card>
-    </b-col>
+        </template>
+      </b-table>
+      <b-modal
+        :header-bg-variant="modalheadbg"
+        :id="deliveryModal.id"
+        :title="deliveryModal.title"
+        ok-only
+        @hide="resetInfoModal"
+      >
+        <pre>{{ deliveryModal.content }}</pre>
+      </b-modal>
+      <div class="mt-3">
+        <b-pagination
+          v-model="currentPage"
+          pills
+          :total-rows="rows"
+          :per-page="perPage"
+          aria-controls="delivery-table"
+          align="center"
+          size="sm"
+          limit="3"
+          @input="updatePage(currentPage)"
+        ></b-pagination>
+      </div>
+    </b-card>
     <!-- </b-form-row> -->
     <b-modal id="confirmdelivery" centered hide-footer>
       <template #modal-title> Confirm submit</template>

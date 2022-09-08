@@ -44,7 +44,7 @@
       </b-col> -->
 
       <b-col cols="">
-        <b-card class="card bg-info shadow p-4 mb-5 bg-white rounded">
+        <b-card class="card-table">
           <b-form-group>
             <b-input-group size="sm">
               <b-form-input
@@ -62,6 +62,7 @@
             </b-input-group>
           </b-form-group>
           <b-table
+            bordered
             id="order-table"
             striped
             hover
@@ -83,6 +84,8 @@
                 class="mr-1"
                 variant="secondary"
                 pill
+                title="View Order Details"
+                v-b-tooltip.hover
               >
                 <font-awesome-icon icon="archive" />
               </b-button>

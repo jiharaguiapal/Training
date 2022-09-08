@@ -17,6 +17,13 @@ $theme-colors:("primary":#053D38,
 @import "../node_modules/bootstrap/scss/bootstrap";
 
 $formTitle: #024059;
+html,
+body {
+  margin: 0px;
+  padding: 0px;
+  overflow-y: hidden;
+  overflow-x: hidden;
+}
 .card-outline{
   border: none;
 }
@@ -38,7 +45,11 @@ $formTitle: #024059;
 
 .modal .modal-huge {
   max-width: 90%;
+  padding: 25px;
  
+}
+.card-table{
+  border: none;
 }
 h1{
 font-family: 'Montserrat',

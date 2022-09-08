@@ -77,7 +77,7 @@
           </b-form-row>
         </b-card> -->
 
-        <b-card class="card bg-info shadow p-4 mb-5 bg-white rounded">
+        <b-card class="card-table">
           <b-form-group>
             <!-- group for search bar -->
             <b-input-group size="sm">
@@ -96,6 +96,7 @@
             </b-input-group>
           </b-form-group>
           <b-table
+            bordered
             hover
             :items="customersState"
             :per-page="perPage"
@@ -114,6 +115,8 @@
                 class="mr-1"
                 variant="primary"
                 pill
+                title="View Customer Details"
+                v-b-tooltip.hover
               >
                 <font-awesome-icon icon="edit" />
               </b-button>
@@ -126,7 +129,10 @@
               >
                 <font-awesome-icon icon="trash-alt" />
               </b-button> -->
-            </template></b-table
+            </template>
+            <template v-slot:cell(autoReleaseDate)="row">{{
+              formatDate(row.item)
+            }}</template></b-table
           >
           <b-modal
             :header-bg-variant="modalheadbg"
@@ -225,7 +231,8 @@ export default {
         { key: "customer_id", sortable: true, label: "Customer ID" },
         { key: "fullname", sortable: true, label: "Full Name" },
         { key: "contact", sortable: false, label: "Address" },
-        { key: "address", sortable: true, label: "Number" }
+        { key: "address", sortable: true, label: "Contact Number" },
+        { key: "dateCreated", sortable: true, label: "Date Created" }
         // { key: "Actions", sortable: false, label: "Actions" }
       ],
       resetInfo: "",
@@ -251,6 +258,11 @@ export default {
   },
   created() {
     console.log("yow", this.customers);
+  },
+  methods: {
+    formatDate(date) {
+      return moment(date).format("DD MMMM, YYYY");
+    }
   },
   info(customer, index, button) {
     this.customerModal.title = `${customer.product_name}`;

@@ -280,7 +280,7 @@
       </div>
     </b-modal>
 
-    <b-card class="card bg-info shadow p-3 mb-5 bg-white rounded">
+    <b-card class="card-table">
       <b-form-group>
         <b-row>
           <b-col cols="4">
@@ -306,6 +306,7 @@
         </b-row>
       </b-form-group>
       <b-table
+        bordered
         hover
         id="supplier-table"
         :per-page="perPage"
@@ -326,6 +327,8 @@
             class="mr-1"
             variant="primary"
             pill
+            title="View Product Details"
+            v-b-tooltip.hover
           >
             <font-awesome-icon icon="edit" />
           </b-button>
@@ -636,9 +639,7 @@ export default {
   width: 500px;
   float: right;
 }
-.card {
-  background-color: #95abc1;
-}
+
 .card h4 {
   text-align: center;
 }
