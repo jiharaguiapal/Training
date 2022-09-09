@@ -130,7 +130,7 @@
                 <font-awesome-icon icon="trash-alt" />
               </b-button> -->
             </template>
-            <template v-slot:cell(autoReleaseDate)="row">{{
+            <template v-slot:cell(created_at)="row">{{
               formatDate(row.item)
             }}</template></b-table
           >
@@ -198,6 +198,7 @@
   </div>
 </template>
 <script>
+import moment from "moment";
 import axios from "axios";
 import { mapState, mapMutations, mapGetters } from "vuex";
 export default {
@@ -232,12 +233,12 @@ export default {
         { key: "fullname", sortable: true, label: "Full Name" },
         { key: "contact", sortable: false, label: "Address" },
         { key: "address", sortable: true, label: "Contact Number" },
-        { key: "dateCreated", sortable: true, label: "Date Created" }
+        { key: "created_at", sortable: true, label: "Date Created" }
         // { key: "Actions", sortable: false, label: "Actions" }
       ],
       resetInfo: "",
       modalheadbg: "",
-      onFiltered: []
+      onFilteredData: []
     };
   },
 
@@ -256,27 +257,26 @@ export default {
       SecretKey: localStorage.SecretKey
     });
   },
-  created() {
-    console.log("yow", this.customers);
-  },
+  created() {},
   methods: {
     formatDate(date) {
       return moment(date).format("DD MMMM, YYYY");
+    },
+
+    info(customer, index, button) {
+      this.customerModal.title = `${customer.product_name}`;
+      this.customerModal.content = JSON.stringify(customer, null, 2);
+      this.$root.$emit("bv::show::modal", this.customerModal.id, button);
+    },
+    onFiltered(filteredItems) {
+      // Trigger pagination to update the number of buttons/pages due to filtering
+      this.totalRows = filteredItems.length;
+      this.currentPage = 1;
+    },
+    resetInfoModal() {
+      this.customerModal.title = "";
+      this.customerModal.content = "";
     }
-  },
-  info(customer, index, button) {
-    this.customerModal.title = `${customer.product_name}`;
-    this.customerModal.content = JSON.stringify(customer, null, 2);
-    this.$root.$emit("bv::show::modal", this.customerModal.id, button);
-  },
-  onFiltered(filteredItems) {
-    // Trigger pagination to update the number of buttons/pages due to filtering
-    this.totalRows = filteredItems.length;
-    this.currentPage = 1;
-  },
-  resetInfoModal() {
-    this.customerModal.title = "";
-    this.customerModal.content = "";
   },
   filters: {
     capitalize: function(value) {
