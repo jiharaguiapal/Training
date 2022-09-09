@@ -7,6 +7,7 @@
       hide-footer
       title="Add Product"
       scrollable
+      no-close-on-backdrop
     >
       <div>
         <b-row>

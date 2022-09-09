@@ -46,6 +46,7 @@
           title="New Order"
           hide-footer
           scrollable
+          no-close-on-backdrop
         >
           <Neworder />
         </b-modal>

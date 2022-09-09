@@ -6,7 +6,8 @@
         size=""
         class="supplier-modal"
         hide-footer
-        title="Add Supplier Details"
+        title="Add Supplier"
+        no-close-on-backdrop
       >
         <!-- <b-col cols="3"> -->
         <div class="supborder">
