@@ -80,7 +80,7 @@ export default {
       });
   },
 
-  async addProduct({ commit }, { products, delivery }) {
+  async addProduct({ commit }, { products, delivery, SecretKey }) {
     console.log("look", products, delivery);
     return await axios({
       method: "POST",
@@ -98,9 +98,9 @@ export default {
       .then(res => {
         console.log("at here", res);
 
-        commit("ADD_PRODUCT", res.data.posted);
+        commit("ADD_PRODUCT", res.data);
 
-        return res;
+        return res.data;
       })
       .catch(err => err);
   },

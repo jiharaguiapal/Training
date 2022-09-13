@@ -26,7 +26,7 @@
                       <option
                         v-for="(supplier, supplier_id) in suppliersState"
                         :key="supplier_id"
-                        >{{ supplier.companyname }}
+                        >{{ supplier.supplier_name }}
                       </option></b-form-select
                     >
                   </b-col>
@@ -376,13 +376,13 @@ export default {
       sortBy: " ",
       sortDesc: false,
       pendingFields: [
-        { key: "product_barcode", sortable: true, label: "Barcode" },
+        { key: "barcode", sortable: true, label: "Barcode" },
         { key: "product_name", sortable: true, label: "Product Name" },
-        { key: "product_description", sortable: true, label: "Details" },
-        { key: "cost_unit", sortable: true, label: "Unit Cost" },
+        { key: "details", sortable: true, label: "Details" },
+        { key: "cost_per_unit", sortable: true, label: "Unit Cost" },
         { key: "price", label: "Price" },
         { key: "stocks", sortable: true, label: "Quantity" },
-        { key: "Expiry_date", sortable: true, label: "Expiration Date" },
+        { key: "date_received", sortable: true, label: "Date Received" },
         // { key: "supplierID", sortable: true, label: "Supplier ID" },
         // { key: "delivery_code", sortable: true, label: "Delivery Code" },
         { key: "actions", sortable: false }
@@ -496,45 +496,42 @@ export default {
 
       return `Showing a total of ${Code.length} ${entry}`;
     },
-    addtoproduct() {
+    async addtoproduct() {
       console.log("newprod", this.allDetails, this.delivery.supplier_name);
 
-      this.$store
-
+      await this.$store
         .dispatch("addProduct", {
           delivery: this.delivery,
-          // SecretKey: localStorage.SecretKey,
+          SecretKey: localStorage.SecretKey,
           products: this.allDetails
-          // Supplier: this.Supplier,
-          // Date_Received: this.delivery.date_received
         })
         .then(res => {
           console.log("heere");
-
-          if (res == "Error: Request failed with status code 406") {
-            if (res == "Error: Network Error") {
-              this.showAlert("Network Error", "danger");
-            }
-            this.showAlert("Error: Please check product details", "danger");
-          } else {
-            this.showAlert(
-              "Product details was submitted successfully",
-              "success"
-            );
-          }
+          this.$root.$emit("bv::hide::modal", "productmodal", "#productmodal");
+          this.$store.dispatch("loadProducts", {
+            SecretKey: localStorage.SecretKey
+          });
+          this.$store.dispatch("loadDeliveries", {
+            SecretKey: localStorage.SecretKey
+          });
+          this.showAlert(res.message, "success");
         })
-        .catch(err => err);
+        .catch(err => {
+          console.log("Add product err", err);
+          this.showAlert(res, "danger");
+        });
     },
     pushProducts() {
       this.allDetails.push({
         // delivery_code: this.delivery_code,
-        product_barcode: this.product_barcode,
+        barcode: this.product_barcode,
         product_name: this.product_name,
-        product_description: this.product_description,
-        cost_unit: this.cost_unit,
+        details: this.product_description,
+        cost: this.cost_unit,
         price: this.price,
         quantity: this.quantity,
-        Expiry_date: this.Expiry_date
+        date_expire: this.Expiry_date,
+        date_received: this.delivery.date_received
       });
 
       this.clear();
