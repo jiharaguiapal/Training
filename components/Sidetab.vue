@@ -42,7 +42,9 @@
   </div>
 </template>
 <script>
-export default {};
+export default {
+  position: " "
+};
 </script>
 <style lang="scss" scoped>
 .card-body {

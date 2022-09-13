@@ -42,20 +42,20 @@
       <!-- <div v-for="post in posts" :key="post.id">
       <h3>{{ post.title }}</h3>
     </div> -->
-      <b-alert
-        class="alert"
-        :show="alert.showAlert"
-        dismissible
-        :variant="alert.variant"
-        @dismissed="alert.showAlert = null"
-      >
-        <font-awesome-icon
-          :icon="alert.variant == 'success' ? 'check-circle' : 'exclamation'"
-          class="mr-1 alert__icon"
-        />
-        {{ alert.message }}
-      </b-alert>
     </b-card>
+    <b-alert
+      class="alert"
+      :show="alert.showAlert"
+      dismissible
+      :variant="alert.variant"
+      @dismissed="alert.showAlert = null"
+    >
+      <font-awesome-icon
+        :icon="alert.variant == 'success' ? 'check-circle' : 'exclamation'"
+        class="mr-1 alert__icon"
+      />
+      {{ alert.message }}
+    </b-alert>
   </div>
 </template>
 
@@ -84,74 +84,50 @@ export default {
   },
 
   created() {
-    axios
-      .get("https://jsonplaceholder.typicode.com/posts")
-      .then(response => {
-        this.posts = response.data;
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    // axios
+    //   .get("https://jsonplaceholder.typicode.com/posts")
+    //   .then(response => {
+    //     this.posts = response.data;
+    //   })
+    //   .catch(error => {
+    //     console.log(error);
+    //   });
   },
   head() {
     return {
       title: "Login"
     };
   },
-  // methods: {
-  //   login() {
-  //     if (this.username != "" && this.password != "") {
-  //       if (
-  //         this.username == this.$parent.mockAccount.username &&
-  //         this.password == this.$parent.mockAccount.password
-  //       ) {
-  //         this.$emit("authenticated", true);
-  //         this.$router.replace({ name: "secure" });
-  //       } else {
-  //         console.log("The username and / or password is incorrect");
-  //       }
-  //     } else {
-  //       console.log("A username and password must be present");
-  //     }
-  //   }
-  // }
-  // computed: {
-  //   inputValidation() {
-  //     if (this.username.length > 0 && this.username.length <= 20) {
-  //       return true;
-  //     } else {
-  //       return false;
-  //     }
-  //   }
-  // },
+
   computed: {
     ...mapGetters({
       userState: "allUsers"
     })
   },
   methods: {
-    loginUser() {
-      console.log("newlogin", this.user);
-      this.$router.push("/main");
+    async loginUser() {
+      console.log("loginuser");
+      // this.$router.push("/main");
+      await axios({
+        method: "POST",
+        url: `${this.$axios.defaults.baseURL}/users/login`,
 
-      // this.$store
-      //   .dispatch("loginUser", {
-      //     username: this.user.username,
-      //     password: this.user.password
-      //   })
+        data: {
+          username: this.user.username,
+          password: this.user.password
+        }
+      })
+        .then(res => {
+          localStorage.username = res.data.User.data[0].username;
+          localStorage.SecretKey = res.data.User.token;
 
-      //   .then(res => {
-      //     localStorage.username = this.user.username;
-      //     localStorage.SecretKey = res.data.posted.SecretKey;
-      //     this.user = [];
-
-      //     this.$router.push("/main");
-      //     // this.showAlert(
-      //     //   "Supplier details was submitted successfully",
-      //     //   "success"
-      //     // );
-      //   })
-      //   .catch(err => err);
+          this.$router.push("/main");
+          this.showAlert(res.data.message, "success");
+          this.user = [];
+        })
+        .catch(err => {
+          this.showAlert(err.response.data.error, "danger");
+        });
     },
 
     showAlert(message, variant) {

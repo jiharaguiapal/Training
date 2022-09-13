@@ -21,7 +21,7 @@
                       class="input"
                       list="sup-list"
                       id="input-product-list"
-                      v-model="Supplier"
+                      v-model="delivery.supplier_name"
                     >
                       <option
                         v-for="(supplier, supplier_id) in suppliersState"
@@ -36,7 +36,7 @@
                       class="form-control col-sm"
                       type="date"
                       placeholder="Select Delivery Date"
-                      v-model="Date_Received"
+                      v-model="delivery.date_received"
                       required
                     />
                   </b-col>
@@ -130,7 +130,7 @@
               > -->
                 </b-form>
                 <br />
-                <b-button @click="add_product" variant="primary">Add</b-button>
+                <b-button @click="pushProducts" variant="primary">Add</b-button>
                 <!-- <b-button @click="$bvModal.show('confirmproduct')" variant="primary"
               >Add</b-button
             > -->
@@ -360,7 +360,7 @@ export default {
       filter: null,
       filterOn: [],
       options: [],
-      products: [],
+      // products: [],
       suppliers: [],
       supplier: [],
       productModal: {
@@ -418,7 +418,12 @@ export default {
       quantity: "",
       Expiry_date: "",
       products: [],
-      product: []
+      product: [],
+      delivery: {
+        supplier_name: null,
+        date_received: null
+      },
+      products: []
       //  onFiltered:[]
     };
   },
@@ -484,15 +489,16 @@ export default {
       return `Showing a total of ${Code.length} ${entry}`;
     },
     addtoproduct() {
-      console.log("newprod", this.products[0], this.Supplier);
+      console.log("newprod", this.allDetails, this.delivery.supplier_name);
 
       this.$store
 
         .dispatch("addProduct", {
-          SecretKey: localStorage.SecretKey,
-          products: this.allDetails,
-          Supplier: this.Supplier,
-          Date_Received: this.Date_Received
+          delivery: this.delivery,
+          // SecretKey: localStorage.SecretKey,
+          products: this.allDetails
+          // Supplier: this.Supplier,
+          // Date_Received: this.delivery.date_received
         })
         .then(res => {
           console.log("heere");
@@ -511,7 +517,7 @@ export default {
         })
         .catch(err => err);
     },
-    add_product() {
+    pushProducts() {
       this.allDetails.push({
         // delivery_code: this.delivery_code,
         product_barcode: this.product_barcode,
@@ -542,16 +548,16 @@ export default {
     addpendingProduct() {
       this.products.push({
         products: this.allDetails,
-        Supplier: this.Supplier,
-        Date_Received: this.Date_Received
+        Supplier: this.delivery.supplier_name,
+        Date_Received: this.delivery.date_received
       });
 
-      console.log("pend", this.products, this.Date_Received);
+      console.log("pend", this.products, this.delivery.date_received);
     },
     clearpending() {
       this.allDetails = [];
-      this.supplier.Supplier = "";
-      this.Date_Received = "";
+      this.delivery.supplier_name = "";
+      this.delivery.date_received = "";
     },
 
     // check() {

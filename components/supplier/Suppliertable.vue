@@ -56,7 +56,7 @@
             </div>
             <div class="form-group">
               <!-- fourth input field -->
-              <label for="companycontact">Company Contact: </label>
+              <label for="companycontact">Company Contact Number: </label>
               <b-form-input
                 class="form-control"
                 type="tel"
@@ -312,7 +312,7 @@ export default {
       sortDesc: false,
       fields: [
         { key: "supplier_id", sortable: true, label: "Code" },
-        { key: "companyname", sortable: true, label: "Company Name" },
+        { key: "supplier_name", sortable: true, label: "Company Name" },
         { key: "address", sortable: true, label: "Company Address" },
         { key: "contact", sortable: false, label: "Company Contact" },
         { key: "Actions", sortable: false, label: "Actions" }
@@ -355,7 +355,7 @@ export default {
       console.log("newsup", this.supplier);
       this.$store
         .dispatch("addSupplier", {
-          companyname: this.supplier.companyname,
+          supplier_name: this.supplier.companyname,
           contact: this.supplier.contact,
           address: this.supplier.address,
           SecretKey: localStorage.SecretKey
@@ -363,22 +363,20 @@ export default {
 
         .then(res => {
           console.log("err", res);
+          this.showAlert(res.message, "success");
           this.supplier = [];
-          if (res == "Error: Request failed with status code 406") {
-            if (res == "Error: Network Error") {
-              this.showAlert("Network Error", "danger");
-            }
-            this.showAlert("Error: Please check supplier details", "danger");
-          } else {
-            this.showAlert(
-              "Supplier details was submitted successfully",
-              "success"
-            );
-          }
+          this.$store.dispatch("loadSuppliers", {
+            SecretKey: localStorage.SecretKey
+          });
+          this.$root.$emit(
+            "bv::hide::modal",
+            "suppliermodal",
+            "#suppliermodal"
+          );
         })
         .catch(err => {
           console.log(err);
-          this.showAlert(err.response.data.msg, "danger");
+          this.showAlert(err, "danger");
         });
     },
 

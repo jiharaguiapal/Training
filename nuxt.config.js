@@ -46,7 +46,7 @@ export default {
   build: {},
 
   server: {
-    port: 8080,
+    port: 8080
     //    host: "172.168.1.47"
     // port: 4012,
     // host: "172.16.4.88"
@@ -54,8 +54,8 @@ export default {
 
   axios: {
     // baseURL: 'http://sap.jltechsol.com:7050'
-    // baseURL: "http://172.16.4.114:3000",
-     baseURL: "http://localhost:3000"
+    baseURL: "http://172.16.4.182:3069/api"
+    //  baseURL: "http://localhost:3000"
     // baseURL: "http://172.16.4.88:3000"
     // proxy: true
     // baseUrl: 'http://localhost:8080'

@@ -2,18 +2,17 @@ import axios from "axios";
 
 export default {
   async loadCustomers({ commit }, { SecretKey }) {
-    console.log("what", this.$axios);
     return await axios({
       method: "GET",
-      url: `${this.$axios.defaults.baseURL}/customers`,
+      url: `${this.$axios.defaults.baseURL}/customer`,
       headers: {
         Authorization: `Bearer ${SecretKey}`
       }
     })
       .then(res => {
         console.log(res);
-        commit("SET_CUSTOMER", res.data.view);
-        console.log("testCustomer", res.data.view);
+        commit("SET_CUSTOMER", res.data);
+        console.log("testCustomer", res.data);
         return res.data;
       })
       .catch(err => {
@@ -21,10 +20,7 @@ export default {
       });
   },
 
-  async addCustomer(
-    { commit },
-    { fullname,contact,address, SecretKey }
-  ) {
+  async addCustomer({ commit }, { fullname, contact, address, SecretKey }) {
     console.log("look", contact);
     return await axios({
       method: "POST",
@@ -34,59 +30,73 @@ export default {
       },
 
       data: {
-        fullname,contact,address
+        fullname,
+        contact,
+        address
       }
-    })
-      .then(res => {
-        console.log("actionnew", res);
+    }).then(res => {
+      console.log("actionnew", res);
 
-        commit("ADD_CUSTOMER", res.data.posted);
+      commit("ADD_CUSTOMER", res.data.posted);
 
-        return res;
-      })
-      // .catch(err => err);
+      return res;
+    });
+    // .catch(err => err);
   },
+  // async loadProducts({ commit }, {}) {
+  //   console.log("loadProductsss");
+  //   await axios({
+  //     method: "GET",
+  //     url: `${this.$axios.defaults.baseURL}/product`
+  //   })
+  //     .then(res => {
+  //       console.log("product", res);
+  //       commit("SET_PRODUCT", res.data);
+  //       console.log("prod", res.data);
+  //       return res.data;
+  //     })
+  //     .catch(err => {
+  //       console.log("loadProducts error", err);
+  //     });
+  // },
 
   async loadProducts({ commit }, { SecretKey }) {
-    console.log(this.$axios);
-    return await axios({
+    console.log("loadProducts", SecretKey);
+    await axios({
       method: "GET",
-      url: `${this.$axios.defaults.baseURL}/products`,
+      url: `${this.$axios.defaults.baseURL}/product`,
       headers: {
         Authorization: `Bearer ${SecretKey}`
       }
     })
       .then(res => {
         console.log("product", res);
-        commit("SET_PRODUCT", res.data.view);
-        console.log(res.data);
+        commit("SET_PRODUCT", res.data);
+        console.log("prod", res.data);
         return res.data;
       })
       .catch(err => {
-        console.log(err);
+        console.log("loadProducts error", err.response);
       });
   },
 
-  async addProduct(
-    { commit },
-    { products, Supplier, Date_Received, SecretKey }
-  ) {
-    console.log("look", products, Supplier, Date_Received);
+  async addProduct({ commit }, { products, delivery }) {
+    console.log("look", products, delivery);
     return await axios({
       method: "POST",
-      url: `${this.$axios.defaults.baseURL}/products/insert/`,
+      url: `${this.$axios.defaults.baseURL}/product-delivery`,
       headers: {
         Authorization: `Bearer ${SecretKey}`
       },
 
       data: {
         products,
-        Supplier,
-        Date_Received
+        delivery
+        // Date_Received
       }
     })
       .then(res => {
-        console.log("at here");
+        console.log("at here", res);
 
         commit("ADD_PRODUCT", res.data.posted);
 
@@ -94,20 +104,46 @@ export default {
       })
       .catch(err => err);
   },
+  // async addProduct(
+  //   { commit },
+  //   { products, Supplier, Date_Received, SecretKey }
+  // ) {
+  //   console.log("look", products, Supplier, Date_Received);
+  //   return await axios({
+  //     method: "POST",
+  //     url: `${this.$axios.defaults.baseURL}/products/insert/`,
+  //     headers: {
+  //       Authorization: `Bearer ${SecretKey}`
+  //     },
+
+  //     data: {
+  //       products,
+  //       Supplier,
+  //       Date_Received
+  //     }
+  //   })
+  //     .then(res => {
+  //       console.log("at here");
+
+  //       commit("ADD_PRODUCT", res.data.posted);
+
+  //       return res;
+  //     })
+  //     .catch(err => err);
+  // },
 
   async loadDeliveries({ commit }, { SecretKey }) {
-    console.log(this.$axios);
     return await axios({
       method: "GET",
-      url: `${this.$axios.defaults.baseURL}/deliveries/fetch`,
+      url: `${this.$axios.defaults.baseURL}/delivery`,
       headers: {
         Authorization: `Bearer ${SecretKey}`
       }
     })
       .then(res => {
         console.log("del", res);
-        commit("SET_DELIVERY", res.data.view);
-        console.log("del2", res.data.view);
+        commit("SET_DELIVERY", res.data);
+        console.log("del2", res.data);
         return res.data;
       })
       .catch(err => {
@@ -115,7 +151,6 @@ export default {
       });
   },
   async loadSuppliers({ commit }, { SecretKey }) {
-    console.log(this.$axios);
     return await axios({
       method: "GET",
       url: `${this.$axios.defaults.baseURL}/supplier`,
@@ -125,8 +160,8 @@ export default {
     })
       .then(res => {
         console.log(res);
-        commit("SET_SUPPLIER", res.data.view);
-        console.log("supp", res.data.view);
+        commit("SET_SUPPLIER", res.data);
+        console.log("supp", res.data);
         return res.data;
       })
       .catch(err => {
@@ -134,8 +169,11 @@ export default {
       });
   },
 
-  async addSupplier({ commit }, { companyname, contact, address, SecretKey }) {
-    console.log("look", companyname);
+  async addSupplier(
+    { commit },
+    { supplier_name, contact, address, SecretKey }
+  ) {
+    console.log("look", supplier_name);
     return await axios({
       method: "POST",
       url: `${this.$axios.defaults.baseURL}/supplier`,
@@ -144,7 +182,7 @@ export default {
       },
 
       data: {
-        companyname,
+        supplier_name,
         contact,
         address
       }
@@ -152,20 +190,32 @@ export default {
       .then(res => {
         console.log("supnew", res);
 
-        commit("ADD_SUPPLIER", res.data.posted);
+        commit("ADD_SUPPLIER", res.data);
 
-        return res;
+        return res.data;
       })
       .catch(err => err);
-    },
-      
-  async addOrder({ commit }, { product_table , SecretKey,   customer_name, 
-    customer_address, 
-    contact_number, total_payment}) {
-    console.log("ADDORDER", product_table, customer_name, 
-    customer_address, 
-    contact_number,
-    total_payment);
+  },
+
+  async addOrder(
+    { commit },
+    {
+      product_table,
+      SecretKey,
+      customer_name,
+      customer_address,
+      contact_number,
+      total_payment
+    }
+  ) {
+    console.log(
+      "ADDORDER",
+      product_table,
+      customer_name,
+      customer_address,
+      contact_number,
+      total_payment
+    );
     return await axios({
       method: "POST",
       url: `${this.$axios.defaults.baseURL}/order/insert`,
@@ -175,11 +225,10 @@ export default {
 
       data: {
         product_table,
-        customer_name, 
-        customer_address, 
+        customer_name,
+        customer_address,
         contact_number,
         total_payment
-        
       }
     })
       .then(res => {
@@ -198,7 +247,7 @@ export default {
     console.log("look", delivery_code);
     return await axios({
       method: "POST",
-      url: `${this.$axios.defaults.baseURL}/deliveries`,
+      url: `${this.$axios.defaults.baseURL}/delivery`,
 
       data: {
         delivery_code,
@@ -219,7 +268,7 @@ export default {
     console.log("look");
     return await axios({
       method: "POST",
-      url: `${this.$axios.defaults.baseURL}/login`,
+      url: `${this.$axios.defaults.baseURL}/users/login`,
 
       data: {
         username,
@@ -229,17 +278,16 @@ export default {
       .then(res => {
         console.log("supnew", res);
 
-        commit("LOGIN_USER", res.data.posted);
+        commit("LOGIN_USER", res.data);
 
-        return res;
+        return res.data;
       })
       .catch(err => err);
   },
   async loadSales({ commit }, { SecretKey }) {
-    console.log(this.$axios);
     return await axios({
       method: "GET",
-      url: `${this.$axios.defaults.baseURL}/order/`,
+      url: `${this.$axios.defaults.baseURL}/order`,
       headers: {
         Authorization: `Bearer ${SecretKey}`
       }
