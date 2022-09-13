@@ -187,6 +187,9 @@
                 <font-awesome-icon icon="trash-alt" />
               </b-button> -->
         </template>
+        <template v-slot:cell(date_received)="row">{{
+          formatDate(row.item)
+        }}</template>
       </b-table>
       <b-modal
         :header-bg-variant="modalheadbg"
@@ -272,11 +275,11 @@ export default {
       sortBy: " ",
       sortDesc: false,
       fields: [
-        { key: "delivery_code", sortable: true, label: "Delivery Code" },
+        { key: "delivery_id", sortable: true, label: "Delivery Code" },
         // { key: "delivery_id", sortable: true, label: "Delivery ID" },
-        { key: "suppliername", sortable: true, label: "Supplier" },
+        { key: "supplier_name", sortable: true, label: "Supplier" },
         {
-          key: "delivery_received_date",
+          key: "date_received",
           sortable: true,
           label: "Delivery Date"
         },
@@ -323,6 +326,9 @@ export default {
   //   items: state => state.items
   // }),
   methods: {
+    formatDate(date) {
+      return moment(date).format("DD MMMM, YYYY");
+    },
     addtodelivery() {
       console.log("newdel", this.delivery);
       this.$store
