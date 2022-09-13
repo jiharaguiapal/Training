@@ -290,8 +290,11 @@
               >
                 <font-awesome-icon icon="trash-alt" />
               </b-button>  -->
-        </template></b-table
-      >
+        </template>
+        <template v-slot:cell(date_received)="row">{{
+          formatDate(row.item)
+        }}</template>
+      </b-table>
       <b-modal
         :header-bg-variant="modalheadbg"
         :id="productModal.id"
@@ -347,6 +350,7 @@
 </template>
 
 <script>
+import moment from "moment";
 import { mapState, mapMutations, mapGetters, createLogger } from "vuex";
 export default {
   data() {
@@ -384,13 +388,14 @@ export default {
         { key: "actions", sortable: false }
       ],
       fields: [
-        { key: "product_barcode", sortable: true, label: "Barcode" },
+        { key: "barcode", sortable: true, label: "Barcode" },
         { key: "product_name", sortable: true, label: "Product Name" },
-        { key: "product_description", sortable: true, label: "Details" },
-        { key: "cost_unit", sortable: true, label: "Unit Cost" },
+        { key: "details", sortable: true, label: "Details" },
+        { key: "delivery_id", sortable: true, label: "Delivery ID" },
+        { key: "cost_per_unit", sortable: true, label: "Unit Cost" },
         { key: "price", label: "Price" },
-        { key: "stocks", sortable: true, label: "Quantity" },
-        { key: "Expiry_date", sortable: true, label: "Expiration Date" },
+        { key: "quantity", sortable: true, label: "Quantity" },
+        { key: "date_received", sortable: true, label: "Date Received" },
         // { key: "supplierID", sortable: true, label: "Supplier ID" },
         // { key: "delivery_code", sortable: true, label: "Delivery Code" },
         { key: "actions", sortable: false }
@@ -468,6 +473,9 @@ export default {
   },
 
   methods: {
+    formatDate(date) {
+      return moment(date).format("DD MMMM, YYYY");
+    },
     bottomLabelModal(Code) {
       let end = this.perPagePending * this.currentPagePending;
 
@@ -574,7 +582,7 @@ export default {
     //   this.item = [];
     // },
     info(product, index, button) {
-      this.productModal.title = `${product.product_name}`;
+      this.productModal.title = product.product_name;
       this.productModal.content = JSON.stringify(product, null, 2);
       this.$root.$emit("bv::show::modal", this.productModal.id, button);
     },

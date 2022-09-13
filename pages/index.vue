@@ -17,6 +17,7 @@
         <h2 class="titlecard">Supermarket</h2>
         <label for=""></label>
         <b-form-input
+          @keyup.enter="loginUser()"
           class="input"
           placeholder="Enter username"
           v-model="user.username"
@@ -25,6 +26,7 @@
 
         <label for=""></label>
         <b-form-input
+          @keyup.enter="loginUser()"
           placeholder="Enter password"
           type="password"
           v-model="user.password"

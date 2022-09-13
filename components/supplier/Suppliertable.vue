@@ -387,7 +387,7 @@ export default {
     // },
 
     info(item, index, button) {
-      this.infoModal.title = `${item.companyname}`; // modal title for selected item
+      this.infoModal.title = item.supplier_name; // modal title for selected item
       this.infoModal.content = JSON.stringify(item, null, 2); //row contentc to string
       this.$root.$emit("bv::show::modal", this.infoModal.id, button);
     },

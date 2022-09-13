@@ -393,7 +393,7 @@ export default {
     // },
 
     info(delivery, index, button) {
-      this.deliveryModal.title = `${delivery.company_name}`;
+      this.deliveryModal.title = delivery.supplier_name;
       this.deliveryModal.content = JSON.stringify(delivery, null, 2);
       this.$root.$emit("bv::show::modal", this.deliveryModal.id, button);
     },
