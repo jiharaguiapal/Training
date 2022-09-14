@@ -3,28 +3,6 @@
     <b-form-row>
       <div>
         <b-modal id="modal-1" hide-footer title="New Customer">
-          <!-- <ul class="list-group list-group-flush">
-                <li class="list-group-item">
-                  <b
-                    >Total: $89 //autocompletethis! add order code, date,
-                    payment inputs here and send to table, probably customer
-                    details too?
-                    --activate if add new order clicked</b
-                  >
-                </li>
-                <li class="list-group-item">
-                  <b>{{ selected }}</b>
-                </li>
-                <li class="list-group-item">
-                  Customer Name: <b>{{ name | capitalize }}</b>
-                </li>
-                <li class="list-group-item">
-                  Customer Address: {{ address | capitalize }}
-                </li>
-                <li class="list-group-item">
-                  Customer Contact: {{ contact_number }}
-                </li>
-              </ul> -->
           <b-form class="modalmargin" @submit.prevent="addcustomer">
             <label for="productname">Customer Name</label>
             <b-form-input
@@ -59,84 +37,15 @@
               >Reset</b-button
             >
           </b-form>
-
-          <!-- <br />
-            <b-button type="submit" variant="primary">Print</b-button>
-            <b-button class="reset" type="reset" variant="danger"
-              >Cancel</b-button
-            > -->
         </b-modal>
       </div>
-      <!-- <b-modal v-model="customermodal" hide-footer title="Customer Details">
-       
-
-        <b-form class="modalmargin" @submit.prevent="addcustomer">
-          <label for="productname">Customer Name</label>
-          <b-form-input
-            class="form-control"
-            type="text"
-            placeholder="Enter Customer Name"
-            v-model="customer.name"
-            required
-          />
-
-          <label for="productdesc">Customer Address</label>
-          <b-form-input
-            class="form-control"
-            type="text"
-            placeholder="Enter Customer Address"
-            v-model="customer.address"
-            required
-          />
-          <b-form class="">
-            <label for="unitcost">Contact Number</label>
-            <input
-              class="form-control"
-              type="number"
-              placeholder="Enter Contact Number"
-              v-model="customer.contact_number"
-              required
-            />
-          </b-form>
-          <br />
-          <b-button
-            type="submit"
-            variant="primary"
-            @click="$bvModal.hide('customermodal')"
-            >Continue</b-button
-          >
-          <b-button class="reset" type="reset" variant="danger">Reset</b-button>
-        </b-form>
-      </b-modal> -->
 
       <b-col cols="">
         <b-card class="bg-white">
-          <!-- <label for="searchproduct">Barcode/Product Search </label> -->
-
           <b-form-row>
-            <!-- <b-form class="form-inline"> -->
             <b-col cols="4">
               <b-button v-b-modal.modal-1>Add Customer Detail</b-button>
             </b-col>
-
-            <!-- <b-col cols="4">
-              <b-form class="form-inline">
-                <label for="">Order Code: </label>
-                <b-form-input
-                  readonly
-                  v-model="ordercode"
-                  placeholder="code should appear here"
-                ></b-form-input>
-              </b-form>
-            </b-col>
-            <b-col cols="3">
-              <b-form-datepicker
-                v-model="orderdate"
-                readonly
-                today-button
-                value=" "
-              ></b-form-datepicker>
-            </b-col> -->
           </b-form-row>
         </b-card>
 
@@ -183,18 +92,6 @@
                   </b-form-group>
                 </b-col>
               </b-form>
-              <!-- <b-form-input
-                id="filter-input"
-                v-model="filter"
-                type="search"
-                placeholder="Type to search successful orders"
-              ></b-form-input>
-
-              <b-input-group-append>
-                <b-button :disabled="!filter" @click="filter = ''"
-                  >Clear</b-button
-                >
-              </b-input-group-append> -->
             </b-input-group>
           </b-form-group>
           <b-table
@@ -212,20 +109,7 @@
             :sort-desc.sync="sortDesc"
             responsive="sm"
           >
-            <!-- <template #cell(barcode)="product">
-              {{ product.barcode }}
-            </template> -->
           </b-table>
-          <!-- <div class="mt-3">
-            <b-pagination
-              v-model="currentPage"
-              pills
-              :total-rows="rows"
-              :per-page="perPage"
-              aria-controls="supplier-table"
-              align="center"
-            ></b-pagination>
-          </div> -->
         </b-card>
       </b-col>
       <b-col cols="3">
@@ -255,25 +139,16 @@ export default {
       rows: 100,
       perPage: 10,
       currentPage: 1,
-
       filter: null,
       filterOn: [],
       sortBy: " ",
       sortDesc: false,
-
       customer: [],
       select_barcode: "",
       product: [],
       detail: [],
       order: [],
       customermodal: false
-
-      // fields: [
-      //   { key: "order_code", sortable: true },
-      //   { key: "order_date", sortable: true },
-      //   { key: "total_payment", sortable: false },
-      //   { key: "customer_name", sortable: true }
-      // ]
     };
   },
 

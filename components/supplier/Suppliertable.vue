@@ -9,28 +9,8 @@
         title="Add Supplier"
         no-close-on-backdrop
       >
-        <!-- <b-col cols="3"> -->
         <div class="supborder">
-          <!-- <b-card >
-          <h3 class="formTitle">
-            <font-awesome-icon icon="store" /> Add Supplier
-          </h3>
-        </b-card> -->
-          <!-- <b-card> -->
           <b-form class="supplierform" id="app">
-            <!-- form starts here-->
-            <!-- <div class="form-group">
-              <label for="companycontact">Supplier Code: </label>
-              <b-form-input
-                class="form-control"
-                type="number"
-                placeholder="Enter Company contact number"
-                id="supplier_code"
-                v-model.trim="suppliersState.supplier_id"
-                required
-              />
-            </div>
-           -->
             <div class="form-group">
               <!-- second input field -->
               <label for="companyname">Company Name: </label>
@@ -99,18 +79,6 @@
         </template>
       </b-modal>
       <b-col cols="">
-        <!-- column for whole table -->
-        <!-- <b-card bg-variant="info"> -->
-        <!-- card for nav card -->
-        <!-- <b-form-row>
-            <b-col cols="6 form-inline">
-              <b-form-group label-align="end" label-size="sm" class="mb-0">
-                <b-input-group size=""> </b-input-group>
-              </b-form-group>
-            </b-col>
-          </b-form-row>
-        </b-card> -->
-
         <b-card class="card-table" id="suppliertable">
           <!-- card for whole table -->
           <b-form-group>
@@ -185,15 +153,6 @@
               >
                 <font-awesome-icon icon="archive" />
               </b-button>
-              <!-- <b-button
-                size="sm"
-                @click="deleteEvent(row.index)"
-                class="mr-1"
-                variant="danger"
-                pill
-              >
-                <font-awesome-icon icon="trash-alt" />
-              </b-button> -->
             </template>
           </b-table>
 
@@ -245,8 +204,6 @@
             </div>
           </b-modal>
 
-          <!-- <b-table hover :items="items"></b-table> -->
-
           <!-- <Pagination /> -->
           <div class="mt-3">
             <b-pagination
@@ -292,7 +249,6 @@ export default {
         variant: "success",
         message: ""
       },
-      // rows: 100,
       perPage: 8,
       currentPage: 1,
       item: [],
@@ -323,8 +279,6 @@ export default {
       dismissSecs: 5,
       dismissCountDown: 0,
       counter: 0
-
-      // onFiltered:[]
     };
   },
   beforeCreate() {
@@ -349,13 +303,8 @@ export default {
     })
   },
 
-  // computed: mapState({
-  //   items: state => state.items //retrieve data from state
-  // }),
   methods: {
     toast(toaster, append = false, variant, message, title) {
-      console.log("toaster:", toaster, (append = false), variant, message);
-      console.log("test toast");
       this.counter++;
       this.$bvToast.toast(message, {
         title: title,
@@ -366,7 +315,6 @@ export default {
       });
     },
     addtosupplier() {
-      console.log("newsup", this.supplier);
       this.$store
         .dispatch("addSupplier", {
           supplier_name: this.supplier.companyname,
@@ -376,7 +324,6 @@ export default {
         })
 
         .then(res => {
-          console.log("err", res);
           // this.showAlert(res.message, "success");
           let msg = res.message;
           this.toast("b-toaster-bottom-right", true, "success", msg, "Success");
@@ -397,12 +344,6 @@ export default {
           this.toast("b-toaster-bottom-right", true, "danger", errMsg, "Error");
         });
     },
-
-    // ...mapMutations(["ADD_ITEM"]),
-    // additem: function() {
-    //   //additem function for adding item haha
-    //   this.ADD_ITEM(this.item); //add new item from form to the table
-    // },
 
     info(item, index, button) {
       this.infoModal.title = item.supplier_name; // modal title for selected item

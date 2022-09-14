@@ -157,15 +157,6 @@
               >
                 <font-awesome-icon icon="edit" />
               </b-button>
-              <!-- <b-button
-                size="sm"
-                @click="deleteEvent(row.index)"
-                class="mr-1"
-                variant="danger"
-                pill
-              >
-                <font-awesome-icon icon="trash-alt" />
-              </b-button> -->
             </template>
             <template v-slot:cell(created_at)="row">{{
               formatDate(row.item)
@@ -267,16 +258,6 @@ export default {
     };
   },
 
-  // created() {
-  //   axios
-  //     .get("http://172.16.4.168:3000/users")
-  //     .then(response => {
-  //       console.log(response);
-  //     })
-  //     .catch(error => {
-  //       console.log(error);
-  //     });
-  // },
   beforeCreate() {
     this.$store.dispatch("getUsers", {
       SecretKey: localStorage.SecretKey
@@ -285,8 +266,6 @@ export default {
   created() {},
   methods: {
     toast(toaster, append = false, variant, message, title) {
-      console.log("toaster:", toaster, (append = false), variant, message);
-      console.log("test toast");
       this.counter++;
       this.$bvToast.toast(message, {
         title: title,
@@ -308,7 +287,6 @@ export default {
         })
 
         .then(res => {
-          console.log("ressss", res);
           // this.showAlert(res.message, "success");
           let msg = res.message;
           this.toast("b-toaster-bottom-right", true, "success", msg, "Success");
@@ -323,7 +301,6 @@ export default {
           this.role = "";
         })
         .catch(err => {
-          console.log(err.response);
           let errMsg = err.response.data.error;
           this.toast("b-toaster-bottom-right", true, "danger", errMsg, "Error");
           // this.showAlert(err, "danger");
@@ -372,20 +349,6 @@ export default {
       usersState: "allUsers"
     })
   }
-  // computed: mapState(["users"]),
-
-  // methods: {
-  //   ...mapMutations(["ADD_PRODUCT"]),
-  //   addproduct: function() {
-  //     this.ADD_PRODUCT(this.product);
-  //     this.product = [];
-  //   },
-  //   ...mapMutations(["ADD_user"]),
-  //   addusers: function() {
-  //     this.ADD_user(this.users);
-  //     this.users = [];
-  //   }
-  // }
 };
 </script>
 

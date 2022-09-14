@@ -1,82 +1,7 @@
 <template>
   <div class="">
     <b-form-row>
-      <!-- <b-col cols="3">
-        <b-card class="bg-secondary">
-          <h3 class="formTitle">Add Customer</h3>
-        </b-card>
-        <b-card>
-          <b-form class="modalmargin" @submit.prevent="addcustomer">
-            <label for="productname">Customer Name</label>
-            <b-form-input
-              class="form-control"
-              type="text"
-              placeholder="Enter Customer Name"
-              v-model="customer_name"
-            />
-
-            <label for="productdesc">Customer Address</label>
-            <b-form-input
-              class="form-control"
-              type="text"
-              placeholder="Enter Customer Address"
-              v-model="customer_address"
-            />
-            <b-form class="">
-              <label for="unitcost">Contact Number</label>
-              <input
-                class="form-control"
-                type="number"
-                placeholder="Enter Contact Number"
-                v-model="customer_number"
-              />
-            </b-form>
-            <br />
-            <b-button type="submit" variant="primary">Submit</b-button>
-            <b-button class="reset" type="reset" variant="danger"
-              >Reset</b-button
-            >
-          </b-form>
-        </b-card>
-      </b-col> -->
-
       <b-col>
-        <!-- <b-card class="bg-info">
-
-          <b-form-row>
-            <b-col cols="6">
-              <b-form @submit.prevent="addorder" class="form-inline">
-                <label for="">Select: </label>
-                <b-form-input
-                  list="input-list"
-                  id="input-with-list"
-                ></b-form-input>
-                <b-form-datalist id="input-list" v-model="product"
-                  ><option v-for="product in products" :key="product">{{
-                    product.product_name
-                  }}</option>
-                </b-form-datalist>
-              </b-form>
-            </b-col>
-            <b-col cols="6">
-              <b-form-group
-                class="form-inline"
-                label="Qty: "
-                label-align="left"
-                label-for="qty"
-              >
-                <input
-                  class="form-control"
-                  type="number"
-                  placeholder="Enter quantity"
-                  id="qty"
-                />
-                <b-button type="submit" variant="primary">Select</b-button>
-              </b-form-group>
-            </b-col>
-          </b-form-row>
-        </b-card> -->
-
         <b-card class="card-table">
           <b-form-group>
             <!-- group for search bar -->
@@ -120,15 +45,6 @@
               >
                 <font-awesome-icon icon="edit" />
               </b-button>
-              <!-- <b-button
-                size="sm"
-                @click="deleteEvent(row.index)"
-                class="mr-1"
-                variant="danger"
-                pill
-              >
-                <font-awesome-icon icon="trash-alt" />
-              </b-button> -->
             </template>
             <template v-slot:cell(created_at)="row">{{
               formatDate(row.item)
@@ -158,42 +74,6 @@
           </div>
         </b-card>
       </b-col>
-
-      <!-- <b-col cols="3">
-        <div>
-          <b-card class="bg-dark">
-            <b-card class="bg-white">
-              <h4>Order Summary</h4>
-
-              <ul class="list-group list-group-flush">
-                <li class="list-group-item">
-                  <b>Total: $89 //autocompletethis!</b>
-                </li>
-                <li class="list-group-item">
-                  <b>{{ selected }}</b>
-                </li>
-                <li class="list-group-item">
-                  Customer Name: <b>{{ customer_name | capitalize }}</b>
-                </li>
-                <li class="list-group-item">
-                  Customer Address: {{ customer_address | capitalize }}
-                </li>
-                <li class="list-group-item">
-                  Customer Contact: {{ customer_number }}
-                </li>
-              </ul>
-            </b-card>
-
-            <br />
-            <b-button type="submit" variant="primary">Print</b-button>
-            <b-button class="reset" type="reset" variant="danger"
-              >Cancel</b-button
-            >
-          </b-card>
-
-          <br />
-        </div>
-      </b-col> -->
     </b-form-row>
   </div>
 </template>
@@ -216,7 +96,6 @@ export default {
       filterOn: [],
       sortBy: " ",
       sortDesc: false,
-
       customer: [],
       customers: [],
       customerModal: {
@@ -224,7 +103,6 @@ export default {
         title: "",
         content: ""
       },
-
       select_barcode: "",
       product: [],
       order: [],
@@ -242,16 +120,6 @@ export default {
     };
   },
 
-  // created() {
-  //   axios
-  //     .get("http://172.16.4.168:3000/customers")
-  //     .then(response => {
-  //       console.log(response);
-  //     })
-  //     .catch(error => {
-  //       console.log(error);
-  //     });
-  // },
   beforeCreate() {
     this.$store.dispatch("loadCustomers", {
       SecretKey: localStorage.SecretKey
@@ -294,20 +162,6 @@ export default {
       customersState: "allCustomers"
     })
   }
-  // computed: mapState(["customers"]),
-
-  // methods: {
-  //   ...mapMutations(["ADD_PRODUCT"]),
-  //   addproduct: function() {
-  //     this.ADD_PRODUCT(this.product);
-  //     this.product = [];
-  //   },
-  //   ...mapMutations(["ADD_CUSTOMER"]),
-  //   addcustomers: function() {
-  //     this.ADD_CUSTOMER(this.customers);
-  //     this.customers = [];
-  //   }
-  // }
 };
 </script>
 

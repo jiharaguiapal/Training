@@ -46,15 +46,6 @@
             <b-row>
               <b-card title="Product Details" class="productcard">
                 <b-form class="modalmargin">
-                  <!-- <label for="">Enter Delivery Code: </label>
-                    <b-form-input
-                      id="input-delivery-code"
-                      v-model="delivery_code"
-                      required
-                    ></b-form-input> -->
-
-                  <!-- <label for="companyname">Select Supplier: </label> -->
-
                   <label for="productcode">Product Barcode</label>
                   <b-form-input
                     size="sm"
@@ -119,21 +110,12 @@
                     v-model="Expiry_date"
                     required
                   />
-                  <!-- <label for="companyname">Select Delivery Code: </label>
 
-              <b-form-select v-model="product.delivery_code">
-                <option
-                  v-for="delivery in deliveriesState"
-                  :key="delivery.delivery_code"
-                  >{{ delivery.delivery_code }}
-                </option></b-form-select
-              > -->
+                  > -->
                 </b-form>
                 <br />
                 <b-button @click="pushProducts" variant="primary">Add</b-button>
-                <!-- <b-button @click="$bvModal.show('confirmproduct')" variant="primary"
-              >Add</b-button
-            > -->
+
                 <b-button class="reset" type="reset" variant="danger"
                   >Reset</b-button
                 >
@@ -144,16 +126,6 @@
                   title="Pending Products"
                   class="paper"
                 >
-                  <!-- <b-table
-                  responsive="sm"
-                  show-empty
-                  :items="productsStates"
-                  :fields="fields"
-                >
-                  <template #cell(productDesc)>
-                    {{ supplier.productDesc }}
-                  </template>
-                </b-table> -->
                   <b-table
                     hover
                     :fields="pendingFields"
@@ -184,33 +156,7 @@
                       ></b-pagination>
                     </b-col>
                   </b-row>
-                  <!-- <table class="table mt-5">
-                    <thead>
-                      <tr>
-                        <th scope="col">List</th>
-                        <th scope="col">Barcode</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Details</th>
-                        <th scope="col">Unit Cost</th>
-                        <th scope="col">Price</th>
-                        <th scope="col">Quantity</th>
-                        <th scope="col">Expiration Date</th>
-                        <th scope="col">Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr v-for="(product, index) in list" :key="index">
-                        <th scope="row">{{ ++index }}</th>
-                        <td>{{ product.product_barcode }}</td>
-                        <td>{{ product.product_name }}</td>
-                        <td>{{ product.product_description }}</td>
-                        <td>{{ product.cost_unit }}</td>
-                        <td>{{ product.price }}</td>
-                        <td>{{ product.quantity }}</td>
-                        <td>{{ product.Expiry_date }}</td>
-                      </tr>
-                    </tbody>
-                  </table> -->
+
                   <div class="btngrp ">
                     <b-button
                       @click="$bvModal.show('confirmproduct')"
@@ -281,15 +227,6 @@
           >
             <font-awesome-icon icon="edit" />
           </b-button>
-          <!-- <b-button
-                size="sm"
-                @click="deleteEvent(row.index)"
-                class="mr-1"
-                variant="danger"
-                pill
-              >
-                <font-awesome-icon icon="trash-alt" />
-              </b-button>  -->
         </template>
         <template v-slot:cell(date_received)="row">{{
           formatDate(row.item)
@@ -383,8 +320,6 @@ export default {
         { key: "price", label: "Price" },
         { key: "stocks", sortable: true, label: "Quantity" },
         { key: "date_received", sortable: true, label: "Date Received" },
-        // { key: "supplierID", sortable: true, label: "Supplier ID" },
-        // { key: "delivery_code", sortable: true, label: "Delivery Code" },
         { key: "actions", sortable: false }
       ],
       fields: [
@@ -396,8 +331,6 @@ export default {
         { key: "price", label: "Price" },
         { key: "quantity", sortable: true, label: "Quantity" },
         { key: "date_received", sortable: true, label: "Date Received" },
-        // { key: "supplierID", sortable: true, label: "Supplier ID" },
-        // { key: "delivery_code", sortable: true, label: "Delivery Code" },
         { key: "actions", sortable: false }
       ],
       isBusy: false,
@@ -409,7 +342,6 @@ export default {
       },
       dismissSecs: 5,
       dismissCountDown: 0,
-
       allDetails: [],
       delivery_code: "",
       Supplier: "",
@@ -430,7 +362,6 @@ export default {
       },
       products: [],
       counter: 0
-      //  onFiltered:[]
     };
   },
   beforeCreate() {
@@ -444,17 +375,7 @@ export default {
       SecretKey: localStorage.SecretKey
     });
   },
-  // created() {
-  //   console.log("prod", this.products);
-  // },
 
-  // addProduct() {
-  //   console.log("yowww", productsState.produ cts);
-  // },
-  // computed: mapState({
-  //   products: state => state.products,
-  //   items: state => state.items
-  // }),
   computed: {
     rowsPending() {
       return this.list.length;
@@ -475,8 +396,6 @@ export default {
 
   methods: {
     toast(toaster, append = false, variant, message, title) {
-      console.log("toaster:", toaster, (append = false), variant, message);
-      console.log("test toast");
       this.counter++;
       this.$bvToast.toast(message, {
         title: title,
@@ -510,12 +429,6 @@ export default {
       return `Showing a total of ${Code.length} ${entry}`;
     },
     async addtoproduct() {
-      console.log(
-        "newprod",
-        this.allDetails.length,
-        this.delivery.supplier_name
-      );
-
       await this.$store
         .dispatch("addProduct", {
           delivery: this.delivery,
@@ -523,7 +436,6 @@ export default {
           products: this.allDetails
         })
         .then(res => {
-          console.log("heere", res);
           if (this.allDetails.length == 0) {
             let errMsg = "Please add products to submit";
             this.toast(
@@ -557,7 +469,6 @@ export default {
           }
         })
         .catch(err => {
-          console.log("Add product err", err);
           // this.showAlert(res, "danger");
           let errMsg = res;
           this.toast("b-toaster-bottom-right", true, "danger", errMsg, "Error");
@@ -577,14 +488,11 @@ export default {
       });
 
       this.clear();
-      console.log("tet", this.allDetails);
     },
 
     clear() {
       this.delivery_code = "";
       this.product_barcode = "";
-      // this.supplier.companyname = "";
-      // this.delivery_received_date = "";
       this.product_name = "";
       this.product_description = "";
       this.cost_unit = "";
@@ -598,8 +506,6 @@ export default {
         Supplier: this.delivery.supplier_name,
         Date_Received: this.delivery.date_received
       });
-
-      console.log("pend", this.products, this.delivery.date_received);
     },
     clearpending() {
       this.allDetails = [];
@@ -607,19 +513,6 @@ export default {
       this.delivery.date_received = "";
     },
 
-    // check() {
-    //   console.log("heree", this.suppliersState);
-    // },
-    // ...mapMutations(["ADD_PRODUCT"]),
-    // addtoproduct: function() {
-    //   this.ADD_PRODUCT(this.product);
-    //   this.product = [];
-    // },
-    // ...mapMutations(["ADD_ITEM"]),
-    // additem: function() {
-    //   this.ADD_ITEM(this.item);
-    //   this.item = [];
-    // },
     info(product, index, button) {
       this.productModal.title = product.product_name;
       this.productModal.content = JSON.stringify(product, null, 2);

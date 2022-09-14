@@ -1,112 +1,5 @@
 <template>
   <div class="protab">
-    <!-- <b-form-row>
-      <b-col cols="3">
-        <b-card class="bg-secondary">
-          <h3 class="formTitle">
-            <font-awesome-icon icon="truck" /> Receive Delivery
-          </h3>
-        </b-card>
-        <b-card>
-          <b-form class="modalmargin">
-            <label for="">Enter Delivery Code: </label>
-            <b-form-input
-              id="input-delivery-code"
-              v-model="delivery.delivery_code"
-              required
-            ></b-form-input>
-
-            <label for="companyname">Select Supplier: </label>
-
-            <b-form-select
-              list="sup-list"
-              id="input-product-list"
-              v-model="delivery.suppliername"
-            >
-              <option
-                v-for="supplier in suppliersState"
-                :key="supplier.companyname"
-                >{{ supplier.companyname }}
-              </option></b-form-select
-            > -->
-    <!-- :value="supplier.supplier_id" -->
-    <!-- <label for="companyname"> Supplier Code: </label>
-            <b-form-input
-              list="supplier-list"
-              id="select-supplier"
-              v-model="delivery.suppliername"
-              required
-            > -->
-    <!-- <b-form-datalist id="select-supplier">
-                <option v-for="supplier in suppliersState" :key="supplier"
-                  >{{ item }}
-                </option>
-              </b-form-datalist> -->
-    <!-- </b-form-input> -->
-
-    <!-- <label for="supplieraddress">Delivery Number: </label>
-            <b-form-input
-              class="form-control "
-              type="text"
-              placeholder=" Enter delivery number "
-              v-model="delivery.deliveryID"
-              required
-            /> -->
-    <!-- <label for="companycontact">Date Received: </label>
-            <b-form-datepicker
-              class="form-control col-sm"
-              type="date"
-              placeholder="Select Delivery Date"
-              v-model="delivery.delivery_received_date"
-              required
-            />
-
-            <b-form-datalist id="sup-list" v-model="selected">
-              <option v-for="item in items" :key="item"
-                >{{ item.company_name }}
-              </option>
-            </b-form-datalist> -->
-
-    <!-- <label for="">Add Delivered Item:</label>
-            <b-row>
-              <b-col cols="10">
-                <b-form-input
-                  v-model="barcode"
-                  placeholder="Enter barcode"
-                ></b-form-input
-              ></b-col>
-
-              <b-button v-on:click="add()">Add</b-button> -->
-    <!-- </b-row> -->
-    <!-- <li v-for="barcode in barcodes" :key="barcode">
-              <span>{{ barcode.text }}</span>
-            </li> -->
-
-    <!-- <br />
-            <b-button
-              @click="$bvModal.show('confirmdelivery')"
-              variant="primary"
-              >Submit</b-button
-            >
-            <b-button class="reset" type="reset" variant="danger"
-              >Reset</b-button
-            >
-          </b-form>
-        </b-card> -->
-    <!-- <div>
-          <b-alert
-            class="alert"
-            variant="info"
-            dismissible
-            fade
-            :show="showDismissibleAlert"
-            @dismissed="showDismissibleAlert = false"
-          >
-            Successful!
-          </b-alert>
-        </div> -->
-    <!-- </b-col> -->
-
     <b-card class="card-table">
       <b-form-group>
         <b-row>
@@ -157,15 +50,6 @@
         :sort-desc.sync="sortDesc"
       >
         <template #cell(actions)="row">
-          <!-- <b-button
-              size="sm"
-              @click="info(row.item, row.index, $event.target)"
-              class="mr-1"
-              variant="primary"
-              pill
-            >
-              <font-awesome-icon icon="edit" />
-            </b-button> -->
           <b-button
             size="sm"
             @click="info(row.item, row.index)"
@@ -177,15 +61,6 @@
           >
             <font-awesome-icon icon="archive" />
           </b-button>
-          <!-- <b-button
-                size="sm"
-                @click="deleteEvent(row.index)"
-                class="mr-1"
-                variant="danger"
-                pill
-              >
-                <font-awesome-icon icon="trash-alt" />
-              </b-button> -->
         </template>
         <template v-slot:cell(date_received)="row">{{
           formatDate(row.item)
@@ -217,7 +92,6 @@
     <!-- </b-form-row> -->
     <b-modal id="confirmdelivery" centered hide-footer>
       <template #modal-title> Confirm submit</template>
-      <div class="d-block text-center"></div>
 
       <template #default="{ hide }">
         <b-button
@@ -265,7 +139,6 @@ export default {
         content: ""
       },
       modalheadbg: "info",
-      // range: ["2020-01-01", "2021-02-02"],
       options: {
         startDate: moment(),
         endDate: moment(),
@@ -276,7 +149,6 @@ export default {
       sortDesc: false,
       fields: [
         { key: "delivery_id", sortable: true, label: "Delivery Code" },
-        // { key: "delivery_id", sortable: true, label: "Delivery ID" },
         { key: "supplier_name", sortable: true, label: "Supplier" },
         {
           key: "date_received",
@@ -321,16 +193,12 @@ export default {
       suppliersState: "allSuppliers"
     })
   },
-  // computed: mapState({
-  //   deliveries: state => state.deliveries,
-  //   items: state => state.items
-  // }),
+
   methods: {
     formatDate(date) {
       return moment(date).format("DD MMMM, YYYY");
     },
     addtodelivery() {
-      console.log("newdel", this.delivery);
       this.$store
         .dispatch("addDelivery", {
           delivery_code: this.delivery.delivery_code,
@@ -340,7 +208,6 @@ export default {
         })
 
         .then(res => {
-          console.log(res);
           this.delivery = [];
           if (res == "Error: Request failed with status code 406") {
             this.showAlert("Error: Please check delivery details", "danger");
@@ -351,9 +218,7 @@ export default {
             );
           }
         })
-        .catch(err => {
-          console.log("errhere", err.data.posted);
-        });
+        .catch(err => {});
     },
 
     add: function() {
@@ -380,17 +245,6 @@ export default {
         message
       };
     },
-
-    // ...mapMutations(["ADD_DELIVERY"]),
-    // adddelivery: function() {
-    //   this.ADD_DELIVERY(this.delivery);
-    //   this.delivery = [];
-    // },
-    // ...mapMutations(["ADD_ITEM"]),
-    // additem: function() {
-    //   this.ADD_ITEM(this.item);
-    //   this.item = [];
-    // },
 
     info(delivery, index, button) {
       this.deliveryModal.title = delivery.supplier_name;

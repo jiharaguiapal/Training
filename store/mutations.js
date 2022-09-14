@@ -13,15 +13,11 @@ export default {
     state.productsState = product;
   },
   ADD_PRODUCT(state, product) {
-    // console.log("mute", product);
-    // console.log("state", state);
-
     state.productsState.push(product);
   },
 
   SET_DELIVERY(state, delivery) {
     state.deliveriesState = delivery;
-    console.log("mute", delivery);
   },
   SET_SUPPLIER(state, supplier) {
     state.suppliersState = supplier;

@@ -22,11 +22,7 @@
           <font-awesome-icon icon="boxes" class="mr-1" /> Product </template
         ><Producttable
       /></b-tab>
-      <!-- <b-tab title="New Order">
-          <template #title>
-            <font-awesome-icon icon="cart-plus" /> New Order </template
-          ><Neworder
-        /></b-tab> -->
+
       <b-tab title="Sales">
         <template #title>
           <font-awesome-icon icon="receipt" class="mr-2" />

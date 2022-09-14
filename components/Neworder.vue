@@ -110,22 +110,8 @@
                       >Clear</b-button
                     >
                   </b-col>
-                  <!-- <label for="unitcost">Total Payment</label>
-                  <input
-                    class="form-control"
-                    type="number"
-                    placeholder="Enter Contact Number"
-                    v-model="total_payment"
-                    required
-                  /> -->
                 </b-form>
                 <br />
-                <!-- <b-button @click="addtocustomer()" variant="primary"
-                  >Continue</b-button
-                >
-                <b-button class="reset" type="reset" variant="danger"
-                  >Reset</b-button
-                > -->
               </b-form>
             </b-card>
             <div class="totals">
@@ -163,20 +149,6 @@
 
           <b-col>
             <b-card bg-variant="white" class="paper">
-              <!-- <b-table
-                  responsive="sm"
-                  show-empty
-                  :items="productsStates"
-                  :fields="fields"
-                >
-                  <template #cell(productDesc)>
-                    {{ supplier.productDesc }}
-                  </template>
-                </b-table> -->
-
-              <!-- <b-button type="submit" variant="primary">End Sale</b-button>
-              <b-button class="cancel" variant="danger">Cancel </b-button> -->
-
               <table class="table mt-5">
                 <thead>
                   <tr>
@@ -201,40 +173,10 @@
                   </tr>
                 </tbody>
               </table>
-              <!-- <b-table
-              
-                :fields="fields"
-                v-for="(item, i) in list"
-                :key="i"
-                >
-               <template #cell(barcode)="item"> 
-                  {{item.barcode}}
-
-               </template>
-
-
-
-                </b-table> -->
             </b-card>
           </b-col>
         </b-row>
 
-        <!-- <b-col cols="">
-          <b-button v-b-modal.modal-1 class="addBtn"
-            >Add Customer Detail</b-button
-          >
-        </b-col> -->
-
-        <!-- <div class="mt-3">
-          <b-pagination
-            v-model="currentPage"
-            pills
-            :total-rows="rows"
-            :per-page="perPage"
-            aria-controls="supplier-table"
-            align="center"
-          ></b-pagination>
-        </div> -->
         <b-col>
           <div class="btngrp">
             <b-button
@@ -247,33 +189,10 @@
           </div>
         </b-col>
       </b-col>
-      <!-- <b-col cols="4"> -->
-      <!-- <b-col cols="">
-          <b-button v-b-modal.modal-1 class="addBtn"
-            >Add Customer Detail</b-button
-          >
-        </b-col> -->
-      <!-- <b-card bg-variant="white" title="Order #XXX">
-            <b-table
-              responsive="sm"
-              show-empty
-              :items="productsStates"
-              :fields="fields"
-            >
-              <template #cell(productDesc)>
-                {{ supplier.productDesc }}
-              </template>
-            </b-table> -->
-
-      <!-- <b-button type="submit" variant="primary">End Sale</b-button>
-          <b-button class="cancel" variant="danger">Cancel </b-button> -->
-      <!-- </b-card> -->
-      <!-- </b-col> -->
     </b-row>
 
     <b-modal id="orderconfirm" centered hide-footer>
       <template #modal-title> Confirm submit</template>
-      <div class="d-block text-center"></div>
 
       <template #default="{ hide }">
         <b-button
@@ -308,19 +227,16 @@ export default {
       rows: 100,
       perPage: 10,
       currentPage: 1,
-
       filter: null,
       filterOn: [],
       sortBy: " ",
       sortDesc: false,
-
       customer: [],
       select_barcode: "",
       product: [],
       detail: [],
       order: [],
       customermodal: false,
-
       fields: [
         { key: "barcode", label: "Barcode" },
         { key: "Product_name", label: "Product Name" },
@@ -331,11 +247,8 @@ export default {
       selectedfields: [
         { key: "barcode" },
         { key: "productDesc", label: "Product Name" },
-        // { key: "quantity" },
         { key: "costPerUnit", label: "Price" }
-        // { key: "Total" }
       ],
-
       value: "",
       itemSelect: [],
       showselect: "",
@@ -383,8 +296,6 @@ export default {
     }),
 
     list() {
-      console.log("teeeet", this.allDetails);
-
       return this.allDetails;
     }
   },
@@ -398,15 +309,11 @@ export default {
           address: this.customer_address,
           contact: this.contact_number
         })
-        .then(res => {
-          console.log("hoyhoy");
-        })
+        .then(res => {})
         .catch(err => err);
       this.customer = [];
     },
     addtoorder() {
-      console.log("iii", this.allDetails, this.customer_name);
-
       this.$store
         .dispatch("addOrder", {
           product_table: this.allDetails,
@@ -417,7 +324,6 @@ export default {
           total_payment: this.total_payment
         })
         .then(res => {
-          console.log("orderinfo");
           if (res == "Error: Request failed with status code 406") {
             if (res == "Error: Network Error") {
               this.showAlert("Network Error", "danger");
@@ -435,11 +341,9 @@ export default {
 
     totalPlusqty() {
       this.Total = this.Quantity * this.Price;
-      console.log("totaltest", this.Total);
     },
     totalAll() {
       this.total_payment = this.Quantity * this.Price;
-      console.log("totaltest", this.item.Total);
     },
 
     add_table() {
@@ -454,8 +358,6 @@ export default {
       this.initial_total = parseInt(this.initial_total) + parseInt(this.Total);
 
       this.total_payment = this.initial_total;
-      console.log("totaltest", this.initial_total);
-      console.log(this.allDetails);
       this.clear();
     },
     clear() {
@@ -476,15 +378,11 @@ export default {
     },
 
     selectBarcode() {
-      console.log("hooy", this.barcode);
-      console.log("haay", this.productsState);
-
       let barcode = this.productsState.find(
         barcode => barcode.product_barcode == this.barcode
       );
       this.Product_name = barcode.product_name;
       this.Price = barcode.price;
-      console.log("heyy", this.Product_name);
     },
     showAlert(message, variant) {
       this.dismissCountDown = this.dismissSecs;

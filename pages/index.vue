@@ -1,14 +1,6 @@
 <template>
   <div class="container">
     <b-card class="bcard">
-      <!-- <Nav />
-    <Sidetab /> -->
-      <!-- <div class="links">
-       
-        </a>
-      </div> -->
-      <!-- <nuxt-link :to="{ name: 'main' }"> main</nuxt-link> -->
-
       <b-form>
         <div>
           <b-img src="@/assets/img/shop.svg" class="shop-img"></b-img>
@@ -41,9 +33,6 @@
           <nuxt-link :to="{ name: 'registeruser' }">Create New User</nuxt-link>
         </div>
       </b-form>
-      <!-- <div v-for="post in posts" :key="post.id">
-      <h3>{{ post.title }}</h3>
-    </div> -->
     </b-card>
     <b-alert
       class="alert"
@@ -86,16 +75,7 @@ export default {
     };
   },
 
-  created() {
-    // axios
-    //   .get("https://jsonplaceholder.typicode.com/posts")
-    //   .then(response => {
-    //     this.posts = response.data;
-    //   })
-    //   .catch(error => {
-    //     console.log(error);
-    //   });
-  },
+  created() {},
   head() {
     return {
       title: "Login"
@@ -109,8 +89,6 @@ export default {
   },
   methods: {
     toast(toaster, append = false, variant, message, title) {
-      console.log("toaster:", toaster, (append = false), variant, message);
-      console.log("test toast");
       this.counter++;
       this.$bvToast.toast(message, {
         title: title,
@@ -121,7 +99,6 @@ export default {
       });
     },
     async loginUser() {
-      console.log("loginuser");
       // this.$router.push("/main");
       await axios({
         method: "POST",
