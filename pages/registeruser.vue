@@ -76,7 +76,7 @@ export default {
       userName: "",
       password: "",
       userType: "",
-      optionss: [
+      options: [
         { value: null, text: "Please select user type" },
         { value: "warehouse", text: "Warehouse" },
         { value: "sales", text: "Sales" }

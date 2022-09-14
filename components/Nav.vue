@@ -29,7 +29,10 @@
               <template #button-content> <em>User</em> </template>
               <b-dropdown-item href="#">Profile</b-dropdown-item>
               <b-dropdown-item href="#"
-                ><NuxtLink class="link" :to="{ name: 'index' }"
+                ><NuxtLink
+                  @click.native="signOut()"
+                  class="link"
+                  :to="{ name: 'index' }"
                   >Sign out</NuxtLink
                 ></b-dropdown-item
               >
@@ -59,6 +62,12 @@
 export default {
   data() {
     return {};
+  },
+  methods: {
+    signOut() {
+      console.log("out");
+      localStorage.clear();
+    }
   }
 };
 </script>

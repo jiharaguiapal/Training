@@ -321,7 +321,9 @@ export default {
       supplier: [],
       suppliers: [],
       dismissSecs: 5,
-      dismissCountDown: 0
+      dismissCountDown: 0,
+      counter: 0
+
       // onFiltered:[]
     };
   },
@@ -351,6 +353,18 @@ export default {
   //   items: state => state.items //retrieve data from state
   // }),
   methods: {
+    toast(toaster, append = false, variant, message, title) {
+      console.log("toaster:", toaster, (append = false), variant, message);
+      console.log("test toast");
+      this.counter++;
+      this.$bvToast.toast(message, {
+        title: title,
+        toaster: toaster,
+        solid: true,
+        variant: variant,
+        appendToast: append
+      });
+    },
     addtosupplier() {
       console.log("newsup", this.supplier);
       this.$store
@@ -363,7 +377,9 @@ export default {
 
         .then(res => {
           console.log("err", res);
-          this.showAlert(res.message, "success");
+          // this.showAlert(res.message, "success");
+          let msg = res.message;
+          this.toast("b-toaster-bottom-right", true, "success", msg, "Success");
           this.supplier = [];
           this.$store.dispatch("loadSuppliers", {
             SecretKey: localStorage.SecretKey
@@ -376,7 +392,9 @@ export default {
         })
         .catch(err => {
           console.log(err);
-          this.showAlert(err, "danger");
+          // this.showAlert(err, "danger");
+          errMsg = res;
+          this.toast("b-toaster-bottom-right", true, "danger", errMsg, "Error");
         });
     },
 
@@ -463,11 +481,7 @@ export default {
 .reset {
   float: right;
 }
-.alert {
-  z-index: 100;
-  width: 500px;
-  float: right;
-}
+
 .supborder {
   margin: 10px;
 }

@@ -19,7 +19,52 @@ export default {
         console.log(err);
       });
   },
+  async getUsers({ commit }, { SecretKey }) {
+    return await axios({
+      method: "GET",
+      url: `${this.$axios.defaults.baseURL}/users`,
+      headers: {
+        Authorization: `Bearer ${SecretKey}`
+      }
+    })
+      .then(res => {
+        console.log(res);
+        commit("SET_USER", res.data);
+        console.log("testCustomer", res.data);
+        return res.data;
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  },
 
+  async addUser(
+    { commit },
+    { username, password, first_name, last_name, role, SecretKey }
+  ) {
+    return await axios({
+      method: "POST",
+      url: `${this.$axios.defaults.baseURL}/users`,
+      headers: {
+        Authorization: `Bearer ${SecretKey}`
+      },
+
+      data: {
+        username,
+        password,
+        first_name,
+        last_name,
+        role
+      }
+    }).then(res => {
+      console.log("actionnew", res);
+
+      commit("ADD_USER", res.data);
+
+      return res.data;
+    });
+    // .catch(err => err);
+  },
   async addCustomer({ commit }, { fullname, contact, address, SecretKey }) {
     console.log("look", contact);
     return await axios({

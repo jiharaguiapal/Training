@@ -38,6 +38,10 @@
           <font-awesome-icon icon="user-tag" /> Customer </template
         ><Customerstable
       /></b-tab>
+      <b-tab title="Users">
+        <template #title> <font-awesome-icon icon="user" /> User </template
+        ><Userstable
+      /></b-tab>
     </b-tabs>
   </div>
 </template>

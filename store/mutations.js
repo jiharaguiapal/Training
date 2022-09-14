@@ -2,6 +2,13 @@ export default {
   SET_CUSTOMER(state, customer) {
     state.customersState = customer;
   },
+  SET_USER(state, user) {
+    state.usersState = user;
+  },
+  ADD_USER(state, user) {
+    state.usersState.push(user);
+  },
+
   SET_PRODUCT(state, product) {
     state.productsState = product;
   },

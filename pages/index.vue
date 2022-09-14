@@ -71,6 +71,7 @@ export default {
   name: "Login",
   data() {
     return {
+      counter: 0,
       users: [],
       user: [],
       errors: [],
@@ -107,6 +108,18 @@ export default {
     })
   },
   methods: {
+    toast(toaster, append = false, variant, message, title) {
+      console.log("toaster:", toaster, (append = false), variant, message);
+      console.log("test toast");
+      this.counter++;
+      this.$bvToast.toast(message, {
+        title: title,
+        toaster: toaster,
+        solid: true,
+        variant: variant,
+        appendToast: append
+      });
+    },
     async loginUser() {
       console.log("loginuser");
       // this.$router.push("/main");
@@ -124,11 +137,17 @@ export default {
           localStorage.SecretKey = res.data.User.token;
 
           this.$router.push("/main");
-          this.showAlert(res.data.message, "success");
+          // this.showAlert(res.data.message, "success");
+          let msg = res.data.message;
+
+          this.toast("b-toaster-bottom-right", true, "success", msg, "Success");
+
           this.user = [];
         })
         .catch(err => {
-          this.showAlert(err.response.data.error, "danger");
+          // this.showAlert(err.response.data.error, "danger");
+          let errMsg = err.response.data.error;
+          this.toast("b-toaster-bottom-right", true, "danger", errMsg, "Error");
         });
     },
 

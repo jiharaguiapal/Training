@@ -428,7 +428,8 @@ export default {
         supplier_name: null,
         date_received: null
       },
-      products: []
+      products: [],
+      counter: 0
       //  onFiltered:[]
     };
   },
@@ -473,6 +474,18 @@ export default {
   },
 
   methods: {
+    toast(toaster, append = false, variant, message, title) {
+      console.log("toaster:", toaster, (append = false), variant, message);
+      console.log("test toast");
+      this.counter++;
+      this.$bvToast.toast(message, {
+        title: title,
+        toaster: toaster,
+        solid: true,
+        variant: variant,
+        appendToast: append
+      });
+    },
     formatDate(date) {
       return moment(date).format("DD MMMM, YYYY");
     },
@@ -497,7 +510,11 @@ export default {
       return `Showing a total of ${Code.length} ${entry}`;
     },
     async addtoproduct() {
-      console.log("newprod", this.allDetails, this.delivery.supplier_name);
+      console.log(
+        "newprod",
+        this.allDetails.length,
+        this.delivery.supplier_name
+      );
 
       await this.$store
         .dispatch("addProduct", {
@@ -506,19 +523,44 @@ export default {
           products: this.allDetails
         })
         .then(res => {
-          console.log("heere");
-          this.$root.$emit("bv::hide::modal", "productmodal", "#productmodal");
-          this.$store.dispatch("loadProducts", {
-            SecretKey: localStorage.SecretKey
-          });
-          this.$store.dispatch("loadDeliveries", {
-            SecretKey: localStorage.SecretKey
-          });
-          this.showAlert(res.message, "success");
+          console.log("heere", res);
+          if (this.allDetails.length == 0) {
+            let errMsg = "Please add products to submit";
+            this.toast(
+              "b-toaster-bottom-right",
+              true,
+              "warning",
+              errMsg,
+              "Warning"
+            );
+          } else {
+            this.$root.$emit(
+              "bv::hide::modal",
+              "productmodal",
+              "#productmodal"
+            );
+            this.$store.dispatch("loadProducts", {
+              SecretKey: localStorage.SecretKey
+            });
+            this.$store.dispatch("loadDeliveries", {
+              SecretKey: localStorage.SecretKey
+            });
+            // this.showAlert(res.message, "success");
+            let msg = res.message;
+            this.toast(
+              "b-toaster-bottom-right",
+              true,
+              "success",
+              msg,
+              "Success"
+            );
+          }
         })
         .catch(err => {
           console.log("Add product err", err);
-          this.showAlert(res, "danger");
+          // this.showAlert(res, "danger");
+          let errMsg = res;
+          this.toast("b-toaster-bottom-right", true, "danger", errMsg, "Error");
         });
     },
     pushProducts() {
