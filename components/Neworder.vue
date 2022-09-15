@@ -179,10 +179,7 @@
 
         <b-col>
           <div class="btngrp">
-            <b-button
-              class="mr-2"
-              @click="$bvModal.show('orderconfirm')"
-              variant="primary"
+            <b-button class="mr-2" @click="clickSubmit()" variant="primary"
               >Submit</b-button
             >
             <b-button @click="clearpending()" variant="danger">Clear</b-button>
@@ -342,13 +339,16 @@ export default {
         .catch(err => err);
       this.customer = [];
     },
+    clickSubmit() {
+      if (this.allDetails.length == 0) {
+        let errMsg = "No product selected.";
+        this.toast("b-toaster-bottom-right", true, "danger", errMsg, "Error");
+      } else {
+        // $bvModal.show("orderconfirm"),
+        this.$root.$emit("bv::show::modal", "orderconfirm", "orderconfirm");
+      }
+    },
     addtoorder() {
-      console.log(
-        " this.allDetails",
-        this.allDetails,
-        this.customer,
-        this.total_payment
-      );
       this.$store
         .dispatch("addOrder", {
           order_details: this.allDetails,
