@@ -10,7 +10,9 @@
 </template>
 
 <script>
-export default {};
+export default {
+  middleware: "authenticate"
+};
 </script>
 
 <style scoped>

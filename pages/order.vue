@@ -133,6 +133,8 @@
 <script>
 import { mapState, mapMutations } from "vuex";
 export default {
+  middleware: "authenticate",
+
   data() {
     return {
       options: [],
