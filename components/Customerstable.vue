@@ -109,10 +109,12 @@ export default {
       order: [],
       fields: [
         { key: "customer_id", sortable: true, label: "Customer ID" },
-        { key: "fullname", sortable: true, label: "Full Name" },
+        { key: "name", sortable: true, label: "Full Name" },
         { key: "contact", sortable: false, label: "Address" },
         { key: "address", sortable: true, label: "Contact Number" },
-        { key: "created_at", sortable: true, label: "Date Created" }
+        { key: "created_at", sortable: true, label: "Date Created" },
+        { key: "order_id", sortable: true, label: "Order ID" }
+        // { key: "order_id", sortable: true, label: "S" }
         // { key: "Actions", sortable: false, label: "Actions" }
       ],
       resetInfo: "",
