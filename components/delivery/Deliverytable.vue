@@ -67,13 +67,35 @@
         }}</template>
       </b-table>
       <b-modal
+        size="lg"
         :header-bg-variant="modalheadbg"
         :id="deliveryModal.id"
         :title="deliveryModal.title"
         ok-only
         @hide="resetInfoModal"
       >
-        <pre>{{ deliveryModal.content }}</pre>
+        <b-row no-gutters>
+          <b-col cols="4">
+            <b-list-group-item
+              variant="primary"
+              v-for="name in detailName"
+              :key="name"
+            >
+              <b>
+                {{ name }}
+              </b>
+            </b-list-group-item>
+          </b-col>
+          <b-col>
+            <b-list-group-item
+              variant="secondary"
+              v-for="items in deliveryModal.content"
+              :key="items"
+            >
+              {{ items }}
+            </b-list-group-item>
+          </b-col>
+        </b-row>
       </b-modal>
       <div class="mt-3">
         <b-pagination
@@ -126,6 +148,13 @@ export default {
   data() {
     return {
       // rows: 100,
+      detailName: [
+        "Delivery ID:",
+        "Supplier Name: ",
+        "Date Received: ",
+        "Date Created: ",
+        "Status: "
+      ],
       perPage: 8,
       currentPage: 1,
       delivery: [],
@@ -248,7 +277,7 @@ export default {
 
     info(delivery, index, button) {
       this.deliveryModal.title = delivery.supplier_name;
-      this.deliveryModal.content = JSON.stringify(delivery, null, 2);
+      this.deliveryModal.content = delivery;
       this.$root.$emit("bv::show::modal", this.deliveryModal.id, button);
     },
     resetInfoModal() {

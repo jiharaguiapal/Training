@@ -163,8 +163,31 @@
             :title="infoModal.title"
             ok-only
             @hide="resetInfoModal"
+            size="lg"
           >
-            <pre>{{ infoModal.content }}</pre>
+            <b-row no-gutters>
+              <b-col cols="4">
+                <b-list-group-item
+                  variant="primary"
+                  v-for="name in detailName"
+                  :key="name"
+                >
+                  <b>
+                    {{ name }}
+                  </b>
+                </b-list-group-item>
+              </b-col>
+              <b-col>
+                <b-list-group-item
+                  variant="secondary"
+                  v-for="items in infoModal.content"
+                  :key="items"
+                >
+                  {{ items }}
+                </b-list-group-item>
+              </b-col>
+            </b-row>
+            <!-- </b-list-group> -->
           </b-modal>
           <b-modal :header-bg-variant="modalheadbg" id="editsupplier">
             <div class="form-group">
@@ -278,7 +301,15 @@ export default {
       suppliers: [],
       dismissSecs: 5,
       dismissCountDown: 0,
-      counter: 0
+      counter: 0,
+      detailName: [
+        "Supplier ID:",
+        "Supplier Name: ",
+        "Address: ",
+        "Contact: ",
+        "Date Added: ",
+        "Status: "
+      ]
     };
   },
   beforeCreate() {
@@ -347,7 +378,7 @@ export default {
 
     info(item, index, button) {
       this.infoModal.title = item.supplier_name; // modal title for selected item
-      this.infoModal.content = JSON.stringify(item, null, 2); //row contentc to string
+      this.infoModal.content = item; //row contentc to string
       this.$root.$emit("bv::show::modal", this.infoModal.id, button);
     },
     resetInfoModal() {
