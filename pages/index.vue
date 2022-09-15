@@ -29,9 +29,9 @@
         <b-button pill block @click="loginUser" class="login-btn"
           >Login</b-button
         >
-        <div class="link">
+        <!-- <div class="link">
           <nuxt-link :to="{ name: 'registeruser' }">Create New User</nuxt-link>
-        </div>
+        </div> -->
       </b-form>
     </b-card>
     <b-alert

@@ -48,8 +48,13 @@
                 <font-awesome-icon icon="archive" />
               </b-button>
             </template>
+            <template v-slot:cell(created_at)="row">{{
+              formatDate(row.item)
+            }}</template>
+            <template v-slot:cell(total_price)="row">{{
+              formatAmount(row.item.total_price)
+            }}</template>
           </b-table>
-
           <div class="mt-3">
             <b-pagination
               size="sm"
@@ -67,6 +72,7 @@
   </div>
 </template>
 <script>
+import moment from "moment";
 import { mapState, mapMutations, mapGetters } from "vuex";
 export default {
   data() {
@@ -84,11 +90,11 @@ export default {
       product: [],
       order: [],
       fields: [
-        { key: "order_code", sortable: true },
-        { key: "order_date", sortable: true },
-        { key: "total_payment", sortable: false },
-        { key: "customer_name", sortable: true },
-        { key: "Actions", sortable: false }
+        { key: "order_id", sortable: true, label: "Receipt Number" },
+        { key: "created_at", sortable: true, label: "Order Date" },
+        { key: "total_price", sortable: false, label: "Total Payment" },
+        { key: "customer_name", sortable: true, label: "Customer Name" },
+        { key: "Actions", sortable: false, label: "Order Date" }
       ],
       sale: [],
       sales: [],
@@ -114,7 +120,18 @@ export default {
     }
   },
 
-  methods: {},
+  methods: {
+    formatAmount(amount) {
+      return new Intl.NumberFormat("ja-JP", {
+        style: "currency",
+        currency: "Php"
+      }).format(amount);
+    },
+
+    formatDate(date) {
+      return moment(date).format("DD MMMM, YYYY");
+    }
+  },
   onFiltered(filteredItems) {
     // Trigger pagination to update the number of buttons/pages due to filtering
     this.totalRows = filteredItems.length;

@@ -177,38 +177,19 @@ export default {
       .catch(err => err);
   },
 
-  async addOrder(
-    { commit },
-    {
-      product_table,
-      SecretKey,
-      customer_name,
-      customer_address,
-      contact_number,
-      total_payment
-    }
-  ) {
-    console.log(
-      "ADDORDER",
-      product_table,
-      customer_name,
-      customer_address,
-      contact_number,
-      total_payment
-    );
+  async addOrder({ commit }, { order, SecretKey, customer, order_details }) {
+    console.log("ADDORDER", order, customer, order_details);
     return await axios({
       method: "POST",
-      url: `${this.$axios.defaults.baseURL}/order/insert`,
+      url: `${this.$axios.defaults.baseURL}/order`,
       headers: {
         Authorization: `Bearer ${SecretKey}`
       },
 
       data: {
-        product_table,
-        customer_name,
-        customer_address,
-        contact_number,
-        total_payment
+        order,
+        customer,
+        order_details
       }
     })
       .then(res => {
@@ -265,7 +246,7 @@ export default {
       }
     })
       .then(res => {
-        commit("SET_SALES", res.data.view);
+        commit("SET_SALES", res.data);
         return res.data;
       })
       .catch(err => {

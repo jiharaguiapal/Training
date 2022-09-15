@@ -340,7 +340,7 @@ export default {
         .catch(err => {
           console.log(err);
           // this.showAlert(err, "danger");
-          errMsg = res;
+          let errMsg = err;
           this.toast("b-toaster-bottom-right", true, "danger", errMsg, "Error");
         });
     },

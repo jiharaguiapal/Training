@@ -23,10 +23,10 @@
                   class="option"
                   v-for="product in productsState"
                   :key="product.product_barcode"
-                  :value="product.product_barcode"
-                  >Name: {{ product.product_name }} | Price: ${{
-                    product.price
-                  }}
+                  :value="product.barcode"
+                >
+                  Name: {{ product.product_name }} | Price: Php
+                  {{ product.price }}
                 </option>
               </b-form-datalist>
 
@@ -81,7 +81,7 @@
                   class="form-control"
                   type="text"
                   placeholder="Enter Customer Name"
-                  v-model="customer_name"
+                  v-model="customer.customer_name"
                   required
                 />
 
@@ -90,7 +90,7 @@
                   class="form-control"
                   type="text"
                   placeholder="Enter Customer Address"
-                  v-model="customer_address"
+                  v-model="customer.address"
                   required
                 />
                 <b-form class="">
@@ -99,7 +99,7 @@
                     class="form-control"
                     type="number"
                     placeholder="Enter Contact Number"
-                    v-model="contact_number"
+                    v-model="customer.contact"
                     required
                   />
                   <b-col>
@@ -166,10 +166,10 @@
                   <tr v-for="(item, i) in list" :key="i">
                     <th scope="row">{{ ++i }}</th>
                     <td>{{ item.barcode }}</td>
-                    <td>{{ item.Product_name }}</td>
-                    <td>{{ item.Quantity }}</td>
-                    <td>{{ item.Price }}</td>
-                    <td>{{ item.Total }}</td>
+                    <td>{{ item.product_name }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>{{ item.price }}</td>
+                    <td>{{ item.total_price }}</td>
                   </tr>
                 </tbody>
               </table>
@@ -192,14 +192,14 @@
     </b-row>
 
     <b-modal id="orderconfirm" centered hide-footer>
-      <template #modal-title> Confirm submit</template>
+      <template #modal-title> Confirm Order</template>
 
       <template #default="{ hide }">
         <b-button
           type="submit"
           class="mt-3"
           block
-          @click="$bvModal.hide('orderconfirm'), addtocustomer(), addtoorder()"
+          @click="$bvModal.hide('orderconfirm'), addtoorder()"
           >Confirm</b-button
         >
 
@@ -239,14 +239,14 @@ export default {
       customermodal: false,
       fields: [
         { key: "barcode", label: "Barcode" },
-        { key: "Product_name", label: "Product Name" },
-        { key: "Quantity" },
-        { key: "Price", label: "Price" },
-        { key: "Total" }
+        { key: "product_name", label: "Product Name" },
+        { key: "quantity" },
+        { key: "price", label: "Price" }
+        // { key: "total_price" }
       ],
       selectedfields: [
         { key: "barcode" },
-        { key: "productDesc", label: "Product Name" },
+        { key: "product_name", label: "Product Name" },
         { key: "costPerUnit", label: "Price" }
       ],
       value: "",
@@ -259,9 +259,11 @@ export default {
       Price: "",
       Total: "",
       item: "",
-      customer_name: "",
-      customer_address: "",
-      contact_number: "",
+      customer: {
+        customer_name: "",
+        address: "",
+        contact: ""
+      },
       total_payment: "0",
       initial_total: "0",
       items: [],
@@ -270,7 +272,8 @@ export default {
         dismissSecs: 0,
         variant: "success",
         message: ""
-      }
+      },
+      counter: 0
     };
   },
 
@@ -301,6 +304,16 @@ export default {
   },
 
   methods: {
+    toast(toaster, append = false, variant, message, title) {
+      this.counter++;
+      this.$bvToast.toast(message, {
+        title: title,
+        toaster: toaster,
+        solid: true,
+        variant: variant,
+        appendToast: append
+      });
+    },
     addtocustomer() {
       this.$store
         .dispatch("addCustomer", {
@@ -314,29 +327,36 @@ export default {
       this.customer = [];
     },
     addtoorder() {
+      console.log(
+        " this.allDetails",
+        this.allDetails,
+        this.customer,
+        this.total_payment
+      );
       this.$store
         .dispatch("addOrder", {
-          product_table: this.allDetails,
+          order_details: this.allDetails,
           SecretKey: localStorage.SecretKey,
-          customer_name: this.customer_name,
-          customer_address: this.customer_address,
-          contact_number: this.contact_number,
-          total_payment: this.total_payment
+          order: {
+            customer_name: this.customer.customer_name,
+            total_price: this.total_payment
+          },
+          customer: this.customer
         })
         .then(res => {
-          if (res == "Error: Request failed with status code 406") {
-            if (res == "Error: Network Error") {
-              this.showAlert("Network Error", "danger");
-            }
-            this.showAlert("Error: Please check order details", "danger");
-          } else {
-            this.showAlert(
-              "Order details was submitted successfully",
-              "success"
-            );
-          }
+          console.log("new order", res);
+          let msg = res.data.order;
+          this.toast("b-toaster-bottom-right", true, "success", msg, "Success");
+          // this.showAlert("Order details was submitted successfully", "success");
+          this.$store.dispatch("loadSales", {
+            SecretKey: localStorage.SecretKey
+          });
         })
-        .catch(err => err);
+        .catch(err => {
+          let errMsg = err;
+          this.toast("b-toaster-bottom-right", true, "danger", errMsg, "Error");
+          // console.log("new order", err.response);
+        });
     },
 
     totalPlusqty() {
@@ -349,10 +369,11 @@ export default {
     add_table() {
       this.allDetails.push({
         barcode: this.barcode,
-        Product_name: this.Product_name,
-        Quantity: this.Quantity,
-        Price: this.Price,
-        Total: this.Total
+        product_name: this.Product_name,
+        quantity: this.Quantity,
+        price: this.Price,
+        total_price: this.Total,
+        details: this.details
       });
 
       this.initial_total = parseInt(this.initial_total) + parseInt(this.Total);
@@ -378,11 +399,14 @@ export default {
     },
 
     selectBarcode() {
-      let barcode = this.productsState.find(
-        barcode => barcode.product_barcode == this.barcode
-      );
-      this.Product_name = barcode.product_name;
-      this.Price = barcode.price;
+      console.log("select barcode", this.productsState);
+      let barcode = this.productsState.find(barcode => {
+        barcode.barcode === this.barcode;
+        this.Product_name = barcode.product_name;
+        this.Price = barcode.price;
+        this.details = barcode.details;
+        console.log("barcode", barcode.barcode);
+      });
     },
     showAlert(message, variant) {
       this.dismissCountDown = this.dismissSecs;
