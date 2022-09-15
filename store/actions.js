@@ -237,7 +237,7 @@ export default {
       })
       .catch(err => err);
   },
-  async loadSales({ commit }, { SecretKey }) {
+  async loadSales({ commit }, { SecretKey, id }) {
     return await axios({
       method: "GET",
       url: `${this.$axios.defaults.baseURL}/order`,
@@ -246,6 +246,23 @@ export default {
       }
     })
       .then(res => {
+        commit("SET_SALES", res.data);
+        return res.data;
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  },
+  async loadSalesDetails({ commit }, { SecretKey, id }) {
+    return await axios({
+      method: "GET",
+      url: `${this.$axios.defaults.baseURL}/order/${id}`,
+      headers: {
+        Authorization: `Bearer ${SecretKey}`
+      }
+    })
+      .then(res => {
+        console.log("res", res);
         commit("SET_SALES", res.data);
         return res.data;
       })

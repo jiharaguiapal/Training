@@ -38,7 +38,7 @@
             <template #cell(actions)="row">
               <b-button
                 size="sm"
-                @click="info(row.item, row.index, $event.target)"
+                @click="getOrderDetails(row.item, row.index, $event.target)"
                 class="mr-1"
                 variant="secondary"
                 pill
@@ -67,6 +67,50 @@
             ></b-pagination>
           </div>
         </b-card>
+        <b-modal
+          size="lg"
+          scrollable
+          :id="infoModal.id"
+          :title="infoModal.title"
+          ok-only
+          @hide="resetInfoModal"
+        >
+          <p><b>Order Details</b></p>
+          <!-- <pre>{{ infoModal.content }}</pre> -->
+          <!-- <b-col>
+            <li v-for="name in detailName" :key="name">{{ name }}</li>
+          </b-col> -->
+          <!-- <b-col> -->
+          <b-list-group
+            class="mb-2"
+            v-for="details in infoModal.content"
+            :key="details"
+          >
+            <b-row no-gutters>
+              <b-col cols="4">
+                <b-list-group-item
+                  variant="primary"
+                  v-for="name in detailName"
+                  :key="name"
+                >
+                  <b>
+                    {{ name }}
+                  </b>
+                </b-list-group-item>
+              </b-col>
+              <b-col>
+                <b-list-group-item
+                  variant="secondary"
+                  v-for="items in details"
+                  :key="items"
+                >
+                  {{ items }}
+                </b-list-group-item>
+              </b-col>
+            </b-row>
+          </b-list-group>
+          <!-- </b-col> -->
+        </b-modal>
       </b-col>
     </b-form-row>
   </div>
@@ -89,6 +133,11 @@ export default {
       select_barcode: "",
       product: [],
       order: [],
+      infoModal: {
+        id: "info-modalSales",
+        title: "",
+        content: ""
+      },
       fields: [
         { key: "order_id", sortable: true, label: "Receipt Number" },
         { key: "created_at", sortable: true, label: "Order Date" },
@@ -98,7 +147,18 @@ export default {
       ],
       sale: [],
       sales: [],
-      onFiltered: []
+      onFiltered: [],
+      detailName: [
+        "Order Number:",
+        "Receipt Number: ",
+        "Barcode: ",
+        "Product Name: ",
+        "Quantity: ",
+        "Order Date: ",
+        "Status: ",
+        "Total Price: ",
+        "Price: "
+      ]
     };
   },
   beforeCreate() {
@@ -121,6 +181,31 @@ export default {
   },
 
   methods: {
+    // info(item, index, button) {
+    //   console.log("item", item);
+    //   this.infoModal.title = "Order: " + item.order_id; // modal title for selected item
+    //   // this.infoModal.content = JSON.stringify(item, null, 2); //row contentc to string
+    //   this.$root.$emit("bv::show::modal", this.infoModal.id, button);
+    //   this.getOrderDetails(item.order_id);
+    // },
+    async getOrderDetails(item, index, button) {
+      this.infoModal.title = "Order: " + item.order_id;
+      await this.$store
+        .dispatch("loadSalesDetails", {
+          id: item.order_id,
+          SecretKey: localStorage.SecretKey
+        })
+        .then(res => {
+          console.log("first", res);
+          this.infoModal.content = res;
+
+          this.$root.$emit("bv::show::modal", this.infoModal.id, button);
+        });
+    },
+    resetInfoModal() {
+      this.infoModal.title = "";
+      this.infoModal.content = "";
+    },
     formatAmount(amount) {
       return new Intl.NumberFormat("ja-JP", {
         style: "currency",
@@ -139,8 +224,7 @@ export default {
   }
 };
 </script>
-
-<style scoped>
+<style lang="scss" scoped>
 .formTitle {
   color: white;
   text-align: center;

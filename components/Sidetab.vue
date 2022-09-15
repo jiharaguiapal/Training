@@ -35,7 +35,8 @@
         ><Customerstable
       /></b-tab>
       <b-tab title="Users">
-        <template #title> <font-awesome-icon icon="user" /> User </template
+        <template #title>
+          <font-awesome-icon icon="user" class="mr-2" /> User </template
         ><Userstable
       /></b-tab>
     </b-tabs>
