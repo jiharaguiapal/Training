@@ -262,7 +262,6 @@ export default {
       }
     })
       .then(res => {
-        console.log("res", res);
         commit("SET_SALES", res.data);
         return res.data;
       })

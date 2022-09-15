@@ -302,6 +302,22 @@ export default {
       return this.allDetails;
     }
   },
+  watch: {
+    barcode() {
+      this.Product_name = "";
+      this.Price = "";
+      this.details = "";
+      this.Quantity = "";
+
+      if (this.barcode) {
+        this.Quantity = 1;
+        this.Product_name = "";
+        this.Price = "";
+        this.details = "";
+        this.Quantity = "";
+      }
+    }
+  },
 
   methods: {
     toast(toaster, append = false, variant, message, title) {
@@ -344,13 +360,18 @@ export default {
           customer: this.customer
         })
         .then(res => {
-          console.log("new order", res);
           let msg = res.data.order;
           this.toast("b-toaster-bottom-right", true, "success", msg, "Success");
           // this.showAlert("Order details was submitted successfully", "success");
           this.$store.dispatch("loadSales", {
             SecretKey: localStorage.SecretKey
           });
+          this.allDetails = [];
+          this.customer = {
+            customer_name: "",
+            address: "",
+            contact: ""
+          };
         })
         .catch(err => {
           let errMsg = err;
@@ -382,11 +403,11 @@ export default {
       this.clear();
     },
     clear() {
-      (this.barcode = ""),
-        (this.Product_name = ""),
-        (this.Price = ""),
-        (this.Quantity = ""),
-        (this.Total = "");
+      this.barcode = "";
+      this.Product_name = "";
+      this.Price = "";
+      this.Quantity = "";
+      this.Total = "";
     },
     clearCustomer() {
       (this.customer_name = ""),
@@ -399,14 +420,14 @@ export default {
     },
 
     selectBarcode() {
-      console.log("select barcode", this.productsState);
       let barcode = this.productsState.find(barcode => {
         barcode.barcode === this.barcode;
-        this.Product_name = barcode.product_name;
-        this.Price = barcode.price;
-        this.details = barcode.details;
-        console.log("barcode", barcode.barcode);
+
+        return barcode;
       });
+      this.Product_name = barcode.product_name;
+      this.Price = barcode.price;
+      this.details = barcode.details;
     },
     showAlert(message, variant) {
       this.dismissCountDown = this.dismissSecs;

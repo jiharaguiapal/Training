@@ -76,6 +76,15 @@
           @hide="resetInfoModal"
         >
           <p><b>Order Details</b></p>
+          <p>
+            Customer Name: <b>{{ customerPaid }} </b>
+          </p>
+          <p>
+            Order Date: <b>{{ paidDate }} </b>
+          </p>
+          <p class="mb-2">
+            Total Payment: <b> {{ formatAmount(totalPaid) }}</b>
+          </p>
           <!-- <pre>{{ infoModal.content }}</pre> -->
           <!-- <b-col>
             <li v-for="name in detailName" :key="name">{{ name }}</li>
@@ -148,6 +157,9 @@ export default {
       sale: [],
       sales: [],
       onFiltered: [],
+      totalPaid: "",
+      customerPaid: "",
+      paidDate: "",
       detailName: [
         "Order Number:",
         "Receipt Number: ",
@@ -189,14 +201,16 @@ export default {
     //   this.getOrderDetails(item.order_id);
     // },
     async getOrderDetails(item, index, button) {
-      this.infoModal.title = "Order: " + item.order_id;
+      this.infoModal.title = "Order Details of Receipt No. " + item.order_id;
+      this.totalPaid = item.total_price;
+      this.customerPaid = item.customer_name;
+      this.paidDate = moment(item.created_at).format("LL");
       await this.$store
         .dispatch("loadSalesDetails", {
           id: item.order_id,
           SecretKey: localStorage.SecretKey
         })
         .then(res => {
-          console.log("first", res);
           this.infoModal.content = res;
 
           this.$root.$emit("bv::show::modal", this.infoModal.id, button);
@@ -215,6 +229,12 @@ export default {
 
     formatDate(date) {
       return moment(date).format("DD MMMM, YYYY");
+    },
+    formatAmount(amount) {
+      return new Intl.NumberFormat("ja-JP", {
+        style: "currency",
+        currency: "Php"
+      }).format(amount);
     }
   },
   onFiltered(filteredItems) {
@@ -231,5 +251,8 @@ export default {
 }
 .reset {
   float: right;
+}
+p {
+  margin: 0;
 }
 </style>
