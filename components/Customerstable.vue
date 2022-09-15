@@ -110,8 +110,8 @@ export default {
       fields: [
         { key: "customer_id", sortable: true, label: "Customer ID" },
         { key: "name", sortable: true, label: "Full Name" },
-        { key: "contact", sortable: false, label: "Address" },
-        { key: "address", sortable: true, label: "Contact Number" },
+        { key: "address", sortable: false, label: "Address" },
+        { key: "contact", sortable: true, label: "Contact Number" },
         { key: "created_at", sortable: true, label: "Date Created" },
         { key: "order_id", sortable: true, label: "Order ID" }
         // { key: "order_id", sortable: true, label: "S" }
