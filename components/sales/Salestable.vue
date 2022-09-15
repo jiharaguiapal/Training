@@ -22,7 +22,7 @@
           <b-table
             bordered
             id="order-table"
-            striped
+            head-variant="light"
             hover
             :items="getsales"
             show-empty

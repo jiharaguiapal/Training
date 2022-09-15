@@ -21,6 +21,7 @@
             </b-input-group>
           </b-form-group>
           <b-table
+            head-variant="light"
             bordered
             hover
             :items="customersState"

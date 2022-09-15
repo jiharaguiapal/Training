@@ -35,6 +35,7 @@
         </b-row>
       </b-form-group>
       <b-table
+        head-variant="light"
         bordered
         hover
         :items="deliveriesState"

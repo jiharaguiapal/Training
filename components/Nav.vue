@@ -27,7 +27,7 @@
             <b-nav-item-dropdown right>
               <!-- Using 'button-content' slot -->
               <template #button-content> <em>User</em> </template>
-              <b-dropdown-item href="#">Profile</b-dropdown-item>
+              <!-- <b-dropdown-item href="#">Profile</b-dropdown-item> -->
               <b-dropdown-item href="#"
                 ><NuxtLink
                   @click.native="signOut()"

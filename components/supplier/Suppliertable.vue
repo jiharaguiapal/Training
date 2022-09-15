@@ -116,6 +116,7 @@
           <!-- supplier table starts here -->
 
           <b-table
+            head-variant="light"
             bordered
             hover
             id="supplier-table"
@@ -290,11 +291,32 @@ export default {
       sortBy: " ",
       sortDesc: false,
       fields: [
-        { key: "supplier_id", sortable: true, label: "Code" },
-        { key: "supplier_name", sortable: true, label: "Company Name" },
-        { key: "address", sortable: true, label: "Company Address" },
-        { key: "contact", sortable: false, label: "Company Contact" },
-        { key: "Actions", sortable: false, label: "Actions" }
+        {
+          key: "supplier_id",
+          sortable: true,
+          label: "Code"
+          // thStyle: { background: "rgb(148, 201, 197)" }
+        },
+        {
+          key: "supplier_name",
+          sortable: true,
+          label: "Company Name"
+        },
+        {
+          key: "address",
+          sortable: true,
+          label: "Company Address"
+        },
+        {
+          key: "contact",
+          sortable: false,
+          label: "Company Contact"
+        },
+        {
+          key: "Actions",
+          sortable: false,
+          label: "Actions"
+        }
       ],
       boxOne: "",
       supplier: [],

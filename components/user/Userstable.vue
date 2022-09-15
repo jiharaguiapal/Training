@@ -144,6 +144,7 @@
             :fields="fields"
             :sort-by.sync="sortBy"
             :sort-desc.sync="sortDesc"
+            head-variant="light"
           >
             <template #cell(actions)="row">
               <b-button
