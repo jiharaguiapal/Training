@@ -388,19 +388,26 @@ export default {
     },
 
     add_table() {
-      this.allDetails.push({
-        barcode: this.barcode,
-        product_name: this.Product_name,
-        quantity: this.Quantity,
-        price: this.Price,
-        total_price: this.Total,
-        details: this.details
-      });
+      if (this.Quantity <= 0) {
+        let errMsg = "Quantity can't be zero or less than.";
 
-      this.initial_total = parseInt(this.initial_total) + parseInt(this.Total);
+        this.toast("b-toaster-bottom-right", true, "danger", errMsg, "Error");
+      } else {
+        this.allDetails.push({
+          barcode: this.barcode,
+          product_name: this.Product_name,
+          quantity: this.Quantity,
+          price: this.Price,
+          total_price: this.Total,
+          details: this.details
+        });
 
-      this.total_payment = this.initial_total;
-      this.clear();
+        this.initial_total =
+          parseInt(this.initial_total) + parseInt(this.Total);
+
+        this.total_payment = this.initial_total;
+        this.clear();
+      }
     },
     clear() {
       this.barcode = "";
