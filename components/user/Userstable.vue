@@ -153,7 +153,7 @@
                 class="mr-1"
                 variant="primary"
                 pill
-                title="View user Details"
+                title="Edit User"
                 v-b-tooltip.hover
               >
                 <font-awesome-icon icon="edit" />
@@ -163,6 +163,93 @@
               formatDate(row.item)
             }}</template></b-table
           >
+          <b-modal
+            :header-bg-variant="modalheadbg"
+            id="editUserModal"
+            title="Edit User"
+          >
+            <div class="form-group">
+              <!-- second input field -->
+              <label for="companyname">Username: </label>
+              <b-form-input
+                type="text"
+                id=" company_name"
+                v-model.trim="editUser.username"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <!-- third input field -->
+              <label for="supplieraddress"> Password: </label>
+              <b-form-input
+                class="form-control"
+                type="text"
+                id="company_address"
+                v-model.trim="editUser.password"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <!-- third input field -->
+              <label for="supplieraddress"> First Name: </label>
+              <b-form-input
+                class="form-control"
+                type="text"
+                id="company_address"
+                v-model.trim="editUser.first_name"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <!-- third input field -->
+              <label for="supplieraddress"> Last Name: </label>
+              <b-form-input
+                class="form-control"
+                type="text"
+                id="company_address"
+                v-model.trim="editUser.last_name"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <!-- fourth input field -->
+              <label class="" for="">Select User Type</label>
+              <b-form-select v-model="editUser.role" class="input">
+                <b-form-select-option disabled :value="null"
+                  >Please select an option</b-form-select-option
+                >
+                <b-form-select-option value="sales">Sales</b-form-select-option>
+                <b-form-select-option value="warehouse"
+                  >Warehouse</b-form-select-option
+                >
+              </b-form-select>
+            </div>
+
+            <div class="form-group">
+              <!-- fourth input field -->
+              <label class="" for="">Status: </label>
+              <b-form-select v-model="editUser.status" class="input">
+                <b-form-select-option disabled :value="null"
+                  >Please select an option</b-form-select-option
+                >
+                <b-form-select-option value="active"
+                  >Active</b-form-select-option
+                >
+                <b-form-select-option value="inactive"
+                  >Inactive</b-form-select-option
+                >
+              </b-form-select>
+            </div>
+            <template #modal-footer="{ ok, cancel, }">
+              <!-- Emulate built in modal footer ok and cancel button actions -->
+              <b-button size="sm" variant="danger" @click="cancel()">
+                Cancel
+              </b-button>
+              <b-button size="sm" variant="primary" @click="edit()">
+                OK
+              </b-button>
+            </template>
+          </b-modal>
           <b-modal
             :header-bg-variant="modalheadbg"
             :id="userModal.id"
@@ -255,7 +342,15 @@ export default {
       ],
       resetInfo: "",
       modalheadbg: "",
-      onFilteredData: []
+      onFilteredData: [],
+      editUser: {
+        username: "",
+        password: "",
+        first_name: "",
+        last_name: "",
+        role: "",
+        status: ""
+      }
     };
   },
 
@@ -275,6 +370,11 @@ export default {
         variant: variant,
         appendToast: append
       });
+    },
+    handleOk(bvModalEvent) {
+      // Prevent modal from closing
+      bvModalEvent.preventDefault();
+      console.log("teft");
     },
     addToUser() {
       this.$store
@@ -322,7 +422,36 @@ export default {
     info(user, index, button) {
       this.userModal.title = `${user.username}`;
       this.userModal.content = JSON.stringify(user, null, 2);
-      this.$root.$emit("bv::show::modal", this.userModal.id, button);
+      this.editUser.id = user.id;
+      this.editUser.username = user.username;
+      this.editUser.password = user.password;
+      this.editUser.role = user.role;
+      this.editUser.status = user.status;
+      this.editUser.last_name = user.last_name;
+      this.editUser.first_name = user.first_name;
+      this.$root.$emit("bv::show::modal", "editUserModal", "#editUser");
+    },
+    async edit() {
+      await this.$store
+        .dispatch("editUserDetail", {
+          userDetails: this.editUser,
+          SecretKey: localStorage.SecretKey
+        })
+        .then(res => {
+          console.log(res);
+          // this.$root.$emit("bv::show::modal", this.infoModal.id, button);
+          this.$store.dispatch("getUsers", {
+            SecretKey: localStorage.SecretKey
+          });
+          let msg = res.message;
+          this.toast("b-toaster-bottom-right", true, "success", msg, "Success");
+          this.$root.$emit("bv::hide::modal", "editUserModal", "#editUser");
+        })
+        .catch(err => {
+          console.log(err);
+          let errMsg = err.response.data.error;
+          this.toast("b-toaster-bottom-right", true, "danger", errMsg, "Error");
+        });
     },
     onFiltered(filteredItems) {
       // Trigger pagination to update the number of buttons/pages due to filtering

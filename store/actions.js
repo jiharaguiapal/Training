@@ -33,6 +33,36 @@ export default {
         console.log(err);
       });
   },
+  async editUserDetail(
+    { commit },
+    {
+      SecretKey,
+      userDetails,
+      id,
+      password,
+      role,
+      first_name,
+      last_name,
+      username,
+      status
+    }
+  ) {
+    return await axios({
+      method: "PATCH",
+      url: `${this.$axios.defaults.baseURL}/users/${userDetails.id}`,
+      headers: {
+        Authorization: `Bearer ${SecretKey}`
+      },
+      data: { ...userDetails }
+    })
+      .then(res => {
+        // commit("SET_USER", res.data);
+        return res.data;
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  },
 
   async addUser(
     { commit },
