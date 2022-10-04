@@ -271,7 +271,7 @@
       </b-modal>
       <div class="mt-3">
         <b-pagination
-          v-model="currentPagePending"
+          v-model="currentPage"
           pills
           :total-rows="rows"
           :per-page="perPage"
@@ -323,7 +323,7 @@ export default {
   data() {
     return {
       // rows: 100,
-      perPage: 8,
+      perPage: 4,
       perPagePending: 8,
       currentPagePending: 1,
       currentPage: 1,
