@@ -1,12 +1,12 @@
 <template>
   <div class="container">
-    <b-card class="bcard">
+    <!-- <b-card class="bcard">
       <b-form>
         <div>
           <b-img src="@/assets/img/shop.svg" class="shop-img"></b-img>
         </div>
-        <h2 class="titlecard">Lou Geh</h2>
-        <h2 class="titlecard">Supermarket</h2>
+        <h2 class="titlecard">LougehTech</h2>
+        <h2 class="titlecard">Shop</h2>
         <label for=""></label>
         <b-form-input
           @keyup.enter="loginUser()"
@@ -29,9 +29,9 @@
         <b-button pill block @click="loginUser" class="login-btn"
           >Login</b-button
         >
-        <!-- <div class="link">
+        <div class="link">
           <nuxt-link :to="{ name: 'registeruser' }">Create New User</nuxt-link>
-        </div> -->
+        </div>
       </b-form>
     </b-card>
     <b-alert
@@ -46,7 +46,7 @@
         class="mr-1 alert__icon"
       />
       {{ alert.message }}
-    </b-alert>
+    </b-alert> -->
   </div>
 </template>
 
@@ -77,7 +77,9 @@ export default {
     };
   },
 
-  created() {},
+  created() {
+    this.$router.push("/supermarket");
+  },
   head() {
     return {
       title: "Login"
@@ -104,7 +106,7 @@ export default {
       // this.$router.push("/main");
       await axios({
         method: "POST",
-        url: `${this.$axios.defaults.baseURL}/users/login`,
+        url: `${this.$axios.defaults.baseURL}/user/login`,
 
         data: {
           username: this.user.username,
@@ -208,7 +210,7 @@ label {
   border: none;
   border-radius: 15px;
   margin-top: 80px;
-
+  background-color: transparent;
   height: 580px;
 }
 </style>

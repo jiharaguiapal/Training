@@ -20,7 +20,7 @@ export default {
   async getUsers({ commit }, { SecretKey }) {
     return await axios({
       method: "GET",
-      url: `${this.$axios.defaults.baseURL}/users`,
+      url: `${this.$axios.defaults.baseURL}/user`,
       headers: {
         Authorization: `Bearer ${SecretKey}`
       }
@@ -127,17 +127,25 @@ export default {
       });
   },
 
-  async addProduct({ commit }, { products, delivery, SecretKey }) {
+  async addProduct(
+    { commit },
+    { products, delivery, SecretKey, product_images }
+  ) {
+    console.log("imageFile", product_images);
+    const formData = new FormData();
+    formData.append("image", product_images);
     return await axios({
       method: "POST",
       url: `${this.$axios.defaults.baseURL}/product-delivery`,
+      formData,
       headers: {
         Authorization: `Bearer ${SecretKey}`
       },
 
       data: {
         products,
-        delivery
+        delivery,
+        product_images
         // Date_Received
       }
     })

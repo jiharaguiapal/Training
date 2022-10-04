@@ -6,6 +6,7 @@
       active-nav-item-class="font-weight-bold "
       justified
       vertical
+      class="sidetab"
     >
       <b-tab title="Supplier" active>
         <template #title>

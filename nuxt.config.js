@@ -1,3 +1,6 @@
+import dotenv from "dotenv";
+dotenv.config();
+
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
@@ -13,7 +16,14 @@ export default {
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { hid: "description", name: "description", content: "" }
     ],
-    link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }]
+    link: [
+      { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
+      {
+        rel: "stylesheet",
+        href:
+          "https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,400;1,500&display=swap"
+      }
+    ]
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
@@ -46,6 +56,7 @@ export default {
   build: {},
 
   server: {
+    host: "192.168.192.4",
     port: 8080
     //    host: "172.168.1.47"
     // port: 4012,
@@ -54,7 +65,7 @@ export default {
 
   axios: {
     // baseURL: 'http://sap.jltechsol.com:7050'
-    baseURL: "http://172.16.4.182:3069/api"
+    baseURL: process.env.URL
     //  baseURL: "http://localhost:3000"
     // baseURL: "http://172.16.4.88:3000"
     // proxy: true

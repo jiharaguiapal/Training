@@ -1,68 +1,79 @@
 <template>
   <div class="container">
     <b-card class="bcard">
-      <h2 class="titlecard">Create User</h2>
-      <b-form>
-        <label for="">First Name</label>
+      <b-row>
+        <!-- <b-col>
+          <b-card-img
+            src="~/static/imgs/signup.png"
+            alt="Image"
+            class="rounded-0 image-ill"
+          ></b-card-img>
+        </b-col> -->
+        <b-col>
+          <h2 class="titlecard">Sign up</h2>
+          <b-form>
+            <label for="">First Name</label>
 
-        <b-form-input
-          class="input "
-          placeholder="Enter first name"
-          v-model="firstName"
-          required
-        ></b-form-input>
+            <b-form-input
+              class="input "
+              placeholder="Enter first name"
+              v-model="firstName"
+              required
+            ></b-form-input>
 
-        <label class="mt-3" for="">Last Name</label>
+            <label class="mt-3" for="">Last Name</label>
 
-        <b-form-input
-          class="input"
-          placeholder="Enter last name"
-          v-model="lastName"
-          required
-        ></b-form-input>
+            <b-form-input
+              class="input"
+              placeholder="Enter last name"
+              v-model="lastName"
+              required
+            ></b-form-input>
 
-        <label class="mt-3" for="">Create Username</label>
-        <b-form-input
-          class="input"
-          placeholder="Enter username"
-          v-model="userName"
-          required
-        ></b-form-input>
+            <label class="mt-3" for="">Create Username</label>
+            <b-form-input
+              class="input"
+              placeholder="Enter username"
+              v-model="userName"
+              required
+            ></b-form-input>
 
-        <label class="mt-3" for="">Create Password</label>
-        <b-form-input
-          placeholder="Enter password"
-          type="password"
-          v-model="password"
-          required
-          class="input"
-        ></b-form-input>
-        <label class="mt-3" for="">Select User Type</label>
-        <b-form-select v-model="userType" class="input">
-          <b-form-select-option :value="null"
-            >Please select an option</b-form-select-option
-          >
-          <b-form-select-option value="sales">Sales</b-form-select-option>
-          <b-form-select-option value="warehouse"
-            >Warehouse</b-form-select-option
-          >
-        </b-form-select>
+            <label class="mt-3" for="">Create Password</label>
+            <b-form-input
+              placeholder="Enter password"
+              type="password"
+              v-model="password"
+              required
+              class="input"
+            ></b-form-input>
+            <label class="mt-3" for="">Select User Type</label>
+            <b-form-select v-model="userType" class="input">
+              <b-form-select-option :value="null"
+                >Please select an option</b-form-select-option
+              >
+              <b-form-select-option value="sales">Sales</b-form-select-option>
+              <b-form-select-option value="warehouse"
+                >Warehouse</b-form-select-option
+              >
+            </b-form-select>
 
-        <b-button
-          pill
-          block
-          type="submit"
-          v-on:click="login()"
-          class="login-btn"
-          >Submit</b-button
-        >
-        <b-button pill block type="reset" class="reset" variant="danger"
-          >Reset</b-button
-        >
-      </b-form>
-      <div class="link">
-        <nuxt-link :to="{ name: 'index' }">Back</nuxt-link>
-      </div>
+            <b-button
+              pill
+              block
+              type="submit"
+              v-on:click="login()"
+              class="login-btn"
+              >Submit</b-button
+            >
+            <b-button pill block type="reset" class="reset" variant="danger"
+              >Reset</b-button
+            >
+          </b-form>
+          <div class="link">
+            <nuxt-link :to="{ name: 'index' }">Back</nuxt-link>
+          </div>
+        </b-col>
+      </b-row>
     </b-card>
   </div>
 </template>
@@ -88,8 +99,7 @@ export default {
 
 <style scoped>
 .container {
-  width: 450px;
-  margin: auto;
+  padding: 50px;
 }
 .titlecard {
   text-align: center;
@@ -112,7 +122,7 @@ export default {
 }
 .bcard {
   border-radius: 15px;
-  margin-top: 190px;
+  /* margin-top: 190px; */
   /* height: 580px; */
 }
 </style>

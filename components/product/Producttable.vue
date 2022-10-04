@@ -12,39 +12,42 @@
       <div>
         <b-row>
           <b-col cols="">
-            <b-card>
-              <b-form @submit.prevent="adddetail">
-                <b-row class="form-inline">
-                  <label for="">Select: </label>
-                  <b-col cols="4">
-                    <b-form-select
-                      class="input"
-                      list="sup-list"
-                      id="input-product-list"
-                      v-model="delivery.supplier_name"
-                    >
-                      <option
-                        v-for="(supplier, supplier_id) in suppliersState"
-                        :key="supplier_id"
-                        >{{ supplier.supplier_name }}
-                      </option></b-form-select
-                    >
-                  </b-col>
-                  <label for="">Date Received: </label>
-                  <b-col>
-                    <b-form-datepicker
-                      class="form-control col-sm"
-                      type="date"
-                      placeholder="Select Delivery Date"
-                      v-model="delivery.date_received"
-                      required
-                    />
-                  </b-col>
-                </b-row>
-              </b-form>
-            </b-card>
+            <b-form @submit.prevent="adddetail">
+              <b-row>
+                <label class="ml-3 mt-2" for="select-supplier"
+                  >Select Supplier:
+                </label>
+                <b-col>
+                  <b-form-select
+                    size="sm"
+                    class="input "
+                    list="sup-list"
+                    id="select-supplier"
+                    v-model="delivery.supplier_name"
+                  >
+                    <option
+                      v-for="(supplier, supplier_id) in suppliersState"
+                      :key="supplier_id"
+                      >{{ supplier.supplier_name }}
+                    </option></b-form-select
+                  >
+                </b-col>
+                <label class="ml-3 mt-2" for="">Date Received: </label>
+                <b-col>
+                  <b-form-datepicker
+                    size="sm"
+                    class="form-control col-sm"
+                    type="date"
+                    placeholder="Select Delivery Date"
+                    v-model="delivery.date_received"
+                    required
+                  />
+                </b-col>
+              </b-row>
+            </b-form>
+
             <b-row>
-              <b-card title="Product Details" class="productcard">
+              <b-card header="Product Details" class="productcard">
                 <b-form class="modalmargin">
                   <label for="productcode">Product Barcode</label>
                   <b-form-input
@@ -110,8 +113,16 @@
                     v-model="Expiry_date"
                     required
                   />
+                  <label class="mt-2" for="productname">Product Image</label>
 
-                  > -->
+                  <b-form-file
+                    v-model="fileName"
+                    :state="Boolean(fileName)"
+                    placeholder="Choose a file or drop it here..."
+                    drop-placeholder="Drop file here..."
+                  ></b-form-file>
+
+                  {{ fileName }}
                 </b-form>
                 <br />
                 <b-button @click="pushProducts" variant="primary">Add</b-button>
@@ -122,11 +133,12 @@
               </b-card>
               <b-col>
                 <b-card
+                  header="Pending Products"
                   bg-variant="white"
-                  title="Pending Products"
                   class="paper"
                 >
                   <b-table
+                    borderless
                     hover
                     :fields="pendingFields"
                     :per-page="perPagePending"
@@ -226,8 +238,16 @@
             title="View Product Details"
             v-b-tooltip.hover
           >
-            <font-awesome-icon icon="edit" />
+            <font-awesome-icon icon="archive" />
           </b-button>
+        </template>
+        <template v-slot:cell(img)="row">
+          <b-img
+            class="prod-img"
+            :src="`http://172.16.4.182:3007/api/images/` + row.item.img"
+            rounded
+            alt="Rounded image"
+          ></b-img>
         </template>
         <template v-slot:cell(date_received)="row">{{
           formatDate(row.item)
@@ -239,6 +259,7 @@
           formatAmount(row.item.price)
         }}</template>
       </b-table>
+
       <b-modal
         :header-bg-variant="modalheadbg"
         :id="productModal.id"
@@ -294,6 +315,8 @@
 </template>
 
 <script>
+import axios from "axios";
+
 import moment from "moment";
 import { mapState, mapMutations, mapGetters, createLogger } from "vuex";
 export default {
@@ -320,6 +343,7 @@ export default {
       sortBy: " ",
       sortDesc: false,
       pendingFields: [
+        { key: "img", sortable: true, label: "Image" },
         { key: "barcode", sortable: true, label: "Barcode" },
         { key: "product_name", sortable: true, label: "Product Name" },
         { key: "details", sortable: true, label: "Details" },
@@ -330,6 +354,7 @@ export default {
         { key: "actions", sortable: false }
       ],
       fields: [
+        { key: "img", sortable: true, label: "Image" },
         { key: "barcode", sortable: true, label: "Barcode" },
         { key: "product_name", sortable: true, label: "Product Name" },
         { key: "details", sortable: true, label: "Details" },
@@ -351,6 +376,8 @@ export default {
       dismissCountDown: 0,
       allDetails: [],
       delivery_code: "",
+      fileName: null,
+      imageArr: [],
       Supplier: "",
       barcode: "",
       Date_Received: "",
@@ -442,52 +469,114 @@ export default {
       return `Showing a total of ${Code.length} ${entry}`;
     },
     async addtoproduct() {
-      await this.$store
-        .dispatch("addProduct", {
-          delivery: this.delivery,
-          SecretKey: localStorage.SecretKey,
-          products: this.allDetails
-        })
-        .then(res => {
-          if (this.allDetails.length == 0) {
-            let errMsg = "Please add products to submit";
-            this.toast(
-              "b-toaster-bottom-right",
-              true,
-              "warning",
-              errMsg,
-              "Warning"
-            );
-          } else {
-            this.$root.$emit(
-              "bv::hide::modal",
-              "productmodal",
-              "#productmodal"
-            );
-            this.$store.dispatch("loadProducts", {
-              SecretKey: localStorage.SecretKey
-            });
-            this.$store.dispatch("loadDeliveries", {
-              SecretKey: localStorage.SecretKey
-            });
-            // this.showAlert(res.message, "success");
-            let msg = res.message;
-            this.toast(
-              "b-toaster-bottom-right",
-              true,
-              "success",
-              msg,
-              "Success"
-            );
+      console.log("file", this.fileName);
+      const formData = new FormData();
+      this.imageArr.forEach(file => {
+        formData.append("product_images", file);
+      });
+      this.allDetails.forEach(product => formData.append("products", product));
+      formData.append("delivery", this.delivery);
+      // formData.append("product_images", this.fileName, this.fileName.name);
+      console.log(...formData);
+      await axios
+        .post(`${this.$axios.defaults.baseURL}/product-delivery`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data"
+            // "Content-Type": formData.type
+
+            // accept: "application/json",
+            // "Accept-Language": "en-US,en;q=0.8",
+            // "Content-Type": `multipart/form-data; boundary=${formData._boundary}`
+            // Authorization: `Bearer ${localStorage.SecretKey}`
           }
         })
-        .catch(err => {
-          // this.showAlert(res, "danger");
-          let errMsg = res;
-          this.toast("b-toaster-bottom-right", true, "danger", errMsg, "Error");
-        });
+        .then(
+          result => {
+            console.log("res", result);
+            // console.log("image path", result);
+            // console.log("==========================================");
+            // console.log("Uploaded Succesfully");
+            // console.log("==========================================");
+            // console.log(result.data);
+            // console.log("==========================================");
+            // console.log("Registering applicant...");
+            // console.log("==========================================");
+            // console.log("==========================================");
+          },
+          error => {
+            console.log("errr", error);
+            // console.log("==========================================");
+            // console.log("Upload Failed");
+            // console.log("==========================================");
+            // console.log(error);
+            // console.log("==========================================");
+          }
+        );
+      // this.register(this.token);
+      // console.log("Done Upload");
     },
+    // },
+    // async addtoproduct() {
+    //   await this.$store
+    //     .dispatch("addProduct", {
+    //       delivery: this.delivery,
+    //       SecretKey: localStorage.SecretKey,
+    //       products: this.allDetails,
+    //       product_images: this.fileName
+    //     })
+    //     .then(res => {
+    //       console.log("res", res.response);
+    //       if (this.allDetails.length == 0) {
+    //         let errMsg = "Please add products to submit";
+    //         this.toast(
+    //           "b-toaster-bottom-right",
+    //           true,
+    //           "warning",
+    //           errMsg,
+    //           "Warning"
+    //         );
+    //       }
+    //       if (res.response.status == 400) {
+    //         let errMsg = res.response.data.error;
+    //         this.toast(
+    //           "b-toaster-bottom-right",
+    //           true,
+    //           "danger",
+    //           errMsg,
+    //           "Error"
+    //         );
+    //       } else {
+    //         this.$root.$emit(
+    //           "bv::hide::modal",
+    //           "productmodal",
+    //           "#productmodal"
+    //         );
+    //         this.$store.dispatch("loadProducts", {
+    //           SecretKey: localStorage.SecretKey
+    //         });
+    //         this.$store.dispatch("loadDeliveries", {
+    //           SecretKey: localStorage.SecretKey
+    //         });
+    //         // this.showAlert(res.message, "success");
+    //         let msg = res.message;
+    //         this.toast(
+    //           "b-toaster-bottom-right",
+    //           true,
+    //           "success",
+    //           msg,
+    //           "Success"
+    //         );
+    //       }
+    //     })
+    //     .catch(err => {
+    //       // this.showAlert(res, "danger");
+    //       console.log(err);
+    //       let errMsg = err;
+    //       this.toast("b-toaster-bottom-right", true, "danger", errMsg, "Error");
+    //     });
+    // },
     pushProducts() {
+      console.log("fileName", this.fileName);
       this.allDetails.push({
         // delivery_code: this.delivery_code,
         barcode: this.product_barcode,
@@ -497,9 +586,11 @@ export default {
         price: this.price,
         quantity: this.quantity,
         date_expire: this.Expiry_date,
-        date_received: this.delivery.date_received
+        date_received: this.delivery.date_received,
+        img: this.fileName.name
       });
-
+      this.imageArr.push(this.fileName);
+      console.log("this.allDetails", this.imageArr);
       this.clear();
     },
 
