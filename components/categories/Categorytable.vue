@@ -2,11 +2,11 @@
   <div class="">
     <b-form-row>
       <b-modal
-        id="addusermodal"
+        id="addcategorymodal"
         size=""
         class="supplier-modal"
         hide-footer
-        title="Add User"
+        title="Add Category"
         no-close-on-backdrop
       >
         <!-- <b-col cols="3"> -->
@@ -91,7 +91,7 @@
             type="submit"
             class="mt-3"
             block
-            @click="$bvModal.hide('confirm-user'), addToUser()"
+            @click="$bvModal.hide('confirm-user'), addToCategory()"
             >Confirm</b-button
           >
 
@@ -103,12 +103,12 @@
           <b-row>
             <b-col cols="4">
               <b-button
-                v-b-modal.addusermodal
+                v-b-modal.addcategorymodal
                 variant="primary"
                 class="btnadd"
                 size="sm"
               >
-                <font-awesome-icon icon="plus-circle" /> &nbsp; Add User
+                <font-awesome-icon icon="plus-circle" /> &nbsp; Add Category
               </b-button>
             </b-col>
             <b-col>
@@ -151,9 +151,9 @@
                 size="sm"
                 @click="info(row.item, row.index, $event.target)"
                 class="mr-1"
-                variant="primary"
+                variant="edit"
                 pill
-                title="Edit User"
+                title="Edit Category"
                 v-b-tooltip.hover
               >
                 <font-awesome-icon icon="edit" />
@@ -161,12 +161,20 @@
             </template>
             <template v-slot:cell(created_at)="row">{{
               formatDate(row.item)
-            }}</template></b-table
+            }}</template>
+            <template v-slot:cell(status)="row">
+              <div class="badge-font-size" v-if="row.item.status">
+                <b-badge pill variant="badge">Active</b-badge>
+              </div>
+              <div class="badge-font-size" v-else>
+                <b-badge pill variant="gray">Inactive</b-badge>
+              </div>
+            </template></b-table
           >
           <b-modal
             :header-bg-variant="modalheadbg"
-            id="editUserModal"
-            title="Edit User"
+            id="editCategoryModal"
+            title="Edit Category"
           >
             <div class="form-group">
               <!-- second input field -->
@@ -355,7 +363,7 @@ export default {
   },
 
   beforeCreate() {
-    this.$store.dispatch("getUsers", {
+    this.$store.dispatch("getCategory", {
       SecretKey: localStorage.SecretKey
     });
   },
@@ -376,9 +384,9 @@ export default {
       bvModalEvent.preventDefault();
       console.log("teft");
     },
-    addToUser() {
+    addToCategory() {
       this.$store
-        .dispatch("addUser", {
+        .dispatch("addCategory", {
           username: this.userName,
           password: this.password,
           first_name: this.firstName,
@@ -391,10 +399,14 @@ export default {
           // this.showAlert(res.message, "success");
           let msg = res.message;
           this.toast("b-toaster-bottom-right", true, "success", msg, "Success");
-          this.$store.dispatch("getUsers", {
+          this.$store.dispatch("getCategory", {
             SecretKey: localStorage.SecretKey
           });
-          this.$root.$emit("bv::hide::modal", "addusermodal", "#addusermodal");
+          this.$root.$emit(
+            "bv::hide::modal",
+            "addcategorymodal",
+            "#addcategorymodal"
+          );
           this.userName = "";
           this.password = "";
           this.firstName = "";
@@ -429,23 +441,23 @@ export default {
       this.editUser.status = user.status;
       this.editUser.last_name = user.last_name;
       this.editUser.first_name = user.first_name;
-      this.$root.$emit("bv::show::modal", "editUserModal", "#editUser");
+      this.$root.$emit("bv::show::modal", "editCategoryModal", "#editUser");
     },
     async edit() {
       await this.$store
-        .dispatch("editUserDetail", {
+        .dispatch("editCategoryDetail", {
           userDetails: this.editUser,
           SecretKey: localStorage.SecretKey
         })
         .then(res => {
           console.log(res);
           // this.$root.$emit("bv::show::modal", this.infoModal.id, button);
-          this.$store.dispatch("getUsers", {
+          this.$store.dispatch("getCategory", {
             SecretKey: localStorage.SecretKey
           });
           let msg = res.message;
           this.toast("b-toaster-bottom-right", true, "success", msg, "Success");
-          this.$root.$emit("bv::hide::modal", "editUserModal", "#editUser");
+          this.$root.$emit("bv::hide::modal", "editCategoryModal", "#editUser");
         })
         .catch(err => {
           console.log(err);

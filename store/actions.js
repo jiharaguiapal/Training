@@ -343,5 +343,77 @@ export default {
         return res.data;
       })
       .catch(err => err);
+  },
+  async getCategory({ commit }, { SecretKey }) {
+    return await axios({
+      method: "GET",
+      url: `${this.$axios.defaults.baseURL}/user`,
+      headers: {
+        Authorization: `Bearer ${SecretKey}`
+      }
+    })
+      .then(res => {
+        commit("SET_CATEGORY", res.data);
+        return res.data;
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  },
+  async editCategoryDetail(
+    { commit },
+    {
+      SecretKey,
+      userDetails,
+      id,
+      password,
+      role,
+      first_name,
+      last_name,
+      username,
+      status
+    }
+  ) {
+    return await axios({
+      method: "PATCH",
+      url: `${this.$axios.defaults.baseURL}/users/${userDetails.id}`,
+      headers: {
+        Authorization: `Bearer ${SecretKey}`
+      },
+      data: { ...userDetails }
+    })
+      .then(res => {
+        // commit("SET_USER", res.data);
+        return res.data;
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  },
+
+  async addCategory(
+    { commit },
+    { username, password, first_name, last_name, role, SecretKey }
+  ) {
+    return await axios({
+      method: "POST",
+      url: `${this.$axios.defaults.baseURL}/users`,
+      headers: {
+        Authorization: `Bearer ${SecretKey}`
+      },
+
+      data: {
+        username,
+        password,
+        first_name,
+        last_name,
+        role
+      }
+    }).then(res => {
+      commit("ADD_CATEGORY", res.data);
+
+      return res.data;
+    });
+    // .catch(err => err);
   }
 };

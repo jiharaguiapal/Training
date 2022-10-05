@@ -136,7 +136,7 @@
                 size="sm"
                 @click="$bvModal.show('editsupplier')"
                 class="mr-1"
-                variant="primary"
+                variant="edit"
                 pill
                 title="Edit Supplier Details"
                 v-b-tooltip.hover
@@ -154,6 +154,14 @@
               >
                 <font-awesome-icon icon="archive" />
               </b-button>
+            </template>
+            <template v-slot:cell(status)="row">
+              <div class="badge-font-size" v-if="row.item.status">
+                <b-badge pill variant="badge">Active</b-badge>
+              </div>
+              <div class="badge-font-size" v-else>
+                <b-badge pill variant="gray">Inactive</b-badge>
+              </div>
             </template>
           </b-table>
 
@@ -311,6 +319,11 @@ export default {
           key: "contact",
           sortable: false,
           label: "Company Contact"
+        },
+        {
+          key: "status",
+          sortable: false,
+          label: "Status"
         },
         {
           key: "Actions",

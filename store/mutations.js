@@ -40,6 +40,12 @@ export default {
   SET_CART(state, cart) {
     state.cartState.push(cart);
   },
+  SET_CATEGORY(state, category) {
+    state.categoryState.push(category);
+  },
+  ADD_CATEGORY(state, category) {
+    state.categoryState.push(category);
+  },
   ADD_CART(state, cart) {
     state.cartState.push(cart);
   },

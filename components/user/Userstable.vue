@@ -151,13 +151,21 @@
                 size="sm"
                 @click="info(row.item, row.index, $event.target)"
                 class="mr-1"
-                variant="primary"
+                variant="edit"
                 pill
                 title="Edit User"
                 v-b-tooltip.hover
               >
                 <font-awesome-icon icon="edit" />
               </b-button>
+            </template>
+            <template v-slot:cell(status)="row">
+              <div class="badge-font-size" v-if="row.item.status">
+                <b-badge pill variant="badge">Active</b-badge>
+              </div>
+              <div class="badge-font-size" v-else>
+                <b-badge pill variant="gray">Inactive</b-badge>
+              </div>
             </template>
             <template v-slot:cell(created_at)="row">{{
               formatDate(row.item)

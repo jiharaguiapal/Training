@@ -192,12 +192,12 @@
         <b-row>
           <b-col cols="3">
             <b-button v-b-modal.productmodal variant="primary" size="sm">
-              <font-awesome-icon icon="plus-circle" /> Add product</b-button
+              <font-awesome-icon icon="plus-circle" /> Add Product</b-button
             >
           </b-col>
           <b-col cols="">
             <b-button v-b-modal.productmodal variant="primary" size="sm">
-              <font-awesome-icon icon="plus-circle" /> Add product</b-button
+              <font-awesome-icon icon="plus-circle" /> Filter</b-button
             >
           </b-col>
           <b-col cols="6">
@@ -245,6 +245,14 @@
           >
             <font-awesome-icon icon="archive" />
           </b-button>
+        </template>
+        <template v-slot:cell(status)="row">
+          <div class="badge-font-size" v-if="row.item.status">
+            <b-badge pill variant="badge">Active</b-badge>
+          </div>
+          <div class="badge-font-size" v-else>
+            <b-badge pill variant="gray">Inactive</b-badge>
+          </div>
         </template>
         <template v-slot:cell(img)="row">
           <b-img
@@ -368,6 +376,7 @@ export default {
         { key: "quantity", sortable: true, label: "Quantity" },
         { key: "delivery_id", sortable: true, label: "Delivery ID" },
         { key: "date_received", sortable: true, label: "Date Received" },
+        { key: "status", sortable: true, label: "Status" },
         { key: "actions", sortable: false }
       ],
       isBusy: false,

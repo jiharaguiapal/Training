@@ -27,16 +27,29 @@
           >
             <font-awesome-icon icon="cart-plus" /> Checkout</b-button
           > -->
-          <b-nav-item active-class="active" href="/main"> Admin</b-nav-item>
+          <b-nav-item active-class="active" href="/main" v-if="checkToken">
+            Admin</b-nav-item
+          >
           <b-nav-item active href="/supermarket"> Home</b-nav-item>
           <b-nav-item href="/supermarket/products"> Shop</b-nav-item>
-          <b-nav-item href="/supermarket/cart"> Cart</b-nav-item>
+          <b-nav-item href="/supermarket/cart">
+            <font-awesome-icon icon="shopping-cart" /> My Cart
+          </b-nav-item>
+          <b-nav-item v-b-modal.loginModal v-if="!checkToken">
+            Sign In
+          </b-nav-item>
           <!-- <b-nav-item> -->
-          <b-nav-item-dropdown text="User" right>
-            <b-dropdown-item class="dropDown" href="#">Profile</b-dropdown-item>
-            <b-dropdown-divider></b-dropdown-divider>
+          <b-nav-item-dropdown text="User" right v-if="checkToken">
+            <b-dropdown-item class="dropDown" href="#">
+              <font-awesome-icon icon="user" /> Profile</b-dropdown-item
+            >
 
-            <b-dropdown-item v-b-modal.loginModal>Sign In</b-dropdown-item>
+            <!-- <b-dropdown-item>
+              <font-awesome-icon icon="user" /> Sign In</b-dropdown-item
+            > -->
+            <b-dropdown-item href="/" @click.native="signOut()">
+              <font-awesome-icon icon="user" /> Sign Out</b-dropdown-item
+            >
           </b-nav-item-dropdown>
           <!-- </b-nav-item> -->
         </b-navbar-nav>
@@ -63,6 +76,22 @@
 export default {
   data() {
     return {};
+  },
+  computed: {
+    checkToken() {
+      if (localStorage.SecretKey) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    adminUser() {
+      if (localStorage.role == "admin") {
+        return true;
+      } else {
+        return false;
+      }
+    }
   },
   methods: {
     signOut() {

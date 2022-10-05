@@ -19,5 +19,8 @@ export default {
   },
   allUsers(state) {
     return state.usersState;
+  },
+  allCategory(state) {
+    return state.categoryState;
   }
 };
