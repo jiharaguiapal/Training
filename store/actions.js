@@ -318,9 +318,9 @@ export default {
       }
     })
       .then(res => {
-        console.log("cart res", res.data);
-        commit("SET_CART", res.data);
-        return res.data;
+        console.log("cart res", res);
+        commit("SET_CART", res);
+        return res;
       })
       .catch(err => {
         console.log(err);
@@ -341,6 +341,26 @@ export default {
       .then(res => {
         console.log("ress add cart", res);
         commit("ADD_CART", res.data);
+
+        return res.data;
+      })
+      .catch(err => err);
+  },
+  async editCart({ commit }, { customer_id, product_id, quantity }) {
+    console.log("quantity", quantity);
+    return await axios({
+      method: "PUT",
+      url: `${this.$axios.defaults.baseURL}/cart/${product_id}`,
+
+      data: {
+        // customer_id,
+        // product_id,
+        quantity
+      }
+    })
+      .then(res => {
+        console.log("ress add cart", res);
+        commit("SET_CART", res.data);
 
         return res.data;
       })

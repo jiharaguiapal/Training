@@ -152,7 +152,6 @@ export default {
       });
     },
     async addToCart(id) {
-      console.log("id", id);
       await this.$store
         .dispatch("addCart", {
           customer_id: localStorage.id,
@@ -161,10 +160,13 @@ export default {
           // product_images: this.fileName
         })
         .then(res => {
-          console.log("res", res);
-
-          if (this.allDetails.length == 0) {
-            let errMsg = "Please add products to submit";
+          console.log("res", res.response);
+          if (res.response.data.error == "Product is already exist") {
+            console.log("here");
+            this.editToCart(res.response.data.cart_id);
+          }
+          if (res.response.data.error == "quantity is required.") {
+            let errMsg = res.response.data.error;
             this.toast(
               "b-toaster-bottom-right",
               true,
@@ -192,6 +194,32 @@ export default {
               "Success"
             );
           }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    async editToCart(id) {
+      console.log("id", id, this.quantity);
+      await this.$store
+        .dispatch("editCart", {
+          // customer_id: localStorage.id,
+          product_id: id,
+          quantity: this.quantity
+          // product_images: this.fileName
+        })
+        .then(res => {
+          console.log("res", res);
+          let msg = res.message;
+          this.toast("b-toaster-bottom-right", true, "success", msg, "Success");
+          this.$store.dispatch("loadProducts", {
+            SecretKey: localStorage.SecretKey
+          });
+
+          // this.showAlert(res.message, "success");
+        })
+        .catch(err => {
+          console.log(err);
         });
     }
   }

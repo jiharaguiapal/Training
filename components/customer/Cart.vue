@@ -234,7 +234,8 @@ export default {
   },
   beforeCreate() {
     this.$store.dispatch("getCart", {
-      id: localStorage.id
+      id: localStorage.id,
+      SecretKey: localStorage.SecretKey
     });
   },
   computed: {
@@ -300,8 +301,6 @@ export default {
           SecretKey: localStorage.SecretKey
         })
         .then(res => {
-          this.infoModal.content = res;
-
           // this.$root.$emit("bv::show::modal", this.infoModal.id, button);
         });
     },
