@@ -78,6 +78,16 @@
                     v-model="product_description"
                     required
                   />
+                  <label class="mt-2" for="productdesc">Product Category</label>
+
+                  <b-form-select
+                    :options="categoryState[0]"
+                    size="sm"
+                    value-field="category_id"
+                    text-field="name"
+                    v-model="category"
+                  >
+                  </b-form-select>
                   <label class="mt-2" for="unitcost">Cost per unit</label>
                   <b-form-input
                     size="sm"
@@ -190,15 +200,26 @@
     <b-card class="card-table">
       <b-form-group>
         <b-row>
-          <b-col cols="3">
+          <b-col cols="">
             <b-button v-b-modal.productmodal variant="primary" size="sm">
               <font-awesome-icon icon="plus-circle" /> Add Product</b-button
             >
           </b-col>
-          <b-col cols="">
-            <b-button v-b-modal.productmodal variant="primary" size="sm">
-              <font-awesome-icon icon="plus-circle" /> Filter</b-button
-            >
+          <!-- {{ categoryState[0] }} -->
+          <b-col cols="4">
+            <b-input-group size="sm">
+              <b-form-select
+                id="select"
+                v-model="selected"
+                :options="categoryState[0]"
+                size="sm"
+                value-field="name"
+                text-field="name"
+              ></b-form-select>
+              <b-input-group-append>
+                <b-button disabled>Filter Category</b-button>
+              </b-input-group-append>
+            </b-input-group>
           </b-col>
           <b-col cols="6">
             <b-input-group size="sm">
@@ -398,7 +419,9 @@ export default {
       product_barcode: "",
       product_name: "",
       product_description: "",
+      category: "",
       cost_unit: "",
+      selected: "",
       price: "",
       quantity: "",
       Expiry_date: "",
@@ -422,6 +445,9 @@ export default {
     this.$store.dispatch("loadSuppliers", {
       SecretKey: localStorage.SecretKey
     });
+    this.$store.dispatch("getCategory", {
+      SecretKey: localStorage.SecretKey
+    });
   },
 
   computed: {
@@ -434,7 +460,8 @@ export default {
     ...mapGetters({
       productsState: "allProducts",
       deliveriesState: "allDeliveries",
-      suppliersState: "allSuppliers"
+      suppliersState: "allSuppliers",
+      categoryState: "allCategory"
     }),
 
     list() {
@@ -578,12 +605,13 @@ export default {
       //     });
     },
     pushProducts() {
-      console.log("fileName", this.fileName);
+      console.log("fileName", this.category);
       this.allDetails.push({
         // delivery_code: this.delivery_code,
         barcode: this.product_barcode,
         product_name: this.product_name,
         details: this.product_description,
+        category: this.category,
         cost: this.cost_unit,
         price: this.price,
         quantity: this.quantity,
@@ -601,6 +629,7 @@ export default {
       this.product_barcode = "";
       this.product_name = "";
       this.product_description = "";
+      this.category = "";
       this.cost_unit = "";
       this.price = "";
       this.quantity = "";

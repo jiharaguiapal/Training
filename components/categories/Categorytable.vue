@@ -14,66 +14,29 @@
           <b-form class="supplierform" id="app">
             <div class="form-group">
               <!-- second input field -->
-              <label for="companyname">Username: </label>
+              <label for="companyname">Category Name: </label>
               <b-form-input
                 type="text"
                 placeholder="Enter Username"
-                id="user_name"
+                id="name"
                 required
-                v-model="userName"
+                v-model="name"
               />
             </div>
-            <div class="form-group">
-              <!-- third input field -->
-              <label for="supplieraddress"> Password: </label>
+            <!-- <div class="form-group">
+              <label for="supplieraddress"> Status: </label>
               <b-form-input
                 class="form-control"
                 type="text"
                 placeholder="Create Password"
-                id="password"
+                id="status"
                 required
-                v-model="password"
+                v-model="status"
               />
-            </div>
-            <div class="form-group">
-              <!-- fourth input field -->
-              <label for="companycontact">First Name: </label>
-              <b-form-input
-                class="form-control"
-                type="tel"
-                placeholder="Enter First Name"
-                id="first_name"
-                required
-                v-model="firstName"
-              />
-            </div>
-            <div class="form-group">
-              <!-- fourth input field -->
-              <label for="companycontact">Last Name: </label>
-              <b-form-input
-                class="form-control"
-                type="tel"
-                placeholder="Enter Last Name"
-                id="last_name"
-                required
-                v-model="lastName"
-              />
-            </div>
-            <div class="form-group">
-              <!-- fourth input field -->
-              <label class="mt-3" for="">Select User Type</label>
-              <b-form-select v-model="role" class="input">
-                <b-form-select-option disabled :value="null"
-                  >Please select an option</b-form-select-option
-                >
-                <b-form-select-option value="sales">Sales</b-form-select-option>
-                <b-form-select-option value="warehouse"
-                  >Warehouse</b-form-select-option
-                >
-              </b-form-select>
-            </div>
+            </div> -->
+
             <br />
-            <b-button @click="$bvModal.show('confirm-user')" variant="primary">
+            <b-button @click="$bvModal.show('confirm-categ')" variant="primary">
               Submit</b-button
             >
             <b-button type="reset" variant="danger" class="reset"
@@ -83,7 +46,7 @@
         </div>
         <!-- </b-card> -->
       </b-modal>
-      <b-modal id="confirm-user" centered hide-footer>
+      <b-modal id="confirm-categ" centered hide-footer>
         <template #modal-title> Confirm submit</template>
 
         <template #default="{ hide }">
@@ -91,7 +54,7 @@
             type="submit"
             class="mt-3"
             block
-            @click="$bvModal.hide('confirm-user'), addToCategory()"
+            @click="$bvModal.hide('confirm-categ'), addToCategory()"
             >Confirm</b-button
           >
 
@@ -131,11 +94,10 @@
               </b-form-group>
             </b-col>
           </b-row>
-
           <b-table
             bordered
             hover
-            :items="usersState"
+            :items="categoryState[0]"
             :per-page="perPage"
             :current-page="currentPage"
             :filter="filter"
@@ -339,14 +301,10 @@ export default {
       product: [],
       order: [],
       fields: [
-        { key: "id", sortable: true, label: "User ID" },
-        { key: "username", sortable: true, label: "Username" },
-        { key: "first_name", sortable: false, label: "First Name" },
-        { key: "last_name", sortable: true, label: "Last Name" },
-        { key: "role", sortable: true, label: "Role" },
+        { key: "category_id", sortable: true, label: "Category ID" },
+        { key: "name", sortable: true, label: "Category Name" },
         { key: "status", sortable: true, label: "Status" },
         { key: "Actions", sortable: true, label: "Actions" }
-        // { key: "Actions", sortable: false, label: "Actions" }
       ],
       resetInfo: "",
       modalheadbg: "",
@@ -358,7 +316,9 @@ export default {
         last_name: "",
         role: "",
         status: ""
-      }
+      },
+      name: "",
+      status: ""
     };
   },
 
@@ -387,11 +347,8 @@ export default {
     addToCategory() {
       this.$store
         .dispatch("addCategory", {
-          username: this.userName,
-          password: this.password,
-          first_name: this.firstName,
-          last_name: this.lastName,
-          role: this.role,
+          name: this.name,
+          status: this.status,
           SecretKey: localStorage.SecretKey
         })
 
@@ -399,19 +356,17 @@ export default {
           // this.showAlert(res.message, "success");
           let msg = res.message;
           this.toast("b-toaster-bottom-right", true, "success", msg, "Success");
-          this.$store.dispatch("getCategory", {
-            SecretKey: localStorage.SecretKey
-          });
+
           this.$root.$emit(
             "bv::hide::modal",
             "addcategorymodal",
             "#addcategorymodal"
           );
-          this.userName = "";
-          this.password = "";
-          this.firstName = "";
-          this.lastName = "";
-          this.role = "";
+          this.$store.dispatch("getCategory", {
+            SecretKey: localStorage.SecretKey
+          });
+          this.name = "";
+          this.status = "";
         })
         .catch(err => {
           let errMsg = err.response.data.error;
@@ -485,10 +440,10 @@ export default {
   //
   computed: {
     rows() {
-      return this.usersState.length;
+      return this.categoryState.length;
     },
     ...mapGetters({
-      usersState: "allUsers"
+      categoryState: "allCategory"
     })
   }
 };

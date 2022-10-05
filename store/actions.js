@@ -66,11 +66,11 @@ export default {
 
   async addUser(
     { commit },
-    { username, password, first_name, last_name, role, SecretKey }
+    { username, password, first_name, last_name, role, SecretKey, address }
   ) {
     return await axios({
       method: "POST",
-      url: `${this.$axios.defaults.baseURL}/users`,
+      url: `${this.$axios.defaults.baseURL}/user`,
       headers: {
         Authorization: `Bearer ${SecretKey}`
       },
@@ -80,6 +80,7 @@ export default {
         password,
         first_name,
         last_name,
+        address,
         role
       }
     }).then(res => {
@@ -326,9 +327,10 @@ export default {
       });
   },
   async addCart({ commit }, { customer_id, product_id, quantity }) {
+    console.log("quantity");
     return await axios({
       method: "POST",
-      url: `${this.$axios.defaults.baseURL}/users/login`,
+      url: `${this.$axios.defaults.baseURL}/cart`,
 
       data: {
         customer_id,
@@ -347,7 +349,7 @@ export default {
   async getCategory({ commit }, { SecretKey }) {
     return await axios({
       method: "GET",
-      url: `${this.$axios.defaults.baseURL}/user`,
+      url: `${this.$axios.defaults.baseURL}/category`,
       headers: {
         Authorization: `Bearer ${SecretKey}`
       }
@@ -391,23 +393,17 @@ export default {
       });
   },
 
-  async addCategory(
-    { commit },
-    { username, password, first_name, last_name, role, SecretKey }
-  ) {
+  async addCategory({ commit }, { name, status, SecretKey }) {
     return await axios({
       method: "POST",
-      url: `${this.$axios.defaults.baseURL}/users`,
+      url: `${this.$axios.defaults.baseURL}/category`,
       headers: {
         Authorization: `Bearer ${SecretKey}`
       },
 
       data: {
-        username,
-        password,
-        first_name,
-        last_name,
-        role
+        name,
+        status
       }
     }).then(res => {
       commit("ADD_CATEGORY", res.data);

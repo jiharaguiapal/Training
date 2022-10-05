@@ -2,19 +2,20 @@
   <div class="container">
     <b-card class="bcard">
       <b-row>
-        <!-- <b-col>
+        <b-col>
           <b-card-img
             src="~/static/imgs/signup.png"
             alt="Image"
             class="rounded-0 image-ill"
           ></b-card-img>
-        </b-col> -->
+        </b-col>
         <b-col>
           <h2 class="titlecard">Sign up</h2>
           <b-form>
             <label for="">First Name</label>
 
             <b-form-input
+              size="sm"
               class="input "
               placeholder="Enter first name"
               v-model="firstName"
@@ -24,14 +25,25 @@
             <label class="mt-3" for="">Last Name</label>
 
             <b-form-input
+              size="sm"
               class="input"
               placeholder="Enter last name"
               v-model="lastName"
               required
             ></b-form-input>
+            <label class="mt-3" for="">Address</label>
+
+            <b-form-input
+              size="sm"
+              class="input"
+              placeholder="Enter Shipping Address"
+              v-model="address"
+              required
+            ></b-form-input>
 
             <label class="mt-3" for="">Create Username</label>
             <b-form-input
+              size="sm"
               class="input"
               placeholder="Enter username"
               v-model="userName"
@@ -40,14 +52,24 @@
 
             <label class="mt-3" for="">Create Password</label>
             <b-form-input
+              size="sm"
+              placeholder="Enter password"
+              type="password"
+              v-model="prePassword"
+              required
+              class="input"
+            ></b-form-input>
+            <label class="mt-3" for="">Confirm Password</label>
+            <b-form-input
+              size="sm"
               placeholder="Enter password"
               type="password"
               v-model="password"
               required
               class="input"
             ></b-form-input>
-            <label class="mt-3" for="">Select User Type</label>
-            <b-form-select v-model="userType" class="input">
+            <!-- <label class="mt-3" for="">Select User Type</label> -->
+            <!-- <b-form-select v-model="userType" class="input">
               <b-form-select-option :value="null"
                 >Please select an option</b-form-select-option
               >
@@ -55,17 +77,18 @@
               <b-form-select-option value="warehouse"
                 >Warehouse</b-form-select-option
               >
-            </b-form-select>
+            </b-form-select> -->
 
-            <b-button
-              pill
-              block
-              type="submit"
-              v-on:click="login()"
-              class="login-btn"
+            <b-button pill block v-on:click="addToUser()" class="login-btn"
               >Submit</b-button
             >
-            <b-button pill block type="reset" class="reset" variant="danger"
+            <b-button
+              @click="reset()"
+              pill
+              block
+              type="reset"
+              class="reset"
+              variant="danger"
               >Reset</b-button
             >
           </b-form>
@@ -85,14 +108,62 @@ export default {
       firstName: "",
       lastName: "",
       userName: "",
+      address: "",
       password: "",
-      userType: "",
-      options: [
-        { value: null, text: "Please select user type" },
-        { value: "warehouse", text: "Warehouse" },
-        { value: "sales", text: "Sales" }
-      ]
+      prePassword: "",
+      userType: ""
     };
+  },
+  methods: {
+    toast(toaster, append = false, variant, message, title) {
+      this.counter++;
+      this.$bvToast.toast(message, {
+        title: title,
+        toaster: toaster,
+        solid: true,
+        variant: variant,
+        appendToast: append
+      });
+    },
+    addToUser() {
+      this.$store
+        .dispatch("addUser", {
+          username: this.userName,
+          password: this.password,
+          first_name: this.firstName,
+          last_name: this.lastName,
+          address: this.address,
+          role: "customer",
+          SecretKey: localStorage.SecretKey
+        })
+
+        .then(res => {
+          // this.showAlert(res.message, "success");
+          console.log("res", res);
+          let msg = res.res;
+          this.toast("b-toaster-bottom-right", true, "success", msg, "Success");
+          this.$store.dispatch("getUsers", {
+            SecretKey: localStorage.SecretKey
+          });
+          this.reset();
+          this.$router.push("/");
+        })
+        .catch(err => {
+          console.log(err);
+          let errMsg = err.response.data.error;
+          this.toast("b-toaster-bottom-right", true, "danger", errMsg, "Error");
+          // this.showAlert(err, "danger");
+        });
+    },
+    reset() {
+      this.userName = "";
+      this.password = "";
+      this.prePassword = "";
+      this.firstName = "";
+      this.lastName = "";
+      this.address = "";
+      // this.role = "";
+    }
   }
 };
 </script>

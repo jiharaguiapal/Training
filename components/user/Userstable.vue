@@ -397,7 +397,7 @@ export default {
 
         .then(res => {
           // this.showAlert(res.message, "success");
-          let msg = res.message;
+          let msg = res;
           this.toast("b-toaster-bottom-right", true, "success", msg, "Success");
           this.$store.dispatch("getUsers", {
             SecretKey: localStorage.SecretKey

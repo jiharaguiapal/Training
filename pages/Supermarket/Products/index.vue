@@ -10,7 +10,6 @@
           <!-- <p>This is a test</p> -->
         </div>
       </b-row>
-      {{ productsState[0] }}
 
       <b-row no-gutters>
         <b-card
@@ -34,15 +33,19 @@
             <div class="quantity-card">
               <b-row no-gutters class="item-quantity">
                 <b-col>
-                  <b-button variant="plus" class="plus-btn">
+                  <b-button @click="minusBtn()" variant="plus" class="plus-btn">
                     <font-awesome-icon icon="minus" />
                   </b-button>
                 </b-col>
                 <b-col
-                  ><b-input class="input-quantity" v-model="quantity"></b-input
+                  ><b-input
+                    class="input-quantity"
+                    placeholder="0"
+                    v-model="quantity"
+                  ></b-input
                 ></b-col>
                 <b-col>
-                  <b-button variant="plus" class="plus-btn">
+                  <b-button @click="plusBtn()" variant="plus" class="plus-btn">
                     <font-awesome-icon icon="plus" />
                   </b-button>
                 </b-col>
@@ -94,7 +97,7 @@ export default {
   data() {
     return {
       backgroundUrl,
-      quantity: 0
+      quantity: null
     };
   },
   computed: {
@@ -126,6 +129,11 @@ export default {
     });
   },
   methods: {
+    plusBtn() {
+      console.log(this.quantity + 1);
+      this.quantity = this.quantity + 1;
+    },
+    minusBtn() {},
     formatAmount(amount) {
       return new Intl.NumberFormat("ja-JP", {
         style: "currency",
@@ -154,6 +162,7 @@ export default {
         })
         .then(res => {
           console.log("res", res);
+
           if (this.allDetails.length == 0) {
             let errMsg = "Please add products to submit";
             this.toast(
