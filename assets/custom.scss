@@ -95,8 +95,10 @@ body {
   // background-color: #F2F1F0;
   // border: none;
    border-radius: 0;
-
-  margin: 30px 0;
+  min-height: 100px;
+  height: 380px;
+  min-width:  300px;
+  margin: 35px 15px ;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
 &:hover{
   box-shadow: rgba(191,54,104,0.75) 0px 5px 15px;
@@ -461,6 +463,19 @@ div .modal-header {
 .img-bg{
   // background-color: #dbeaf8;
   // padding: 80px;
+
+}
+.co-btn{
+  display: inline;
+      width: 100%;
+}
+.btn-col{
+    display: inline;
+      width: inherit;
+}
+table th.text-center, table td.text-center { 
+    text-align: center;
+    
 
 }
   

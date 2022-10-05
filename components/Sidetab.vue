@@ -18,6 +18,11 @@
         <template #title> <font-awesome-icon icon="truck" /> Delivery </template
         ><Deliverytable
       /></b-tab>
+      <b-tab title="Category">
+        <template #title>
+          <font-awesome-icon icon="list" class="mr-1" /> Category </template
+        ><Categorytable
+      /></b-tab>
       <b-tab title="Product">
         <template #title>
           <font-awesome-icon icon="boxes" class="mr-1" /> Product </template
@@ -44,8 +49,10 @@
   </div>
 </template>
 <script>
+import Categorytable from "./categories/Categorytable.vue";
 export default {
-  position: " "
+  position: " ",
+  components: { Categorytable }
 };
 </script>
 <style lang="scss" scoped>

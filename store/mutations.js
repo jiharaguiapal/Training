@@ -37,6 +37,12 @@ export default {
   SET_SALES(state, sale) {
     state.salesState.push(sale);
   },
+  SET_CART(state, cart) {
+    state.cartState.push(cart);
+  },
+  ADD_CART(state, cart) {
+    state.cartState.push(cart);
+  },
   LOGIN_USER(state, user) {
     state.usersState.push(user);
   }

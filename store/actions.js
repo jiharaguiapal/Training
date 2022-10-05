@@ -150,6 +150,7 @@ export default {
       }
     })
       .then(res => {
+        console.log("res add prod", res);
         commit("ADD_PRODUCT", res.data);
 
         return res.data;
@@ -216,7 +217,7 @@ export default {
   },
 
   async addOrder({ commit }, { order, SecretKey, customer, order_details }) {
-    console.log("ADDORDER", order, customer, order_details);
+    console.log("ADDORDER", order, order_details);
     return await axios({
       method: "POST",
       url: `${this.$axios.defaults.baseURL}/order`,
@@ -226,8 +227,8 @@ export default {
 
       data: {
         order,
-        customer,
-        order_details
+        order_details,
+        customer
       }
     })
       .then(res => {
@@ -306,5 +307,41 @@ export default {
       .catch(err => {
         console.log(err);
       });
+  },
+  async getCart({ commit }, { SecretKey, id }) {
+    return await axios({
+      method: "GET",
+      url: `${this.$axios.defaults.baseURL}/cart/customer/${id}`,
+      headers: {
+        Authorization: `Bearer ${SecretKey}`
+      }
+    })
+      .then(res => {
+        console.log("cart res", res.data);
+        commit("SET_CART", res.data);
+        return res.data;
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  },
+  async addCart({ commit }, { customer_id, product_id, quantity }) {
+    return await axios({
+      method: "POST",
+      url: `${this.$axios.defaults.baseURL}/users/login`,
+
+      data: {
+        customer_id,
+        product_id,
+        quantity
+      }
+    })
+      .then(res => {
+        console.log("ress add cart", res);
+        commit("ADD_CART", res.data);
+
+        return res.data;
+      })
+      .catch(err => err);
   }
 };

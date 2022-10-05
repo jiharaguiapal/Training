@@ -14,6 +14,9 @@ export default {
   allSales(state) {
     return state.salesState;
   },
+  allCart(state) {
+    return state.cartState;
+  },
   allUsers(state) {
     return state.usersState;
   }

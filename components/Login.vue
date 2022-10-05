@@ -134,6 +134,11 @@ export default {
       })
         .then(res => {
           localStorage.username = res.data.User.data[0].username;
+          localStorage.id = res.data.User.data[0].id;
+          localStorage.firstname = res.data.User.data[0].first_name;
+          localStorage.lastname = res.data.User.data[0].last_name;
+          localStorage.role = res.data.User.data[0].role;
+          localStorage.address = res.data.User.data[0].address;
           localStorage.SecretKey = res.data.User.token;
 
           this.$router.push("/main");
