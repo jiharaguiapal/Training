@@ -33,11 +33,38 @@ body {
   // overflow-y: hidden;
   overflow-x: hidden;
 }
+// .centerTable td {
+
+//    text-align: center !important  ;   
+//    border: 1px solid red;
+// }
+.table > tbody > tr > td {
+     vertical-align: middle;
+
+}
+.input-quantity{
+  &:disabled{
+    // border: 1px solid red;
+    background-color: white;
+  }
+}
 .alert {
   z-index: 100;
   width: 500px;
   float: right;
   position: inherit;
+}
+.sqrBtn{
+  font-size: 10px;
+  border-radius: 0;
+  border: 1px solid gray;
+}
+.sm-card{
+  border-radius: 0;
+  border: 1px solid gray;
+  width: inherit;
+  padding: 5px 10px;
+  // height: auto;
 }
 .card-outline{
   border: none;

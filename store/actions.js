@@ -84,9 +84,9 @@ export default {
         role
       }
     }).then(res => {
-      commit("ADD_USER", res.data);
-
-      return res.data;
+      commit("ADD_USER", res.data.res);
+      console.log("res.data", res.data.res);
+      return res.data.res;
     });
     // .catch(err => err);
   },
@@ -319,8 +319,8 @@ export default {
     })
       .then(res => {
         console.log("cart res", res);
-        commit("SET_CART", res);
-        return res;
+        commit("SET_CART", res.data);
+        return res.data;
       })
       .catch(err => {
         console.log(err);
@@ -351,6 +351,26 @@ export default {
     return await axios({
       method: "PUT",
       url: `${this.$axios.defaults.baseURL}/cart/${product_id}`,
+
+      data: {
+        // customer_id,
+        // product_id,
+        quantity
+      }
+    })
+      .then(res => {
+        console.log("ress add cart", res);
+        commit("SET_CART", res.data);
+
+        return res.data;
+      })
+      .catch(err => err);
+  },
+  async editCartItem({ commit }, { customer_id, cart_id, quantity }) {
+    console.log("quantity", quantity);
+    return await axios({
+      method: "PUT",
+      url: `${this.$axios.defaults.baseURL}/cart/add/${cart_id}`,
 
       data: {
         // customer_id,

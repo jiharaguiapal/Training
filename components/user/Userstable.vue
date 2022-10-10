@@ -16,6 +16,7 @@
               <!-- second input field -->
               <label for="companyname">Username: </label>
               <b-form-input
+                size="sm"
                 type="text"
                 placeholder="Enter Username"
                 id="user_name"
@@ -27,6 +28,7 @@
               <!-- third input field -->
               <label for="supplieraddress"> Password: </label>
               <b-form-input
+                size="sm"
                 class="form-control"
                 type="text"
                 placeholder="Create Password"
@@ -39,6 +41,7 @@
               <!-- fourth input field -->
               <label for="companycontact">First Name: </label>
               <b-form-input
+                size="sm"
                 class="form-control"
                 type="tel"
                 placeholder="Enter First Name"
@@ -51,6 +54,7 @@
               <!-- fourth input field -->
               <label for="companycontact">Last Name: </label>
               <b-form-input
+                size="sm"
                 class="form-control"
                 type="tel"
                 placeholder="Enter Last Name"
@@ -59,8 +63,18 @@
                 v-model="lastName"
               />
             </div>
-            <div class="form-group">
-              <!-- fourth input field -->
+            <div>
+              <label for="supplieraddress"> Address: </label>
+              <b-form-input
+                size="sm"
+                class="form-control"
+                type="text"
+                id="company_address"
+                v-model.trim="address"
+                required
+              />
+            </div>
+            <!-- <div class="form-group">
               <label class="mt-3" for="">Select User Type</label>
               <b-form-select v-model="role" class="input">
                 <b-form-select-option disabled :value="null"
@@ -71,7 +85,7 @@
                   >Warehouse</b-form-select-option
                 >
               </b-form-select>
-            </div>
+            </div> -->
             <br />
             <b-button @click="$bvModal.show('confirm-user')" variant="primary">
               Submit</b-button
@@ -116,6 +130,7 @@
                 <!-- group for search bar -->
                 <b-input-group size="sm">
                   <b-form-input
+                    size="sm"
                     id="filter-input"
                     v-model="filter"
                     type="search"
@@ -180,6 +195,7 @@
               <!-- second input field -->
               <label for="companyname">Username: </label>
               <b-form-input
+                size="sm"
                 type="text"
                 id=" company_name"
                 v-model.trim="editUser.username"
@@ -190,6 +206,7 @@
               <!-- third input field -->
               <label for="supplieraddress"> Password: </label>
               <b-form-input
+                size="sm"
                 class="form-control"
                 type="text"
                 id="company_address"
@@ -201,6 +218,7 @@
               <!-- third input field -->
               <label for="supplieraddress"> First Name: </label>
               <b-form-input
+                size="sm"
                 class="form-control"
                 type="text"
                 id="company_address"
@@ -212,6 +230,7 @@
               <!-- third input field -->
               <label for="supplieraddress"> Last Name: </label>
               <b-form-input
+                size="sm"
                 class="form-control"
                 type="text"
                 id="company_address"
@@ -219,8 +238,18 @@
                 required
               />
             </div>
-            <div class="form-group">
-              <!-- fourth input field -->
+            <div>
+              <label for="supplieraddress"> Address: </label>
+              <b-form-input
+                size="sm"
+                class="form-control"
+                type="text"
+                id="company_address"
+                v-model.trim="editUser.address"
+                required
+              />
+            </div>
+            <!-- <div class="form-group">
               <label class="" for="">Select User Type</label>
               <b-form-select v-model="editUser.role" class="input">
                 <b-form-select-option disabled :value="null"
@@ -231,12 +260,12 @@
                   >Warehouse</b-form-select-option
                 >
               </b-form-select>
-            </div>
+            </div> -->
 
             <div class="form-group">
               <!-- fourth input field -->
               <label class="" for="">Status: </label>
-              <b-form-select v-model="editUser.status" class="input">
+              <b-form-select size="sm" v-model="editUser.status" class="input">
                 <b-form-select-option disabled :value="null"
                   >Please select an option</b-form-select-option
                 >
@@ -316,6 +345,7 @@ export default {
       firstName: "",
       lastName: "",
       role: "",
+      address: "",
 
       options: [],
       // rows: 100,
@@ -357,7 +387,8 @@ export default {
         first_name: "",
         last_name: "",
         role: "",
-        status: ""
+        status: "",
+        address: ""
       }
     };
   },
@@ -391,7 +422,8 @@ export default {
           password: this.password,
           first_name: this.firstName,
           last_name: this.lastName,
-          role: this.role,
+          address: this.address,
+          role: "admin",
           SecretKey: localStorage.SecretKey
         })
 

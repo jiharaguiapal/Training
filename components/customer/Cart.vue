@@ -36,6 +36,31 @@
                     alt="Rounded image"
                   ></b-img>
                 </template>
+                <template v-slot:cell(quantity)="row">
+                  <b-row no-gutters>
+                    <b-button
+                      size="sm"
+                      class="sqrBtn"
+                      variant="white"
+                      v-b-tooltip.hover
+                    >
+                      <font-awesome-icon icon="minus" />
+                    </b-button>
+                    <b-card class="sm-card" no-body>
+                      <b>
+                        {{ row.item.quantity }}
+                      </b>
+                    </b-card>
+                    <b-button
+                      size="sm"
+                      class="sqrBtn"
+                      variant="primary"
+                      v-b-tooltip.hover
+                    >
+                      <font-awesome-icon icon="plus" />
+                    </b-button>
+                  </b-row>
+                </template>
               </b-table>
             </b-col>
           </b-row>
@@ -182,11 +207,11 @@ export default {
         {
           key: "total_price",
           label: "Total"
-        },
-        {
-          key: "Action",
-          label: "Action"
         }
+        // {
+        //   key: "Action",
+        //   label: "Action"
+        // }
       ],
       items: [
         {
@@ -227,7 +252,7 @@ export default {
       subTotal: 0,
       totalAmount: 0,
       shippingFee: 150,
-      shippingAddress: "Baluan, General Santos City",
+      shippingAddress: localStorage.address,
       shippingType: "",
       allDetails: []
     };
@@ -252,12 +277,12 @@ export default {
       } else {
         for (let index = 0; index < this.selectedItems.length; index++) {
           const element = this.selectedItems[index];
-          console.log("element.total_price", element.total_price);
+          console.log("element.total_price", element);
           this.subTotal += element.total_price;
           this.allDetails.push({
             barcode: element.product_barcode,
             product_name: element.product_name,
-            quantity: element.product_qauntity,
+            quantity: element.quantity,
             price: element.product_price_per_unit,
             total_price: element.total_price,
             details: element.product_details,

@@ -14,7 +14,7 @@
       <b-row no-gutters>
         <b-card
           v-for="product in productsState"
-          :key="product.id"
+          :key="product.product_id"
           class="product-card"
           no-body
         >
@@ -33,19 +33,31 @@
             <div class="quantity-card">
               <b-row no-gutters class="item-quantity">
                 <b-col>
-                  <b-button @click="minusBtn()" variant="plus" class="plus-btn">
+                  <b-button
+                    @click="minusBtn(product.product_id)"
+                    variant="plus"
+                    class="plus-btn"
+                  >
                     <font-awesome-icon icon="minus" />
                   </b-button>
                 </b-col>
                 <b-col
                   ><b-input
+                    disabled
+                    :ref="'input' + product.product_id"
+                    :id="'input' + product.product_id"
                     class="input-quantity"
                     placeholder="0"
-                    v-model="quantity"
+                    type="number"
+                    value="0"
                   ></b-input
                 ></b-col>
                 <b-col>
-                  <b-button @click="plusBtn()" variant="plus" class="plus-btn">
+                  <b-button
+                    @click="plusBtn(product.product_id)"
+                    variant="plus"
+                    class="plus-btn"
+                  >
                     <font-awesome-icon icon="plus" />
                   </b-button>
                 </b-col>
@@ -97,7 +109,7 @@ export default {
   data() {
     return {
       backgroundUrl,
-      quantity: null
+      quantity: 0
     };
   },
   computed: {
@@ -129,11 +141,22 @@ export default {
     });
   },
   methods: {
-    plusBtn() {
-      console.log(this.quantity + 1);
-      this.quantity = this.quantity + 1;
+    plusBtn(id) {
+      let btnid = document.getElementById("input" + id);
+      btnid.value = parseInt(btnid.value) + 1;
+      this.quantity = btnid.value;
+      // this.quantity = this.quantity + 1;
     },
-    minusBtn() {},
+    minusBtn(id) {
+      let btnid = document.getElementById("input" + id);
+      if (btnid.value <= 0) {
+        btnid.value = 0;
+        this.quantity = btnid.value;
+      } else {
+        btnid.value = parseInt(btnid.value) - 1;
+        this.quantity = btnid.value;
+      }
+    },
     formatAmount(amount) {
       return new Intl.NumberFormat("ja-JP", {
         style: "currency",
@@ -160,7 +183,7 @@ export default {
           // product_images: this.fileName
         })
         .then(res => {
-          console.log("res", res.response);
+          console.log("res", res);
           if (res.response.data.error == "Product is already exist") {
             console.log("here");
             this.editToCart(res.response.data.cart_id);
@@ -202,9 +225,9 @@ export default {
     async editToCart(id) {
       console.log("id", id, this.quantity);
       await this.$store
-        .dispatch("editCart", {
+        .dispatch("editCartItem", {
           // customer_id: localStorage.id,
-          product_id: id,
+          cart_id: id,
           quantity: this.quantity
           // product_images: this.fileName
         })
