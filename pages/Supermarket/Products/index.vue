@@ -20,7 +20,7 @@
         >
           <b-img
             class="img-item"
-            :src="`http://172.16.4.182:3007/api/images/` + product.img"
+            :src="api + '/images/' + product.img"
             fluid
             alt="Responsive image"
           ></b-img>
@@ -109,7 +109,8 @@ export default {
   data() {
     return {
       backgroundUrl,
-      quantity: 0
+      quantity: 0,
+      api: ""
     };
   },
   computed: {
@@ -139,6 +140,9 @@ export default {
     this.$store.dispatch("loadSuppliers", {
       SecretKey: localStorage.SecretKey
     });
+  },
+  created() {
+    this.api = this.$axios.defaults.baseURL;
   },
   methods: {
     plusBtn(id) {
