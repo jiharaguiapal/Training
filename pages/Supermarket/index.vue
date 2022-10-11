@@ -503,7 +503,7 @@
             ></b-img>
             <p class="info-text">Title Info</p>
             <p class="sub-text">
-              This is a sentence. More information here.
+              Browse a range of branded products
             </p>
           </b-card>
         </b-col>
@@ -518,9 +518,9 @@
               fluid
               alt="Responsive image"
             ></b-img>
-            <p class="info-text">Title Info</p>
+            <p class="info-text">Discounted price</p>
             <p class="sub-text">
-              This is a sentence. More information here.
+              Lower prices on selected products
             </p>
           </b-card>
         </b-col>
@@ -530,13 +530,13 @@
             <!-- <font-awesome-icon icon="shopping-cart" /> -->
             <b-img
               class="img-info"
-              src="~/static/imgs/info/deliver.svg"
+              src="~/static/imgs/info/review.svg"
               fluid
               alt="Responsive image"
             ></b-img>
-            <p class="info-text">Title Info</p>
+            <p class="info-text">Trusted brands</p>
             <p class="sub-text">
-              This is a sentence. More information here.
+              Your trusted gaming brands
             </p>
           </b-card>
         </b-col>

@@ -344,6 +344,10 @@ export default {
       if (this.subTotal == 0) {
         let errMsg = "No product selected.";
         this.toast("b-toaster-bottom-right", true, "danger", errMsg, "Error");
+      }
+      if (this.shippingType == "") {
+        let errMsg = "Please select shipping type.";
+        this.toast("b-toaster-bottom-right", true, "danger", errMsg, "Error");
       } else {
         // $bvModal.show("orderconfirm"),
         this.$root.$emit("bv::show::modal", "orderconfirm", "orderconfirm");
