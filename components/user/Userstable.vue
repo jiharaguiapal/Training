@@ -380,7 +380,7 @@ export default {
       ],
       resetInfo: "",
       modalheadbg: "",
-      onFilteredData: [],
+      // onFilteredData: [],
       editUser: {
         username: "",
         password: "",

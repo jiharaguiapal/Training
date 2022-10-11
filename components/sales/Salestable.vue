@@ -21,7 +21,7 @@
           </b-form-group>
           <b-table
             bordered
-            id="order-table"
+            id="sales-table"
             head-variant="light"
             hover
             :items="getsales"
@@ -33,7 +33,6 @@
             :fields="fields"
             :sort-by.sync="sortBy"
             :sort-desc.sync="sortDesc"
-            responsive="sm"
           >
             <template #cell(actions)="row">
               <b-button
@@ -56,14 +55,16 @@
             }}</template>
           </b-table>
           <div class="mt-3">
+            {{ rows }} {{ perPage }}
             <b-pagination
               size="sm"
               v-model="currentPage"
               pills
               :total-rows="rows"
               :per-page="perPage"
-              aria-controls="supplier-table"
+              aria-controls="sales-table"
               align="center"
+              limit="3"
             ></b-pagination>
           </div>
         </b-card>
@@ -156,7 +157,7 @@ export default {
       ],
       sale: [],
       sales: [],
-      onFiltered: [],
+      // onFilteredData: [],
       totalPaid: "",
       customerPaid: "",
       paidDate: "",
@@ -235,12 +236,12 @@ export default {
         style: "currency",
         currency: "Php"
       }).format(amount);
+    },
+    onFiltered(filteredItems) {
+      // Trigger pagination to update the number of buttons/pages due to filtering
+      this.totalRows = filteredItems.length;
+      this.currentPage = 1;
     }
-  },
-  onFiltered(filteredItems) {
-    // Trigger pagination to update the number of buttons/pages due to filtering
-    this.totalRows = filteredItems.length;
-    this.currentPage = 1;
   }
 };
 </script>

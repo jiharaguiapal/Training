@@ -56,6 +56,7 @@
                       class="sqrBtn"
                       variant="primary"
                       v-b-tooltip.hover
+                      @click="addQ()"
                     >
                       <font-awesome-icon icon="plus" />
                     </b-button>
@@ -347,6 +348,30 @@ export default {
         // $bvModal.show("orderconfirm"),
         this.$root.$emit("bv::show::modal", "orderconfirm", "orderconfirm");
       }
+    },
+    addQ() {},
+    async editToCart(id) {
+      console.log("id", id, this.quantity);
+      await this.$store
+        .dispatch("editCartItem", {
+          // customer_id: localStorage.id,
+          cart_id: id,
+          quantity: this.quantity
+          // product_images: this.fileName
+        })
+        .then(res => {
+          console.log("res", res);
+          let msg = res.message;
+          this.toast("b-toaster-bottom-right", true, "success", msg, "Success");
+          this.$store.dispatch("loadProducts", {
+            SecretKey: localStorage.SecretKey
+          });
+
+          // this.showAlert(res.message, "success");
+        })
+        .catch(err => {
+          console.log(err);
+        });
     },
     addtoorder() {
       console.log(

@@ -103,18 +103,19 @@
         </b-row>
         <b-row no-gutters>
           <b-col class="">
-            <b-card class="product-card" no-body>
-              <b-img
-                class="img-item"
-                src="~/static/imgs/items/reddragon-mouse.png"
-                fluid
-                alt="Responsive image"
-              ></b-img>
+            <b-col>
+              <b-card class="home-product-card" no-body>
+                <b-img
+                  class="img-item"
+                  src="~/static/imgs/items/reddragon-mouse.png"
+                  fluid
+                  alt="Responsive image"
+                ></b-img>
 
-              <div class="product-name">
-                <h5>Product Name</h5>
-                <p>Price</p>
-
+                <!-- <div class="home-product-name">
+                  <h5>Product Name</h5>
+                  <p>Price</p> -->
+                <!-- 
                 <div class="quantity-card">
                   <b-row no-gutters class="item-quantity">
                     <b-col>
@@ -131,30 +132,128 @@
                       </b-button>
                     </b-col>
                   </b-row>
-                </div>
-                <b-button variant="outline-primary" class="add-cart-btn">
+                </div> -->
+                <!-- <b-button variant="outline-primary" class="add-cart-btn">
                   Add to cart
-                </b-button>
-              </div>
+                </b-button> -->
+                <!-- </div> -->
 
-              <!-- <template #footer>
+                <!-- <template #footer>
                   <em>16 items available</em>
                 </template> -->
-            </b-card>
+              </b-card>
+            </b-col>
+            <b-col>
+              <div class="home-product-name ">
+                <p>Gaming Mouse</p>
+                <h5>Redragon NOTHOSAUR M606</h5>
+                <p>{{ formatAmount(850) }}</p>
+              </div>
+            </b-col>
           </b-col>
           <b-col class="">
-            <b-card class="ml-2 product-card" no-body>
-              <b-img
-                class="img-item"
-                src="~/static/imgs/items/ssd.webp"
-                fluid
-                alt="Responsive image"
-              ></b-img>
+            <b-col>
+              <b-card class="ml-2 home-product-card" no-body>
+                <b-img
+                  class="img-item"
+                  src="~/static/imgs/items/ssd.webp"
+                  fluid
+                  alt="Responsive image"
+                ></b-img>
 
-              <div class="product-name">
+                <!-- <div class="home-product-name">
                 <h5>Product Name</h5>
-                <p>Price</p>
+                <p>Price</p> -->
 
+                <!-- <div class="quantity-card">
+                  <b-row no-gutters class="item-quantity">
+                    <b-col>
+                      <b-button variant="plus" class="plus-btn">
+                        <font-awesome-icon icon="minus" />
+                      </b-button>
+                    </b-col>
+                    <b-col
+                      ><b-input class="input-quantity" value="2"></b-input
+                    ></b-col>
+                    <b-col>
+                      <b-button variant="plus" class="plus-btn">
+                        <font-awesome-icon icon="plus" />
+                      </b-button>
+                    </b-col>
+                  </b-row>
+                </div> -->
+                <!-- <b-button variant="outline-primary" class="add-cart-btn">
+                  Add to cart
+                </b-button> -->
+                <!-- </div> -->
+              </b-card>
+            </b-col>
+
+            <b-col>
+              <div class="home-product-name">
+                <p>Storage</p>
+                <h5>A400 SATA SSD 2.5 240GB</h5>
+                <p>{{ formatAmount(1280) }}</p>
+              </div>
+            </b-col>
+          </b-col>
+          <b-col class="">
+            <b-col>
+              <b-card class="ml-2 home-product-card" no-body>
+                <b-img
+                  class="img-item"
+                  src="~/static/imgs/items/razer-mamba-mouse.webp"
+                  fluid
+                  alt="Responsive image"
+                ></b-img>
+
+                <!-- <div class="home-product-name">
+                  <h5>Product Name</h5>
+                  <p>Price</p> -->
+
+                <!-- <div class="quantity-card">
+                  <b-row no-gutters class="item-quantity">
+                    <b-col>
+                      <b-button variant="plus" class="plus-btn">
+                        <font-awesome-icon icon="minus" />
+                      </b-button>
+                    </b-col>
+                    <b-col
+                      ><b-input class="input-quantity" value="2"></b-input
+                    ></b-col>
+                    <b-col>
+                      <b-button variant="plus" class="plus-btn">
+                        <font-awesome-icon icon="plus" />
+                      </b-button>
+                    </b-col>
+                  </b-row>
+                </div> -->
+                <!-- </div> -->
+              </b-card>
+            </b-col>
+
+            <b-col>
+              <div class="home-product-name">
+                <p>Gaming Mouse</p>
+                <h5>Razer Mamba Elite</h5>
+                <p>{{ formatAmount(2750) }}</p>
+              </div>
+            </b-col>
+          </b-col>
+          <b-col class="">
+            <b-col>
+              <b-card class="ml-2 home-product-card" no-body>
+                <b-img
+                  class="img-item"
+                  src="~/static/imgs/items/g903.webp"
+                  fluid
+                  alt="Responsive image"
+                ></b-img>
+                <!-- 
+              <div class="home-product-name">
+                <h5>Product Name</h5>
+                <p>Price</p> -->
+                <!-- 
                 <div class="quantity-card">
                   <b-row no-gutters class="item-quantity">
                     <b-col>
@@ -171,108 +270,45 @@
                       </b-button>
                     </b-col>
                   </b-row>
-                </div>
-                <b-button variant="outline-primary" class="add-cart-btn">
+                </div> -->
+                <!-- <b-button variant="outline-primary" class="add-cart-btn">
                   Add to cart
-                </b-button>
+                </b-button> -->
+                <!-- </div> -->
+              </b-card>
+            </b-col>
+
+            <b-col>
+              <div class="home-product-name">
+                <p>Wireless Gaming Mouse</p>
+                <h5>Logitech G903</h5>
+                <p>{{ formatAmount(3900) }}</p>
               </div>
-            </b-card>
-          </b-col>
-          <b-col class="">
-            <b-card class="ml-2 product-card" no-body>
-              <b-img
-                class="img-item"
-                src="~/static/imgs/items/razer-mamba-mouse.webp"
-                fluid
-                alt="Responsive image"
-              ></b-img>
-
-              <div class="product-name">
-                <h5>Product Name</h5>
-                <p>Price</p>
-
-                <div class="quantity-card">
-                  <b-row no-gutters class="item-quantity">
-                    <b-col>
-                      <b-button variant="plus" class="plus-btn">
-                        <font-awesome-icon icon="minus" />
-                      </b-button>
-                    </b-col>
-                    <b-col
-                      ><b-input class="input-quantity" value="2"></b-input
-                    ></b-col>
-                    <b-col>
-                      <b-button variant="plus" class="plus-btn">
-                        <font-awesome-icon icon="plus" />
-                      </b-button>
-                    </b-col>
-                  </b-row>
-                </div>
-                <b-button variant="outline-primary" class="add-cart-btn">
-                  Add to cart
-                </b-button>
-              </div>
-            </b-card>
-          </b-col>
-          <b-col class="">
-            <b-card class="ml-2 product-card" no-body>
-              <b-img
-                class="img-item"
-                src="~/static/imgs/items/ram.jpg"
-                fluid
-                alt="Responsive image"
-              ></b-img>
-
-              <div class="product-name">
-                <h5>Product Name</h5>
-                <p>Price</p>
-
-                <div class="quantity-card">
-                  <b-row no-gutters class="item-quantity">
-                    <b-col>
-                      <b-button variant="plus" class="plus-btn">
-                        <font-awesome-icon icon="minus" />
-                      </b-button>
-                    </b-col>
-                    <b-col
-                      ><b-input class="input-quantity" value="2"></b-input
-                    ></b-col>
-                    <b-col>
-                      <b-button variant="plus" class="plus-btn">
-                        <font-awesome-icon icon="plus" />
-                      </b-button>
-                    </b-col>
-                  </b-row>
-                </div>
-                <b-button variant="outline-primary" class="add-cart-btn">
-                  Add to cart
-                </b-button>
-              </div>
-            </b-card>
+            </b-col>
           </b-col>
         </b-row>
         <!-- <div class="line-break"></div> -->
         <b-row no-gutters>
-          <div class="center-title">
+          <!-- <div class="center-title">
             <p class="title-categ"><b>Featured Products</b></p>
-            <!-- <p>This is a test</p> -->
-          </div>
+          </div> -->
         </b-row>
         <b-row no-gutters>
-          <b-col class="">
-            <b-card class="product-card" no-body>
-              <b-img
-                class="img-item"
-                src="~/static/imgs/items/keycaps.jpg"
-                fluid
-                alt="Responsive image"
-              ></b-img>
+          <b-col>
+            <b-col class="">
+              <b-card class="home-product-card" no-body>
+                <b-img
+                  class="img-item"
+                  src="~/static/imgs/items/kraken-kitty.png"
+                  fluid
+                  alt="Responsive image"
+                ></b-img>
 
-              <div class="product-name">
+                <!-- <div class="home-product-name">
                 <h5>Product Name</h5>
-                <p>Price</p>
+                <p>Price</p> -->
 
-                <div class="quantity-card">
+                <!-- <div class="quantity-card">
                   <b-row no-gutters class="item-quantity">
                     <b-col>
                       <b-button variant="plus" class="plus-btn">
@@ -288,31 +324,41 @@
                       </b-button>
                     </b-col>
                   </b-row>
-                </div>
-                <b-button variant="outline-primary" class="add-cart-btn">
+                </div> -->
+                <!-- <b-button variant="outline-primary" class="add-cart-btn">
                   Add to cart
-                </b-button>
-              </div>
+                </b-button> -->
+                <!-- </div> -->
 
-              <!-- <template #footer>
+                <!-- <template #footer>
                   <em>16 items available</em>
                 </template> -->
-            </b-card>
+              </b-card>
+            </b-col>
+
+            <b-col>
+              <div class="home-product-name">
+                <p>Wired Over Ear (USB)</p>
+                <h5>Razer Kraken Kitty Edition</h5>
+                <p>{{ formatAmount(6000) }}</p>
+              </div>
+            </b-col>
           </b-col>
           <b-col class="">
-            <b-card class="ml-2 product-card" no-body>
-              <b-img
-                class="img-item"
-                src="~/static/imgs/items/Resin_Keycaps_Anime_Cat.jpg"
-                fluid
-                alt="Responsive image"
-              ></b-img>
+            <b-col>
+              <b-card class="ml-2 home-product-card" no-body>
+                <b-img
+                  class="img-item"
+                  src="~/static/imgs/items/Resin_Keycaps_Anime_Cat.jpg"
+                  fluid
+                  alt="Responsive image"
+                ></b-img>
 
-              <div class="product-name">
+                <!-- <div class="home-product-name">
                 <h5>Product Name</h5>
-                <p>Price</p>
+                <p>Price</p> -->
 
-                <div class="quantity-card">
+                <!-- <div class="quantity-card">
                   <b-row no-gutters class="item-quantity">
                     <b-col>
                       <b-button variant="plus" class="plus-btn">
@@ -328,27 +374,37 @@
                       </b-button>
                     </b-col>
                   </b-row>
-                </div>
-                <b-button variant="outline-primary" class="add-cart-btn">
+                </div> -->
+                <!-- <b-button variant="outline-primary" class="add-cart-btn">
                   Add to cart
-                </b-button>
+                </b-button> -->
+                <!-- </div> -->
+              </b-card>
+            </b-col>
+
+            <b-col>
+              <div class="home-product-name">
+                <p>Mechanical Keyboard Keycap</p>
+                <h5>Custom Anime Cat Keycap</h5>
+                <p>{{ formatAmount(183.46) + "/piece" }}</p>
               </div>
-            </b-card>
+            </b-col>
           </b-col>
           <b-col class="">
-            <b-card class="ml-2 product-card" no-body>
-              <b-img
-                class="img-item"
-                src="~/static/imgs/items/mario-keycaps.webp"
-                fluid
-                alt="Responsive image"
-              ></b-img>
+            <b-col>
+              <b-card class="ml-2 home-product-card" no-body>
+                <b-img
+                  class="img-item"
+                  src="~/static/imgs/items/Kuromi-Keycap-Set1.jpg"
+                  fluid
+                  alt="Responsive image"
+                ></b-img>
 
-              <div class="product-name">
+                <!-- <div class="home-product-name">
                 <h5>Product Name</h5>
-                <p>Price</p>
+                <p>Price</p> -->
 
-                <div class="quantity-card">
+                <!-- <div class="quantity-card">
                   <b-row no-gutters class="item-quantity">
                     <b-col>
                       <b-button variant="plus" class="plus-btn">
@@ -364,27 +420,38 @@
                       </b-button>
                     </b-col>
                   </b-row>
-                </div>
-                <b-button variant="outline-primary" class="add-cart-btn">
+                </div> -->
+                <!-- <b-button variant="outline-primary" class="add-cart-btn">
                   Add to cart
-                </b-button>
+                </b-button> -->
+                <!-- </div> -->
+              </b-card>
+            </b-col>
+
+            <b-col>
+              <div class="home-product-name">
+                <p>Keycap Set</p>
+
+                <h5>Akko x Kuromi Keycap Set</h5>
+                <p>{{ formatAmount(4131.82) }}</p>
               </div>
-            </b-card>
+            </b-col>
           </b-col>
           <b-col class="">
-            <b-card class="ml-2 product-card" no-body>
-              <b-img
-                class="img-item"
-                src="~/static/imgs/items/razer-hs.png"
-                fluid
-                alt="Responsive image"
-              ></b-img>
-
-              <div class="product-name">
+            <b-col>
+              <b-card class="ml-2 home-product-card" no-body>
+                <b-img
+                  class="img-item"
+                  src="~/static/imgs/items/blue-switch.jpg"
+                  fluid
+                  alt="Responsive image"
+                ></b-img>
+                <!-- 
+              <div class="home-product-name">
                 <h5>Product Name</h5>
-                <p>Price</p>
+                <p>Price</p> -->
 
-                <div class="quantity-card">
+                <!-- <div class="quantity-card">
                   <b-row no-gutters class="item-quantity">
                     <b-col>
                       <b-button variant="plus" class="plus-btn">
@@ -400,12 +467,22 @@
                       </b-button>
                     </b-col>
                   </b-row>
-                </div>
-                <b-button variant="outline-primary" class="add-cart-btn">
+                </div> -->
+                <!-- <b-button variant="outline-primary" class="add-cart-btn">
                   Add to cart
-                </b-button>
+                </b-button> -->
+                <!-- </div> -->
+              </b-card>
+            </b-col>
+
+            <b-col>
+              <div class="home-product-name">
+                <p>Blue Switch</p>
+
+                <h5>Outemo 3 pin Switch</h5>
+                <p>{{ formatAmount(101) }}</p>
               </div>
-            </b-card>
+            </b-col>
           </b-col>
         </b-row>
         <!-- </b-container> -->
@@ -544,6 +621,14 @@ export default {
 
   data() {
     return { backgroundUrl };
+  },
+  methods: {
+    formatAmount(amount) {
+      return new Intl.NumberFormat("ja-JP", {
+        style: "currency",
+        currency: "Php"
+      }).format(amount);
+    }
   }
 };
 </script>

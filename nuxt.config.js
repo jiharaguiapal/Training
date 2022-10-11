@@ -70,5 +70,8 @@ export default {
     // baseURL: "http://172.16.4.88:3000"
     // proxy: true
     // baseUrl: 'http://localhost:8080'
+  },
+  env: {
+    baseURL: "https://assessment4.biotechfarms.net"
   }
 };
