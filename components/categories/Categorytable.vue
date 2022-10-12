@@ -111,14 +111,14 @@
             <template #cell(actions)="row">
               <b-button
                 size="sm"
-                @click="info(row.item, row.index, $event.target)"
+                @click="getCategDetails(row.item, row.index, $event.target)"
                 class="mr-1"
-                variant="edit"
+                variant="secondary"
                 pill
-                title="Edit Category"
+                title="View Order Details"
                 v-b-tooltip.hover
               >
-                <font-awesome-icon icon="edit" />
+                <font-awesome-icon icon="archive" />
               </b-button>
             </template>
             <template v-slot:cell(created_at)="row">{{
@@ -221,13 +221,35 @@
             </template>
           </b-modal>
           <b-modal
+            size="lg"
             :header-bg-variant="modalheadbg"
             :id="categoryModal.id"
             :title="categoryModal.title"
             ok-only
             @hide="resetInfoModal"
           >
-            <pre>{{ categoryModal.content }}</pre>
+            <b-row no-gutters>
+              <b-col cols="4">
+                <b-list-group-item
+                  variant="primary"
+                  v-for="name in detailName"
+                  :key="name"
+                >
+                  <b>
+                    {{ name }}
+                  </b>
+                </b-list-group-item>
+              </b-col>
+              <b-col>
+                <b-list-group-item
+                  variant="light"
+                  v-for="items in categoryModal.content"
+                  :key="items"
+                >
+                  {{ items }}
+                </b-list-group-item>
+              </b-col>
+            </b-row>
           </b-modal>
 
           <div class="mt-3">
@@ -296,6 +318,12 @@ export default {
         title: "",
         content: ""
       },
+      detailName: [
+        "Category ID: ",
+        "Category Name: ",
+        "Date Added: ",
+        "Status: "
+      ],
 
       select_barcode: "",
       product: [],
@@ -343,6 +371,14 @@ export default {
       // Prevent modal from closing
       bvModalEvent.preventDefault();
       console.log("teft");
+    },
+    async getCategDetails(item, index, button) {
+      console.log("item", item);
+      this.categoryModal.title = "Category Details";
+
+      this.categoryModal.content = item;
+
+      this.$root.$emit("bv::show::modal", this.categoryModal.id, button);
     },
     addToCategory() {
       this.$store

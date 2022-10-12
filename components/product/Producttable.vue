@@ -81,7 +81,7 @@
         <template v-slot:cell(img)="row">
           <b-img
             class="prod-img"
-            :src="`http://172.16.4.182:3007/api/images/` + row.item.img"
+            :src="api + '/images/' + row.item.img"
             rounded
             alt="Rounded image"
           ></b-img>
@@ -131,13 +131,35 @@
       </template>
     </b-modal>
     <b-modal
+      scrollable
       :header-bg-variant="modalheadbg"
       :id="productModal.id"
       :title="productModal.title"
       ok-only
       @hide="resetInfoModal"
     >
-      <pre>{{ productModal.content }}</pre>
+      <b-row no-gutters>
+        <b-col cols="4">
+          <b-list-group-item
+            variant="primary"
+            v-for="name in detailName"
+            :key="name"
+          >
+            <b>
+              {{ name }}
+            </b>
+          </b-list-group-item>
+        </b-col>
+        <b-col>
+          <b-list-group-item
+            variant="light"
+            v-for="items in productModal.content"
+            :key="items"
+          >
+            {{ items }}
+          </b-list-group-item>
+        </b-col>
+      </b-row>
     </b-modal>
     <b-alert
       class="alert"
@@ -387,6 +409,7 @@ export default {
       },
       modalheadbg: "info",
       sortBy: " ",
+      api: "",
       sortDesc: false,
       pendingFields: [
         { key: "img", sortable: true, label: "Image" },
@@ -403,14 +426,20 @@ export default {
         { key: "img", sortable: true, label: "Image" },
         { key: "barcode", sortable: true, label: "Barcode" },
         { key: "product_name", sortable: true, label: "Product Name" },
-        { key: "details", sortable: true, label: "Details" },
-        { key: "cost_per_unit", sortable: true, label: "Unit Cost" },
+        // { key: "details", sortable: true, label: "Details" },
+        // { key: "cost_per_unit", sortable: true, label: "Unit Cost" },
         { key: "price", label: "Price" },
         { key: "quantity", sortable: true, label: "Quantity" },
         { key: "delivery_id", sortable: true, label: "Delivery ID" },
-        { key: "date_received", sortable: true, label: "Date Received" },
-        { key: "status", sortable: true, label: "Status" },
+        // { key: "date_received", sortable: true, label: "Date Received" },
+        // { key: "status", sortable: true, label: "Status" },
         { key: "actions", sortable: false }
+      ],
+      detailName: [
+        "Category ID: ",
+        "Category Name: ",
+        "Date Added: ",
+        "Status: "
       ],
       isBusy: false,
       alert: {
@@ -480,7 +509,9 @@ export default {
       return this.allDetails;
     }
   },
-
+  created() {
+    this.api = this.$axios.defaults.baseURL;
+  },
   methods: {
     formatAmount(amount) {
       return new Intl.NumberFormat("ja-JP", {
@@ -534,17 +565,18 @@ export default {
       await axios
         .post(`${this.$axios.defaults.baseURL}/images`, formData, {
           headers: {
-            // "Content-Type": "multipart/form-data"
+            "Content-Type": "multipart/form-data",
             // "Content-Type": formData.type
             // accept: "application/json",
             // "Accept-Language": "en-US,en;q=0.8",
             // "Content-Type": `multipart/form-data; boundary=${formData._boundary}`
-            // Authorization: `Bearer ${localStorage.SecretKey}`
+            Authorization: `Bearer ${localStorage.SecretKey}`
           }
         })
         .then(
           result => {
             console.log("upload imge", result);
+            this.clear();
           },
           error => {
             console.log("errr", error);
@@ -558,6 +590,7 @@ export default {
       this.allDetails.splice(index, 1);
     },
     async addtoproduct() {
+      // this.uploadImage();
       await this.$store
         .dispatch("addProduct", {
           delivery: this.delivery,
@@ -667,7 +700,7 @@ export default {
           product_name: this.product_name,
           details: this.product_description,
           category: this.category,
-          cost_per_unit: this.cost_unit,
+          cost: this.cost_unit,
           price: this.price,
           quantity: this.quantity,
           date_expire: this.Expiry_date,
@@ -676,7 +709,6 @@ export default {
         });
         this.imageArr.push(this.fileName);
         console.log("this.allDetails", this.imageArr);
-        this.clear();
       }
     },
 

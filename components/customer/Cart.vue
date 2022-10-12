@@ -28,10 +28,7 @@
                 <template v-slot:cell(product_img)="row">
                   <b-img
                     class="prod-img"
-                    :src="
-                      `http://172.16.4.182:3007/api/images/` +
-                        row.item.product_img
-                    "
+                    :src="api + '/images/' + row.item.product_img"
                     rounded
                     alt="Rounded image"
                   ></b-img>
@@ -255,7 +252,8 @@ export default {
       shippingFee: 150,
       shippingAddress: localStorage.address,
       shippingType: "",
-      allDetails: []
+      allDetails: [],
+      api: ""
     };
   },
   beforeCreate() {
@@ -295,6 +293,9 @@ export default {
         console.log(" this.subtotal ", this.subTotal);
       }
     }
+  },
+  created() {
+    this.api = this.$axios.defaults.baseURL;
   },
   methods: {
     formatAmount(amount) {

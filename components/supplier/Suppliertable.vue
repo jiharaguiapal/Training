@@ -150,7 +150,7 @@
               <b-button
                 size="sm"
                 @click="openEditModal(row.item)"
-                class="mr-1"
+                class="mr-1 mt-1"
                 variant="edit"
                 pill
                 title="Edit Supplier Details"
@@ -161,7 +161,7 @@
               <b-button
                 size="sm"
                 @click="info(row.item, row.index, $event.target)"
-                class="mr-1"
+                class="mr-1 mt-1"
                 variant="secondary"
                 pill
                 title="View Supplier Details"
@@ -312,7 +312,7 @@ export default {
         variant: "success",
         message: ""
       },
-      perPage: 8,
+      perPage: 4,
       currentPage: 1,
       item: [],
       filter: null,
