@@ -152,14 +152,14 @@ export default {
         { key: "order_id", sortable: true, label: "Receipt Number" },
         { key: "created_at", sortable: true, label: "Order Date" },
         { key: "total_price", sortable: false, label: "Total Payment" },
-        { key: "customer_name", sortable: true, label: "Customer Name" },
+        // { key: "customer_name", sortable: true, label: "Customer Name" },
         { key: "Actions", sortable: false, label: "Order Date" }
       ],
       sale: [],
       sales: [],
       // onFilteredData: [],
       totalPaid: "",
-      customerPaid: "",
+      customerPaid: null,
       paidDate: "",
       detailName: [
         "Order Detail ID:",
@@ -170,7 +170,9 @@ export default {
         "Price: ",
         "Order Date: ",
         "Status: ",
-        "Total Price: "
+        "Total Price: ",
+        "First Name: ",
+        "Last Name: "
       ]
     };
   },
@@ -204,7 +206,7 @@ export default {
     async getOrderDetails(item, index, button) {
       this.infoModal.title = "Order Details of Receipt No. " + item.order_id;
       this.totalPaid = item.total_price;
-      this.customerPaid = item.customer_id;
+      // this.customerPaid = item.customer_id;
       this.paidDate = moment(item.created_at).format("LL");
       await this.$store
         .dispatch("loadSalesDetailsByOrder", {
@@ -213,6 +215,8 @@ export default {
         })
         .then(res => {
           this.infoModal.content = res;
+          console.log("res", res);
+          this.customerPaid = res[0].first_name + " " + res[0].last_name;
 
           this.$root.$emit("bv::show::modal", this.infoModal.id, button);
         });
