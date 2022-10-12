@@ -45,6 +45,11 @@
           <font-awesome-icon icon="user" class="mr-2" /> User </template
         ><Userstable
       /></b-tab>
+      <b-tab title="Logs">
+        <template #title>
+          <font-awesome-icon icon="book-open" class="mr-1" /> Activity Logs </template
+        ><Logs
+      /></b-tab>
     </b-tabs>
   </div>
 </template>

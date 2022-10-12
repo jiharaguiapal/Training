@@ -110,7 +110,7 @@
               </b-col>
               <b-col>
                 <b-list-group-item
-                  variant="secondary"
+                  variant="light"
                   v-for="items in details"
                   :key="items"
                 >
@@ -204,7 +204,7 @@ export default {
     async getOrderDetails(item, index, button) {
       this.infoModal.title = "Order Details of Receipt No. " + item.order_id;
       this.totalPaid = item.total_price;
-      this.customerPaid = item.customer_name;
+      this.customerPaid = item.customer_id;
       this.paidDate = moment(item.created_at).format("LL");
       await this.$store
         .dispatch("loadSalesDetailsByOrder", {

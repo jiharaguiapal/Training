@@ -51,5 +51,11 @@ export default {
   },
   LOGIN_USER(state, user) {
     state.usersState.push(user);
+  },
+  SET_LOG(state, log) {
+    state.logState.push(log);
+  },
+  ADD_LOG(state, log) {
+    state.logState.push(log);
   }
 };

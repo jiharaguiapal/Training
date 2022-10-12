@@ -74,5 +74,6 @@ export default () => ({
   salesState: [],
   cartState: [],
   usersState: [],
-  categoryState: []
+  categoryState: [],
+  logState: []
 });

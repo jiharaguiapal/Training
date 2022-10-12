@@ -89,11 +89,11 @@
           </b-col>
           <b-col>
             <b-list-group-item
-              variant="secondary"
-              v-for="items in deliveryModal.content"
+              variant="light"
+              v-for="items in deliveryModal.content[0]"
               :key="items"
             >
-              {{ items }}
+              {{ formatItem(items) }}
             </b-list-group-item>
           </b-col>
         </b-row>
@@ -149,13 +149,13 @@ export default {
   data() {
     return {
       // rows: 100,
-      detailName: [
-        "Delivery ID:",
-        "Supplier Name: ",
-        "Date Received: ",
-        "Date Created: ",
-        "Status: "
-      ],
+      // detailName: [
+      //   "Delivery ID:",
+      //   "Supplier Name: ",
+      //   "Date Received: ",
+      //   "Date Created: ",
+      //   "Status: "
+      // ],
       perPage: 8,
       currentPage: 1,
       delivery: [],
@@ -203,7 +203,23 @@ export default {
       dismissSecs: 5,
       dismissCountDown: 0,
       // onFiltered:[],
-      resetInfo: ""
+      resetInfo: "",
+      detailName: [
+        "Product ID: ",
+        "Product Name: ",
+        "Barcode:",
+        "Product Details: ",
+        "Quantity: ",
+        "Price: ",
+        "Status: ",
+        "Date Created: ",
+        "Cost per unit: ",
+        "Date Received: ",
+        "Expiry Date: ",
+        "Delivery ID: ",
+        "Image: ",
+        "Category: "
+      ]
     };
   },
   beforeCreate() {
@@ -225,6 +241,16 @@ export default {
   },
 
   methods: {
+    formatItem(item) {
+      console.log(item);
+      if (item == null) {
+        return "null";
+      }
+      if (item instanceof Date) {
+        return formatDate(item);
+      }
+      return item;
+    },
     formatDate(date) {
       return moment(date).format("DD MMMM, YYYY");
     },
@@ -278,8 +304,28 @@ export default {
 
     info(delivery, index, button) {
       this.deliveryModal.title = delivery.supplier_name;
-      this.deliveryModal.content = delivery;
-      this.$root.$emit("bv::show::modal", this.deliveryModal.id, button);
+      // this.deliveryModal.content = delivery;
+      this.getOrderDetails(delivery);
+      // this.$root.$emit("bv::show::modal", this.deliveryModal.id, button);
+    },
+    async getOrderDetails(item, index, button) {
+      console.log("itemsdel", item);
+      this.deliveryModal.title =
+        "Order Details of Receipt No. " + item.delivery_id;
+      // this.totalPaid = item.total_price;
+      // this.customerPaid = item.customer_id;
+      // this.paidDate = moment(item.created_at).format("LL");
+      await this.$store
+        .dispatch("loadDeliveriesDetails", {
+          id: item.delivery_id,
+          SecretKey: localStorage.SecretKey
+        })
+        .then(res => {
+          this.deliveryModal.content = res;
+          this.$root.$emit("bv::show::modal", this.deliveryModal.id, button);
+
+          // this.$root.$emit("bv::show::modal", this.infoModal.id, button);
+        });
     },
     resetInfoModal() {
       this.deliveryModal.title = "";

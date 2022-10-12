@@ -22,5 +22,8 @@ export default {
   },
   allCategory(state) {
     return state.categoryState;
+  },
+  allLog(state) {
+    return state.logState;
   }
 };

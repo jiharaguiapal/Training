@@ -175,6 +175,23 @@ export default {
         console.log(err);
       });
   },
+  async loadDeliveriesDetails({ commit }, { SecretKey, id }) {
+    return await axios({
+      method: "GET",
+      url: `${this.$axios.defaults.baseURL}/delivery/${id}`,
+      headers: {
+        Authorization: `Bearer ${SecretKey}`
+      }
+    })
+      .then(res => {
+        console.log("loadSalesDetails", res);
+        // commit("SET_DELIVERY", res.data);
+        return res.data;
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  },
   async loadSuppliers({ commit }, { SecretKey }) {
     return await axios({
       method: "GET",
@@ -468,5 +485,40 @@ export default {
       return res.data;
     });
     // .catch(err => err);
+  },
+  async addLog({ commit }, { action_made, user_id, SecretKey }) {
+    return await axios({
+      method: "POST",
+      url: `${this.$axios.defaults.baseURL}/logs/user`,
+      headers: {
+        Authorization: `Bearer ${SecretKey}`
+      },
+
+      data: {
+        action_made,
+        user_id
+      }
+    }).then(res => {
+      commit("ADD_CATEGORY", res.data);
+
+      return res.data;
+    });
+    // .catch(err => err);
+  },
+  async getLog({ commit }, { SecretKey }) {
+    return await axios({
+      method: "GET",
+      url: `${this.$axios.defaults.baseURL}/logs/user`,
+      headers: {
+        Authorization: `Bearer ${SecretKey}`
+      }
+    })
+      .then(res => {
+        commit("SET_CATEGORY", res.data);
+        return res.data;
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }
 };
