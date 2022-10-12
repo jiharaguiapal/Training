@@ -68,6 +68,7 @@
         }}</template>
       </b-table>
       <b-modal
+      scrollable
         size="lg"
         :header-bg-variant="modalheadbg"
         :id="deliveryModal.id"

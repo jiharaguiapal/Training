@@ -1,5 +1,153 @@
 <template>
-  <div class="protab">
+  <div class="">
+    <b-card class="card-table">
+      <b-form-group>
+        <b-row>
+          <b-col cols="">
+            <b-button v-b-modal.productmodal variant="primary" size="sm">
+              <font-awesome-icon icon="plus-circle" /> Add Product</b-button
+            >
+          </b-col>
+          <!-- {{ categoryState[0] }} -->
+          <b-col cols="4">
+            <b-input-group size="sm">
+              <b-form-select
+                id="select"
+                v-model="selected"
+                :options="categoryState[0]"
+                size="sm"
+                value-field="name"
+                text-field="name"
+              ></b-form-select>
+              <b-input-group-append>
+                <b-button disabled>Filter Category</b-button>
+              </b-input-group-append>
+            </b-input-group>
+          </b-col>
+          <b-col cols="6">
+            <b-input-group size="sm">
+              <b-form-input
+                id="filter-product"
+                v-model="filter"
+                type="search"
+                placeholder="Type to Search"
+              ></b-form-input>
+              <b-input-group-append>
+                <b-button :disabled="!filter" @click="filter = ''"
+                  >Clear</b-button
+                >
+              </b-input-group-append>
+            </b-input-group>
+          </b-col>
+        </b-row>
+      </b-form-group>
+      <b-table
+        head-variant="light"
+        bordered
+        hover
+        id="supplier-table"
+        :per-page="perPage"
+        :current-page="currentPage"
+        :items="productsState"
+        :filter="filter"
+        @filtered="onFiltered"
+        show-empty
+        :fields="fields"
+        :sort-by.sync="sortBy"
+        :sort-desc.sync="sortDesc"
+        responsive="sm"
+      >
+        <template #cell(actions)="row">
+          <b-button
+            size="sm"
+            @click="info(row.item, row.index, $event.target)"
+            class="mr-1"
+            variant="primary"
+            pill
+            title="View Product Details"
+            v-b-tooltip.hover
+          >
+            <font-awesome-icon icon="archive" />
+          </b-button>
+        </template>
+        <template v-slot:cell(status)="row">
+          <div class="badge-font-size" v-if="row.item.status">
+            <b-badge pill variant="badge">Active</b-badge>
+          </div>
+          <div class="badge-font-size" v-else>
+            <b-badge pill variant="gray">Inactive</b-badge>
+          </div>
+        </template>
+        <template v-slot:cell(img)="row">
+          <b-img
+            class="prod-img"
+            :src="`http://172.16.4.182:3007/api/images/` + row.item.img"
+            rounded
+            alt="Rounded image"
+          ></b-img>
+        </template>
+        <template v-slot:cell(date_received)="row">{{
+          formatDate(row.item)
+        }}</template>
+        <template v-slot:cell(cost_per_unit)="row">{{
+          formatAmount(row.item.cost_per_unit)
+        }}</template>
+        <template v-slot:cell(price)="row">{{
+          formatAmount(row.item.price)
+        }}</template>
+      </b-table>
+
+      <div class="mt-3">
+        <b-pagination
+          v-model="currentPage"
+          pills
+          :total-rows="rows"
+          :per-page="perPage"
+          aria-controls="supplier-table"
+          align="center"
+          size="sm"
+          limit="3"
+        ></b-pagination>
+      </div>
+    </b-card>
+    <!-- <Product /> -->
+
+    <!-- </b-form-row> -->
+    <b-modal id="confirmproduct" centered hide-footer>
+      <template #modal-title> Confirm submit</template>
+
+      <template #default="{ hide }">
+        <b-button
+          type="submit"
+          class="mt-3"
+          block
+          @click="
+            $bvModal.hide('confirmproduct'), addpendingProduct(), addtoproduct()
+          "
+          >Confirm</b-button
+        >
+
+        <b-button @click="hide()" block variant="danger"> Cancel</b-button>
+      </template>
+    </b-modal>
+    <b-modal
+      :header-bg-variant="modalheadbg"
+      :id="productModal.id"
+      :title="productModal.title"
+      ok-only
+      @hide="resetInfoModal"
+    >
+      <pre>{{ productModal.content }}</pre>
+    </b-modal>
+    <b-alert
+      class="alert"
+      :show="alert.showAlert"
+      dismissible
+      :variant="alert.variant"
+      @dismissed="alert.showAlert = null"
+    >
+      {{ alert.message }}
+    </b-alert>
     <b-modal
       id="productmodal"
       size="huge"
@@ -131,11 +279,11 @@
                     placeholder="Choose a file or drop it here..."
                     drop-placeholder="Drop file here..."
                   ></b-form-file>
-
-                  {{ fileName }}
                 </b-form>
                 <br />
-                <b-button @click="pushProducts" variant="primary">Add</b-button>
+                <b-button @click="pushProducts()" variant="primary"
+                  >Add</b-button
+                >
 
                 <b-button class="reset" type="reset" variant="danger"
                   >Reset</b-button
@@ -158,6 +306,19 @@
                     :sort-desc.sync="sortDesc"
                     :items="list"
                   >
+                    <template #cell(actions)="row">
+                      <b-button
+                        size="sm"
+                        @click="remove(row.item, row.index, $event.target)"
+                        class="mr-1 removeBtn"
+                        variant="danger"
+                        pill
+                        title="Remove"
+                        v-b-tooltip.hover
+                      >
+                        <font-awesome-icon icon="times" />
+                      </b-button>
+                    </template>
                   </b-table>
                   <b-row class="pagination-bottom">
                     <b-col>
@@ -196,155 +357,6 @@
         </b-row>
       </div>
     </b-modal>
-
-    <b-card class="card-table">
-      <b-form-group>
-        <b-row>
-          <b-col cols="">
-            <b-button v-b-modal.productmodal variant="primary" size="sm">
-              <font-awesome-icon icon="plus-circle" /> Add Product</b-button
-            >
-          </b-col>
-          <!-- {{ categoryState[0] }} -->
-          <b-col cols="4">
-            <b-input-group size="sm">
-              <b-form-select
-                id="select"
-                v-model="selected"
-                :options="categoryState[0]"
-                size="sm"
-                value-field="name"
-                text-field="name"
-              ></b-form-select>
-              <b-input-group-append>
-                <b-button disabled>Filter Category</b-button>
-              </b-input-group-append>
-            </b-input-group>
-          </b-col>
-          <b-col cols="6">
-            <b-input-group size="sm">
-              <b-form-input
-                id="filter-product"
-                v-model="filter"
-                type="search"
-                placeholder="Type to Search"
-              ></b-form-input>
-              <b-input-group-append>
-                <b-button :disabled="!filter" @click="filter = ''"
-                  >Clear</b-button
-                >
-              </b-input-group-append>
-            </b-input-group>
-          </b-col>
-        </b-row>
-      </b-form-group>
-      <b-table
-        head-variant="light"
-        bordered
-        hover
-        id="supplier-table"
-        :per-page="perPage"
-        :current-page="currentPage"
-        :items="productsState"
-        :filter="filter"
-        @filtered="onFiltered"
-        show-empty
-        :fields="fields"
-        :sort-by.sync="sortBy"
-        :sort-desc.sync="sortDesc"
-        responsive="sm"
-      >
-        <template #cell(actions)="row">
-          <b-button
-            size="sm"
-            @click="info(row.item, row.index, $event.target)"
-            class="mr-1"
-            variant="primary"
-            pill
-            title="View Product Details"
-            v-b-tooltip.hover
-          >
-            <font-awesome-icon icon="archive" />
-          </b-button>
-        </template>
-        <template v-slot:cell(status)="row">
-          <div class="badge-font-size" v-if="row.item.status">
-            <b-badge pill variant="badge">Active</b-badge>
-          </div>
-          <div class="badge-font-size" v-else>
-            <b-badge pill variant="gray">Inactive</b-badge>
-          </div>
-        </template>
-        <template v-slot:cell(img)="row">
-          <b-img
-            class="prod-img"
-            :src="`http://172.16.4.182:3007/api/images/` + row.item.img"
-            rounded
-            alt="Rounded image"
-          ></b-img>
-        </template>
-        <template v-slot:cell(date_received)="row">{{
-          formatDate(row.item)
-        }}</template>
-        <template v-slot:cell(cost_per_unit)="row">{{
-          formatAmount(row.item.cost_per_unit)
-        }}</template>
-        <template v-slot:cell(price)="row">{{
-          formatAmount(row.item.price)
-        }}</template>
-      </b-table>
-
-      <b-modal
-        :header-bg-variant="modalheadbg"
-        :id="productModal.id"
-        :title="productModal.title"
-        ok-only
-        @hide="resetInfoModal"
-      >
-        <pre>{{ productModal.content }}</pre>
-      </b-modal>
-      <div class="mt-3">
-        <b-pagination
-          v-model="currentPage"
-          pills
-          :total-rows="rows"
-          :per-page="perPage"
-          aria-controls="supplier-table"
-          align="center"
-          size="sm"
-          limit="3"
-        ></b-pagination>
-      </div>
-    </b-card>
-    <!-- <Product /> -->
-
-    <!-- </b-form-row> -->
-    <b-modal id="confirmproduct" centered hide-footer>
-      <template #modal-title> Confirm submit</template>
-
-      <template #default="{ hide }">
-        <b-button
-          type="submit"
-          class="mt-3"
-          block
-          @click="
-            $bvModal.hide('confirmproduct'), addpendingProduct(), addtoproduct()
-          "
-          >Confirm</b-button
-        >
-
-        <b-button @click="hide()" block variant="danger"> Cancel</b-button>
-      </template>
-    </b-modal>
-    <b-alert
-      class="alert"
-      :show="alert.showAlert"
-      dismissible
-      :variant="alert.variant"
-      @dismissed="alert.showAlert = null"
-    >
-      {{ alert.message }}
-    </b-alert>
   </div>
 </template>
 
@@ -383,8 +395,8 @@ export default {
         { key: "details", sortable: true, label: "Details" },
         { key: "cost_per_unit", sortable: true, label: "Unit Cost" },
         { key: "price", label: "Price" },
-        { key: "stocks", sortable: true, label: "Quantity" },
-        { key: "date_received", sortable: true, label: "Date Received" },
+        { key: "quantity", sortable: true, label: "Quantity" },
+        // { key: "date_received", sortable: true, label: "Date Received" },
         { key: "actions", sortable: false }
       ],
       fields: [
@@ -542,6 +554,9 @@ export default {
       // console.log("Done Upload");
     },
     // },
+    remove(item, index) {
+      this.allDetails.splice(index, 1);
+    },
     async addtoproduct() {
       await this.$store
         .dispatch("addProduct", {
@@ -606,22 +621,63 @@ export default {
     },
     pushProducts() {
       console.log("fileName", this.category);
-      this.allDetails.push({
-        // delivery_code: this.delivery_code,
-        barcode: this.product_barcode,
-        product_name: this.product_name,
-        details: this.product_description,
-        category: this.category,
-        cost: this.cost_unit,
-        price: this.price,
-        quantity: this.quantity,
-        date_expire: this.Expiry_date,
-        date_received: this.delivery.date_received,
-        img: this.fileName.name
-      });
-      this.imageArr.push(this.fileName);
-      console.log("this.allDetails", this.imageArr);
-      this.clear();
+      if (this.product_barcode == "") {
+        let msg = "Please enter product barcode";
+        this.toast("b-toaster-bottom-right", true, "danger", msg, "Error");
+      }
+      if (this.product_name == "") {
+        let msg = "Please enter product name";
+        this.toast("b-toaster-bottom-right", true, "danger", msg, "Error");
+      }
+      if (this.product_description == "") {
+        let msg = "Please enter product description";
+        this.toast("b-toaster-bottom-right", true, "danger", msg, "Error");
+      }
+      if (this.category == "") {
+        let msg = "Please select category";
+        this.toast("b-toaster-bottom-right", true, "danger", msg, "Error");
+      }
+      if (this.cost_unit == "") {
+        let msg = "Please enter cost per unit";
+        this.toast("b-toaster-bottom-right", true, "danger", msg, "Error");
+      }
+      if (this.price == "") {
+        let msg = "Please enter price";
+        this.toast("b-toaster-bottom-right", true, "danger", msg, "Error");
+      }
+      if (this.quantity == "") {
+        let msg = "Please enter quantity";
+        this.toast("b-toaster-bottom-right", true, "danger", msg, "Error");
+      }
+      if (this.date_expire == "") {
+        let msg = "Please enter expiration date";
+        this.toast("b-toaster-bottom-right", true, "danger", msg, "Error");
+      }
+      if (this.date_received == "") {
+        let msg = "Please enter delivery date";
+        this.toast("b-toaster-bottom-right", true, "danger", msg, "Error");
+      }
+      if (this.fileName == null) {
+        let msg = "Please upload product image";
+        this.toast("b-toaster-bottom-right", true, "danger", msg, "Error");
+      } else {
+        this.allDetails.push({
+          // delivery_code: this.delivery_code,
+          barcode: this.product_barcode,
+          product_name: this.product_name,
+          details: this.product_description,
+          category: this.category,
+          cost_per_unit: this.cost_unit,
+          price: this.price,
+          quantity: this.quantity,
+          date_expire: this.Expiry_date,
+          date_received: this.delivery.date_received,
+          img: this.fileName.name
+        });
+        this.imageArr.push(this.fileName);
+        console.log("this.allDetails", this.imageArr);
+        this.clear();
+      }
     },
 
     clear() {
@@ -634,6 +690,7 @@ export default {
       this.price = "";
       this.quantity = "";
       this.Expiry_date = "";
+      this.fileName = null;
     },
     addpendingProduct() {
       this.products.push({
