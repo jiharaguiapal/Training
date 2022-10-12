@@ -37,29 +37,68 @@
             <template #cell(actions)="row">
               <b-button
                 size="sm"
-                @click="info(row.customer, row.index, $event.target)"
+                @click="getOrderDetails(row.item, row.index, $event.target)"
                 class="mr-1"
-                variant="primary"
+                variant="secondary"
                 pill
-                title="View Customer Details"
+                title="View Order Details"
                 v-b-tooltip.hover
               >
-                <font-awesome-icon icon="edit" />
+                <font-awesome-icon icon="archive" />
               </b-button>
             </template>
             <template v-slot:cell(created_at)="row">{{
               formatDate(row.item)
             }}</template></b-table
           >
+
           <b-modal
+            size="lg"
             :header-bg-variant="modalheadbg"
             :id="customerModal.id"
             :title="customerModal.title"
             ok-only
-            @hide="resetInfoModal"
+            @hide="resetcustomerModal"
+            scrollable
           >
-            <pre>{{ customerModal.content }}</pre>
+            <p><b>Order Details</b></p>
+            <p>
+              Customer Name: <b>{{ customerName }} </b>
+            </p>
+            <p>
+              Total Number of Transactions:
+              <b>{{ customerModal.content.length }} </b>
+            </p>
+            <b-list-group
+              class="mb-2"
+              v-for="details in customerModal.content"
+              :key="details"
+            >
+              <b-row no-gutters>
+                <b-col cols="4">
+                  <b-list-group-item
+                    variant="primary"
+                    v-for="name in detailName"
+                    :key="name"
+                  >
+                    <b>
+                      {{ name }}
+                    </b>
+                  </b-list-group-item>
+                </b-col>
+                <b-col>
+                  <b-list-group-item
+                    variant="light"
+                    v-for="items in details"
+                    :key="items"
+                  >
+                    {{ formatItems(items) }}
+                  </b-list-group-item>
+                </b-col>
+              </b-row>
+            </b-list-group>
           </b-modal>
+          <!-- </p> -->
 
           <div class="mt-3">
             <b-pagination
@@ -90,7 +129,7 @@ export default {
       customer_number: "",
       options: [],
       // rows: 100,
-      perPage: 8,
+      perPage: 100,
       currentPage: 1,
       item: [],
       filter: null,
@@ -112,14 +151,27 @@ export default {
         { key: "username", sortable: true, label: "Username" },
         { key: "address", sortable: false, label: "Address" },
         // { key: "contact", sortable: true, label: "Contact Number" },
-        { key: "created_at", sortable: true, label: "Date Created" }
+        { key: "created_at", sortable: true, label: "Date Created" },
         // { key: "order_id", sortable: true, label: "Order ID" }
         // { key: "order_id", sortable: true, label: "S" }
-        // { key: "Actions", sortable: false, label: "Actions" }
+        { key: "Actions", sortable: false, label: "Actions" }
       ],
       resetInfo: "",
       modalheadbg: "",
-      onFilteredData: []
+      onFilteredData: [],
+      customerName: "",
+      detailName: [
+        "Order ID: ",
+        "Customer ID: ",
+        "Price: ",
+        "Address:",
+        "Approved at: ",
+        "Shipping Type: ",
+        "Approved by: ",
+        "Created at: ",
+        "Order Status: ",
+        "Status: "
+      ]
     };
   },
 
@@ -130,6 +182,13 @@ export default {
   },
   created() {},
   methods: {
+    formatItems(item) {
+      if (item == null) {
+        console.log("null:" + item);
+        return "null";
+      }
+      return item;
+    },
     formatDate(date) {
       return moment(date).format("DD MMMM, YYYY");
     },
@@ -144,9 +203,27 @@ export default {
       this.totalRows = filteredItems.length;
       this.currentPage = 1;
     },
-    resetInfoModal() {
+    resetcustomerModal() {
       this.customerModal.title = "";
       this.customerModal.content = "";
+    },
+    async getOrderDetails(item, index, button) {
+      console.log("item", item);
+      this.customerModal.title = "Transactions by " + item.first_name;
+      this.customerName = item.first_name + " " + item.last_name;
+      this.totalPaid = item.total_price;
+      this.customerPaid = item.customer_name;
+      this.paidDate = moment(item.created_at).format("LL");
+      await this.$store
+        .dispatch("loadSalesDetails", {
+          id: item.id,
+          SecretKey: localStorage.SecretKey
+        })
+        .then(res => {
+          this.customerModal.content = res;
+
+          this.$root.$emit("bv::show::modal", this.customerModal.id, button);
+        });
     }
   },
   filters: {

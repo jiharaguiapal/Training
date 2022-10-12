@@ -55,7 +55,7 @@
             }}</template>
           </b-table>
           <div class="mt-3">
-            {{ rows }} {{ perPage }}
+            <!-- {{ rows }} {{ perPage }} -->
             <b-pagination
               size="sm"
               v-model="currentPage"
@@ -162,15 +162,15 @@ export default {
       customerPaid: "",
       paidDate: "",
       detailName: [
-        "Order Number:",
+        "Order Detail ID:",
         "Receipt Number: ",
         "Barcode: ",
         "Product Name: ",
         "Quantity: ",
+        "Price: ",
         "Order Date: ",
         "Status: ",
-        "Total Price: ",
-        "Price: "
+        "Total Price: "
       ]
     };
   },
@@ -207,7 +207,7 @@ export default {
       this.customerPaid = item.customer_name;
       this.paidDate = moment(item.created_at).format("LL");
       await this.$store
-        .dispatch("loadSalesDetails", {
+        .dispatch("loadSalesDetailsByOrder", {
           id: item.order_id,
           SecretKey: localStorage.SecretKey
         })

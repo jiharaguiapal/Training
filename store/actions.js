@@ -302,6 +302,23 @@ export default {
       }
     })
       .then(res => {
+        console.log("loadSalesDetails", res);
+        commit("SET_SALES", res.data);
+        return res.data;
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  },
+  async loadSalesDetailsByOrder({ commit }, { SecretKey, id }) {
+    return await axios({
+      method: "GET",
+      url: `${this.$axios.defaults.baseURL}/order/details/${id}`,
+      headers: {
+        Authorization: `Bearer ${SecretKey}`
+      }
+    })
+      .then(res => {
         commit("SET_SALES", res.data);
         return res.data;
       })

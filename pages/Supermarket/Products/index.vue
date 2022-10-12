@@ -4,78 +4,88 @@
     <b-row no-gutters> </b-row>
     <b-card class="prod-card" no-body>
       <!-- <b-container fluid class="m-2, "> -->
-      <b-row no-gutters>
-        <div class="center-title">
-          <p class="title-categ"><b> Products</b></p>
-          <!-- <p>This is a test</p> -->
-        </div>
-      </b-row>
-
-      <b-row no-gutters>
-        <b-card
-          v-for="product in productsState"
-          :key="product.product_id"
-          class="product-card"
-          no-body
-        >
-          <b-img
-            class="img-item"
-            :src="api + '/images/' + product.img"
-            fluid
-            alt="Responsive image"
-          ></b-img>
-
-          <div class="product-name">
-            <h5>{{ product.product_name }}</h5>
-            <p>{{ formatAmount(product.price) }}</p>
-            <p>{{ "Stock: " + product.quantity }}</p>
-
-            <div class="quantity-card">
-              <b-row no-gutters class="item-quantity">
-                <b-col>
-                  <b-button
-                    @click="minusBtn(product.product_id)"
-                    variant="plus"
-                    class="plus-btn"
-                  >
-                    <font-awesome-icon icon="minus" />
-                  </b-button>
-                </b-col>
-                <b-col
-                  ><b-input
-                    disabled
-                    :ref="'input' + product.product_id"
-                    :id="'input' + product.product_id"
-                    class="input-quantity"
-                    placeholder="0"
-                    type="number"
-                    value="0"
-                  ></b-input
-                ></b-col>
-                <b-col>
-                  <b-button
-                    @click="plusBtn(product.product_id)"
-                    variant="plus"
-                    class="plus-btn"
-                  >
-                    <font-awesome-icon icon="plus" />
-                  </b-button>
-                </b-col>
-              </b-row>
-            </div>
-            <b-button
-              variant="outline-primary"
-              @click="addToCart(product.product_id)"
-              class="add-cart-btn"
+      <b-row> </b-row>
+      <b-row>
+        <b-col cols="2">
+          <b-card header="SHOP BY" class="filter-side-card">
+            <b-form-checkbox>Accessories</b-form-checkbox>
+            <b-form-checkbox>Components and Power</b-form-checkbox>
+            <b-form-checkbox>Data Storage</b-form-checkbox>
+            <b-form-checkbox>Displays and Media</b-form-checkbox>
+            <b-form-checkbox>Laptops and Desktops</b-form-checkbox>
+          </b-card>
+        </b-col>
+        <b-col>
+          <b-row cols>
+            <b-input></b-input>
+          </b-row>
+          <b-row no-gutters>
+            <b-card
+              v-for="product in productsState"
+              :key="product.product_id"
+              class="product-card"
+              no-body
             >
-              Add to cart
-            </b-button>
-          </div>
+              <b-img
+                class="img-item"
+                :src="api + '/images/' + product.img"
+                fluid
+                alt="Responsive image"
+              ></b-img>
 
-          <!-- <template #footer>
+              <div class="product-name">
+                <h5>{{ product.product_name }}</h5>
+                <p>{{ formatAmount(product.price) }}</p>
+                <p>{{ "Stock: " + product.quantity }}</p>
+
+                <div class="quantity-card">
+                  <b-row no-gutters class="item-quantity">
+                    <b-col>
+                      <b-button
+                        @click="minusBtn(product.product_id)"
+                        variant="plus"
+                        class="plus-btn"
+                      >
+                        <font-awesome-icon icon="minus" />
+                      </b-button>
+                    </b-col>
+                    <b-col
+                      ><b-input
+                        disabled
+                        :ref="'input' + product.product_id"
+                        :id="'input' + product.product_id"
+                        class="input-quantity"
+                        placeholder="0"
+                        type="number"
+                        value="0"
+                      ></b-input
+                    ></b-col>
+                    <b-col>
+                      <b-button
+                        @click="plusBtn(product.product_id)"
+                        variant="plus"
+                        class="plus-btn"
+                      >
+                        <font-awesome-icon icon="plus" />
+                      </b-button>
+                    </b-col>
+                  </b-row>
+                </div>
+                <b-button
+                  variant="outline-primary"
+                  @click="addToCart(product.product_id)"
+                  class="add-cart-btn"
+                >
+                  Add to cart
+                </b-button>
+              </div>
+
+              <!-- <template #footer>
                   <em>16 items available</em>
                 </template> -->
-        </b-card>
+            </b-card>
+          </b-row>
+        </b-col>
       </b-row>
       <!-- <div class="line-break"></div> -->
       <b-row no-gutters>
