@@ -33,6 +33,22 @@ export default {
         console.log(err);
       });
   },
+  async getUserDetails({ commit }, { SecretKey, id }) {
+    return await axios({
+      method: "GET",
+      url: `${this.$axios.defaults.baseURL}/user/${id}`,
+      headers: {
+        Authorization: `Bearer ${SecretKey}`
+      }
+    })
+      .then(res => {
+        // commit("SET_USER", res.data);
+        return res.data;
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  },
   async editUserDetail(
     { commit },
     {
@@ -49,7 +65,7 @@ export default {
   ) {
     return await axios({
       method: "PATCH",
-      url: `${this.$axios.defaults.baseURL}/users/${userDetails.id}`,
+      url: `${this.$axios.defaults.baseURL}/user/${userDetails.id}`,
       headers: {
         Authorization: `Bearer ${SecretKey}`
       },
@@ -216,6 +232,30 @@ export default {
     return await axios({
       method: "POST",
       url: `${this.$axios.defaults.baseURL}/supplier`,
+      headers: {
+        Authorization: `Bearer ${SecretKey}`
+      },
+
+      data: {
+        supplier_name,
+        contact,
+        address
+      }
+    })
+      .then(res => {
+        commit("ADD_SUPPLIER", res.data);
+
+        return res.data;
+      })
+      .catch(err => err);
+  },
+  async editSupplier(
+    { commit },
+    { supplier_name, contact, address, SecretKey, id }
+  ) {
+    return await axios({
+      method: "PUT",
+      url: `${this.$axios.defaults.baseURL}/supplier/${id}`,
       headers: {
         Authorization: `Bearer ${SecretKey}`
       },

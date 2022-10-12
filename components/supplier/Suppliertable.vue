@@ -78,6 +78,21 @@
           <b-button @click="hide()" block variant="danger"> Cancel</b-button>
         </template>
       </b-modal>
+      <b-modal id="confirmEdit" centered hide-footer>
+        <template #modal-title> Confirm submit</template>
+
+        <template #default="{ hide }">
+          <b-button
+            type="submit"
+            class="mt-3"
+            block
+            @click="$bvModal.hide('confirmEdit'), editSupplier()"
+            >Confirm</b-button
+          >
+
+          <b-button @click="hide()" block variant="danger"> Cancel</b-button>
+        </template>
+      </b-modal>
       <b-col cols="">
         <b-card class="card-table" id="suppliertable">
           <!-- card for whole table -->
@@ -134,7 +149,7 @@
             <template #cell(actions)="row">
               <b-button
                 size="sm"
-                @click="$bvModal.show('editsupplier')"
+                @click="openEditModal(row.item)"
                 class="mr-1"
                 variant="edit"
                 pill
@@ -188,7 +203,7 @@
               </b-col>
               <b-col>
                 <b-list-group-item
-                  variant="secondary"
+                  variant="light"
                   v-for="items in infoModal.content"
                   :key="items"
                 >
@@ -198,7 +213,12 @@
             </b-row>
             <!-- </b-list-group> -->
           </b-modal>
-          <b-modal :header-bg-variant="modalheadbg" id="editsupplier">
+          <b-modal
+            title="Edit Supplier"
+            :header-bg-variant="modalheadbg"
+            id="editsupplier"
+            hide-footer
+          >
             <div class="form-group">
               <!-- second input field -->
               <label for="companyname">Company Name: </label>
@@ -206,7 +226,7 @@
                 type="text"
                 placeholder="Enter Company or Supplier name"
                 id=" company_name"
-                v-model.trim="supplier.companyname"
+                v-model="supplier.companyname"
                 required
               />
             </div>
@@ -234,6 +254,17 @@
                 required
               />
             </div>
+            <br />
+            <b-button
+              :class="$v.form.$invalid ? 'supplier-disabled' : 'supplier'"
+              @click="$bvModal.show('confirmEdit')"
+              variant="primary"
+            >
+              Submit</b-button
+            >
+            <b-button type="reset" variant="danger" class="reset"
+              >Reset</b-button
+            >
           </b-modal>
 
           <!-- <Pagination /> -->
@@ -334,6 +365,12 @@ export default {
       boxOne: "",
       supplier: [],
       suppliers: [],
+      supplier: {
+        companyname: "",
+        contact: "",
+        address: "",
+        id: null
+      },
       dismissSecs: 5,
       dismissCountDown: 0,
       counter: 0,
@@ -380,6 +417,46 @@ export default {
         appendToast: append
       });
     },
+    openEditModal(item) {
+      console.log("edit sup", item);
+      this.supplier.companyname = item.supplier_name;
+      this.supplier.address = item.address;
+      this.supplier.contact = item.contact;
+      this.supplier.id = item.supplier_id;
+      setTimeout(() => {
+        this.$root.$emit("bv::show::modal", "editsupplier", "#editsupplier");
+      }, 500);
+    },
+    editSupplier() {
+      this.$store
+        .dispatch("editSupplier", {
+          supplier_name: this.supplier.companyname,
+          contact: this.supplier.contact,
+          address: this.supplier.address,
+          id: this.supplier.id,
+          SecretKey: localStorage.SecretKey
+        })
+
+        .then(res => {
+          // this.showAlert(res.message, "success");
+          let msg = res.message;
+          this.toast("b-toaster-bottom-right", true, "success", msg, "Success");
+          this.$store.dispatch("loadSuppliers", {
+            SecretKey: localStorage.SecretKey
+          });
+          this.$root.$emit("bv::hide::modal", "editsupplier", "#editsupplier");
+          this.addToLogs(
+            `Edited details of supplier ${this.supplier.companyname}`,
+            localStorage.id
+          );
+        })
+        .catch(err => {
+          console.log(err);
+          // this.showAlert(err, "danger");
+          let errMsg = err;
+          this.toast("b-toaster-bottom-right", true, "danger", errMsg, "Error");
+        });
+    },
     addtosupplier() {
       this.$store
         .dispatch("addSupplier", {
@@ -393,7 +470,6 @@ export default {
           // this.showAlert(res.message, "success");
           let msg = res.message;
           this.toast("b-toaster-bottom-right", true, "success", msg, "Success");
-          this.supplier = [];
           this.$store.dispatch("loadSuppliers", {
             SecretKey: localStorage.SecretKey
           });
@@ -402,12 +478,36 @@ export default {
             "suppliermodal",
             "#suppliermodal"
           );
+          this.addToLogs(
+            `Added Supplier ${this.supplier.companyname}`,
+            localStorage.id
+          );
+          this.supplier = [];
         })
         .catch(err => {
           console.log(err);
           // this.showAlert(err, "danger");
           let errMsg = err;
           this.toast("b-toaster-bottom-right", true, "danger", errMsg, "Error");
+        });
+    },
+    addToLogs(action, id) {
+      console.log("action, id", action, id);
+      this.$store
+        .dispatch("addLog", {
+          action_made: action,
+          user_id: id,
+          SecretKey: localStorage.SecretKey
+        })
+
+        .then(res => {
+          console.log("res log", res);
+          this.$store.dispatch("getLog", {
+            SecretKey: localStorage.SecretKey
+          });
+        })
+        .catch(err => {
+          console.log("err log", err);
         });
     },
 

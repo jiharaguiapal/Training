@@ -222,12 +222,12 @@
           </b-modal>
           <b-modal
             :header-bg-variant="modalheadbg"
-            :id="userModal.id"
-            :title="userModal.title"
+            :id="categoryModal.id"
+            :title="categoryModal.title"
             ok-only
             @hide="resetInfoModal"
           >
-            <pre>{{ userModal.content }}</pre>
+            <pre>{{ categoryModal.content }}</pre>
           </b-modal>
 
           <div class="mt-3">
@@ -291,8 +291,8 @@ export default {
 
       user: [],
       users: [],
-      userModal: {
-        id: "user-modal",
+      categoryModal: {
+        id: "category-modal",
         title: "",
         content: ""
       },
@@ -387,8 +387,8 @@ export default {
     },
 
     info(user, index, button) {
-      this.userModal.title = `${user.username}`;
-      this.userModal.content = JSON.stringify(user, null, 2);
+      this.categoryModal.title = `${user.username}`;
+      this.categoryModal.content = JSON.stringify(user, null, 2);
       this.editUser.id = user.id;
       this.editUser.username = user.username;
       this.editUser.password = user.password;
@@ -426,8 +426,8 @@ export default {
       this.currentPage = 1;
     },
     resetInfoModal() {
-      this.userModal.title = "";
-      this.userModal.content = "";
+      this.categoryModal.title = "";
+      this.categoryModal.content = "";
     }
   },
   filters: {

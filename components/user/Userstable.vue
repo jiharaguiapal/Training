@@ -112,6 +112,21 @@
           <b-button @click="hide()" block variant="danger"> Cancel</b-button>
         </template>
       </b-modal>
+      <b-modal id="confirm-user-edit" centered hide-footer>
+        <template #modal-title> Confirm submit</template>
+
+        <template #default="{ hide }">
+          <b-button
+            type="submit"
+            class="mt-3"
+            block
+            @click="$bvModal.hide('confirm-user-edit'), edit()"
+            >Confirm</b-button
+          >
+
+          <b-button @click="hide()" block variant="danger"> Cancel</b-button>
+        </template>
+      </b-modal>
       <b-col>
         <b-card class="card-table">
           <b-row>
@@ -173,6 +188,17 @@
               >
                 <font-awesome-icon icon="edit" />
               </b-button>
+              <b-button
+                size="sm"
+                @click="getUserDetails(row.item, row.index)"
+                class="mr-1"
+                variant="secondary"
+                pill
+                title="View User Details"
+                v-b-tooltip.hover
+              >
+                <font-awesome-icon icon="archive" />
+              </b-button>
             </template>
             <template v-slot:cell(status)="row">
               <div class="badge-font-size" v-if="row.item.status">
@@ -190,6 +216,7 @@
             :header-bg-variant="modalheadbg"
             id="editUserModal"
             title="Edit User"
+            hide-footer
           >
             <div class="form-group">
               <!-- second input field -->
@@ -264,7 +291,7 @@
 
             <div class="form-group">
               <!-- fourth input field -->
-              <label class="" for="">Status: </label>
+              <label class="mt-3" for="">Status: </label>
               <b-form-select size="sm" v-model="editUser.status" class="input">
                 <b-form-select-option disabled :value="null"
                   >Please select an option</b-form-select-option
@@ -277,24 +304,59 @@
                 >
               </b-form-select>
             </div>
-            <template #modal-footer="{ ok, cancel, }">
-              <!-- Emulate built in modal footer ok and cancel button actions -->
+            <br />
+            <b-button
+              @click="$bvModal.show('confirm-user-edit')"
+              variant="primary"
+            >
+              Submit</b-button
+            >
+            <b-button type="reset" variant="danger" class="reset"
+              >Reset</b-button
+            >
+            <!-- <template #modal-footer="{ ok, cancel, }">
               <b-button size="sm" variant="danger" @click="cancel()">
                 Cancel
               </b-button>
               <b-button size="sm" variant="primary" @click="edit()">
                 OK
               </b-button>
-            </template>
+            </template> -->
           </b-modal>
           <b-modal
+            size="lg"
             :header-bg-variant="modalheadbg"
             :id="userModal.id"
             :title="userModal.title"
             ok-only
             @hide="resetInfoModal"
           >
-            <pre>{{ userModal.content }}</pre>
+            <!-- <p>Supplier Name: <b>{{}} </b></p>
+            <p>Delivery ID: <b>{{}} </b></p>
+            <p>Delivery Date: <b>{{}} </b></p> -->
+
+            <b-row no-gutters>
+              <b-col cols="4">
+                <b-list-group-item
+                  variant="primary"
+                  v-for="name in detailName"
+                  :key="name"
+                >
+                  <b>
+                    {{ name }}
+                  </b>
+                </b-list-group-item>
+              </b-col>
+              <b-col>
+                <b-list-group-item
+                  variant="light"
+                  v-for="items in userModal.content"
+                  :key="items"
+                >
+                  {{ formatItem(items) }}
+                </b-list-group-item>
+              </b-col>
+            </b-row>
           </b-modal>
 
           <div class="mt-3">
@@ -389,7 +451,19 @@ export default {
         role: "",
         status: "",
         address: ""
-      }
+      },
+      detailName: [
+        "User ID: ",
+        "Username: ",
+        "Password:",
+        "Status: ",
+        "Date Created: ",
+        "Date Updated: ",
+        "First Name: ",
+        "Last Name: ",
+        "Role: ",
+        "Address: "
+      ]
     };
   },
 
@@ -400,6 +474,16 @@ export default {
   },
   created() {},
   methods: {
+    formatItem(item) {
+      console.log(item);
+      if (item == null) {
+        return "null";
+      }
+      if (item instanceof Date) {
+        return formatDate(item);
+      }
+      return item;
+    },
     toast(toaster, append = false, variant, message, title) {
       this.counter++;
       this.$bvToast.toast(message, {
@@ -447,6 +531,25 @@ export default {
           // this.showAlert(err, "danger");
         });
     },
+    async getUserDetails(item, index, button) {
+      console.log("item", item);
+      this.userModal.title = "User Details";
+      // this.customerName = item.first_name + " " + item.last_name;
+      // this.totalPaid = item.total_price;
+      // this.customerPaid = item.customer_name;
+      // this.paidDate = moment(item.created_at).format("LL");
+      await this.$store
+        .dispatch("getUserDetails", {
+          id: item.id,
+          userDetails: this.editUser,
+          SecretKey: localStorage.SecretKey
+        })
+        .then(res => {
+          this.userModal.content = res;
+
+          this.$root.$emit("bv::show::modal", this.userModal.id, button);
+        });
+    },
     showAlert(message, variant) {
       this.dismissCountDown = this.dismissSecs;
       this.alert = {
@@ -469,6 +572,7 @@ export default {
       this.editUser.status = user.status;
       this.editUser.last_name = user.last_name;
       this.editUser.first_name = user.first_name;
+      this.editUser.address = user.address;
       this.$root.$emit("bv::show::modal", "editUserModal", "#editUser");
     },
     async edit() {
@@ -529,5 +633,8 @@ export default {
 }
 .reset {
   float: right;
+}
+p {
+  margin: 0;
 }
 </style>
