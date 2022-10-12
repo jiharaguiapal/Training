@@ -514,7 +514,25 @@ export default {
       }
     })
       .then(res => {
-        commit("SET_CATEGORY", res.data);
+        console.log("log", res);
+        commit("SET_LOG", res.data);
+        return res.data;
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  },
+  async loadLogsDetails({ commit }, { SecretKey, id }) {
+    return await axios({
+      method: "GET",
+      url: `${this.$axios.defaults.baseURL}/logs/user/${id}`,
+      headers: {
+        Authorization: `Bearer ${SecretKey}`
+      }
+    })
+      .then(res => {
+        console.log("loadSalesDetails", res);
+        // commit("SET_DELIVERY", res.data);
         return res.data;
       })
       .catch(err => {

@@ -24,7 +24,7 @@
             head-variant="light"
             bordered
             hover
-            :items="customersState"
+            :items="logState[0]"
             :per-page="perPage"
             :current-page="currentPage"
             :filter="filter"
@@ -34,10 +34,10 @@
             :sort-by.sync="sortBy"
             :sort-desc.sync="sortDesc"
           >
-            <template #cell(actions)="row">
+            <template #cell(action)="row">
               <b-button
                 size="sm"
-                @click="getOrderDetails(row.item, row.index, $event.target)"
+                @click="getLogDetails(row.item, row.index)"
                 class="mr-1"
                 variant="secondary"
                 pill
@@ -48,30 +48,30 @@
               </b-button>
             </template>
             <template v-slot:cell(created_at)="row">{{
-              formatDate(row.item)
+              formatDate(row.item.created_at)
             }}</template></b-table
           >
 
           <b-modal
             size="lg"
             :header-bg-variant="modalheadbg"
-            :id="customerModal.id"
-            :title="customerModal.title"
+            :id="logModal.id"
+            :title="logModal.title"
             ok-only
             @hide="resetcustomerModal"
             scrollable
           >
-            <p><b>Order Details</b></p>
+            <!-- <p><b>Order Details</b></p>
             <p>
               Customer Name: <b>{{ customerName }} </b>
             </p>
             <p>
               Total Number of Transactions:
-              <b>{{ customerModal.content.length }} </b>
-            </p>
+              <b>{{ logModal.content.length }} </b>
+            </p> -->
             <b-list-group
               class="mb-2"
-              v-for="details in customerModal.content"
+              v-for="details in logModal.content"
               :key="details"
             >
               <b-row no-gutters>
@@ -138,8 +138,8 @@ export default {
       sortDesc: false,
       customer: [],
       customers: [],
-      customerModal: {
-        id: "customer-modal",
+      logModal: {
+        id: "logModal",
         title: "",
         content: ""
       },
@@ -147,36 +147,35 @@ export default {
       product: [],
       order: [],
       fields: [
-        { key: "id", sortable: true, label: "Customer ID" },
-        { key: "username", sortable: true, label: "Username" },
-        { key: "address", sortable: false, label: "Address" },
+        { key: "log_id", sortable: true, label: "Log ID" },
+        { key: "action_made", sortable: true, label: "Action Made" },
+        { key: "created_at", sortable: false, label: "Date" },
         // { key: "contact", sortable: true, label: "Contact Number" },
-        { key: "created_at", sortable: true, label: "Date Created" },
+        { key: "username", sortable: true, label: "Username" },
         // { key: "order_id", sortable: true, label: "Order ID" }
-        // { key: "order_id", sortable: true, label: "S" }
-        { key: "Actions", sortable: false, label: "Actions" }
+        { key: "role", sortable: false, label: "Role" },
+        { key: "action", sortable: true, label: "Actions" }
       ],
       resetInfo: "",
       modalheadbg: "",
       onFilteredData: [],
       customerName: "",
       detailName: [
-        "Order ID: ",
-        "Customer ID: ",
-        "Price: ",
-        "Address:",
-        "Approved at: ",
-        "Shipping Type: ",
-        "Approved by: ",
-        "Created at: ",
-        "Order Status: ",
-        "Status: "
+        "Log ID: ",
+        "Action: ",
+        "User ID: ",
+        "Date Created: ",
+        "Status: ",
+        "First Name: ",
+        "Last Name ",
+        "Username: ",
+        "Role: "
       ]
     };
   },
 
   beforeCreate() {
-    this.$store.dispatch("loadCustomers", {
+    this.$store.dispatch("getLog", {
       SecretKey: localStorage.SecretKey
     });
   },
@@ -194,9 +193,9 @@ export default {
     },
 
     info(customer, index, button) {
-      this.customerModal.title = `${customer.product_name}`;
-      this.customerModal.content = JSON.stringify(customer, null, 2);
-      this.$root.$emit("bv::show::modal", this.customerModal.id, button);
+      this.logModal.title = `${customer.product_name}`;
+      this.logModal.content = JSON.stringify(customer, null, 2);
+      this.$root.$emit("bv::show::modal", this.logModal.id, button);
     },
     onFiltered(filteredItems) {
       // Trigger pagination to update the number of buttons/pages due to filtering
@@ -204,25 +203,25 @@ export default {
       this.currentPage = 1;
     },
     resetcustomerModal() {
-      this.customerModal.title = "";
-      this.customerModal.content = "";
+      this.logModal.title = "";
+      this.logModal.content = "";
     },
-    async getOrderDetails(item, index, button) {
+    async getLogDetails(item, index, button) {
       console.log("item", item);
-      this.customerModal.title = "Transactions by " + item.first_name;
-      this.customerName = item.first_name + " " + item.last_name;
-      this.totalPaid = item.total_price;
-      this.customerPaid = item.customer_name;
-      this.paidDate = moment(item.created_at).format("LL");
+      this.logModal.title = "Activity Log " + item.log_id;
+      // this.customerName = item.first_name + " " + item.last_name;
+      // this.totalPaid = item.total_price;
+      // this.customerPaid = item.customer_name;
+      // this.paidDate = moment(item.created_at).format("LL");
       await this.$store
-        .dispatch("loadSalesDetails", {
-          id: item.id,
+        .dispatch("loadLogsDetails", {
+          id: item.log_id,
           SecretKey: localStorage.SecretKey
         })
         .then(res => {
-          this.customerModal.content = res;
+          this.logModal.content = res;
 
-          this.$root.$emit("bv::show::modal", this.customerModal.id, button);
+          this.$root.$emit("bv::show::modal", this.logModal.id, button);
         });
     }
   },
@@ -236,10 +235,10 @@ export default {
   //
   computed: {
     rows() {
-      return this.customersState.length;
+      return this.logState.length;
     },
     ...mapGetters({
-      customersState: "allCustomers"
+      logState: "allLog"
     })
   }
 };
