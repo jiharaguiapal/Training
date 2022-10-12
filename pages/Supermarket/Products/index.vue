@@ -222,7 +222,7 @@ export default {
             });
 
             // this.showAlert(res.message, "success");
-            let msg = res.success;
+            let msg = res.message;
             this.toast(
               "b-toaster-bottom-right",
               true,

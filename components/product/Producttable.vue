@@ -423,7 +423,12 @@ export default {
         { key: "actions", sortable: false }
       ],
       fields: [
-        { key: "img", sortable: true, label: "Image" },
+        {
+          key: "img",
+          sortable: true,
+          label: "Image",
+          thStyle: { width: "10%" }
+        },
         { key: "barcode", sortable: true, label: "Barcode" },
         { key: "product_name", sortable: true, label: "Product Name" },
         // { key: "details", sortable: true, label: "Details" },
@@ -585,6 +590,25 @@ export default {
       // this.register(this.token);
       // console.log("Done Upload");
     },
+    addToLogs(action, id) {
+      console.log("action, id", action, id);
+      this.$store
+        .dispatch("addLog", {
+          action_made: action,
+          user_id: id,
+          SecretKey: localStorage.SecretKey
+        })
+
+        .then(res => {
+          console.log("res log", res);
+          this.$store.dispatch("getLog", {
+            SecretKey: localStorage.SecretKey
+          });
+        })
+        .catch(err => {
+          console.log("err log", err);
+        });
+    },
     // },
     remove(item, index) {
       this.allDetails.splice(index, 1);
@@ -609,18 +633,7 @@ export default {
               errMsg,
               "Warning"
             );
-          }
-          // if (res.response.status == 400) {
-          //   let errMsg = res.response.data.error;
-          //   this.toast(
-          //     "b-toaster-bottom-right",
-          //     true,
-          //     "danger",
-          //     errMsg,
-          //     "Error"
-          //   );
-          // }
-          else {
+          } else {
             this.$root.$emit(
               "bv::hide::modal",
               "productmodal",
@@ -632,7 +645,6 @@ export default {
             this.$store.dispatch("loadDeliveries", {
               SecretKey: localStorage.SecretKey
             });
-            // this.showAlert(res.message, "success");
             this.uploadImage();
             let msg = res.success;
             this.toast(
@@ -641,6 +653,10 @@ export default {
               "success",
               msg,
               "Success"
+            );
+            this.addToLogs(
+              `Added Product ${this.allDetails.product_name}`,
+              localStorage.id
             );
           }
         });

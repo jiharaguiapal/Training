@@ -312,6 +312,25 @@ export default {
 
       console.log(" this.selectedItems", this.selectedItems);
     },
+    addToLogs(action, id) {
+      console.log("action, id", action, id);
+      this.$store
+        .dispatch("addLog", {
+          action_made: action,
+          user_id: id,
+          SecretKey: localStorage.SecretKey
+        })
+
+        .then(res => {
+          console.log("res log", res);
+          this.$store.dispatch("getLog", {
+            SecretKey: localStorage.SecretKey
+          });
+        })
+        .catch(err => {
+          console.log("err log", err);
+        });
+    },
     getData() {
       let cartArr = {};
       cartArr = { ...this.cartState };
@@ -412,6 +431,10 @@ export default {
           this.$store.dispatch("getCart", {
             id: localStorage.id
           });
+          this.addToLogs(
+            `Customer ${localStorage.firstname} ${localStorage.lastname} Checkout`,
+            localStorage.id
+          );
           this.allDetails = [];
           this.subTotal = 0;
           this.totalAmount = 0;
