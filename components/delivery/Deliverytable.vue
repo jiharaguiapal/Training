@@ -64,7 +64,7 @@
           </b-button>
         </template>
         <template v-slot:cell(date_received)="row">{{
-          formatDate(row.item)
+          formatDate(row.item.date_received)
         }}</template>
       </b-table>
       <b-modal
@@ -75,6 +75,16 @@
         ok-only
         @hide="resetInfoModal"
       >
+        <p>
+          Supplier Name: <b>{{ supplierName }} </b>
+        </p>
+        <p>
+          Delivery ID: <b>{{ deliveryCode }} </b>
+        </p>
+        <p>
+          Delivery Date: <b>{{ deliveryDate }} </b>
+        </p>
+
         <b-row no-gutters>
           <b-col cols="4">
             <b-list-group-item
@@ -156,6 +166,7 @@ export default {
       //   "Date Created: ",
       //   "Status: "
       // ],
+
       perPage: 8,
       currentPage: 1,
       delivery: [],
@@ -219,7 +230,10 @@ export default {
         "Delivery ID: ",
         "Image: ",
         "Category: "
-      ]
+      ],
+      supplierName: "",
+      deliveryDate: "",
+      deliveryCode: ""
     };
   },
   beforeCreate() {
@@ -310,8 +324,11 @@ export default {
     },
     async getOrderDetails(item, index, button) {
       console.log("itemsdel", item);
-      this.deliveryModal.title =
-        "Order Details of Receipt No. " + item.delivery_id;
+      this.deliveryModal.title = "Delivery Details " + item.delivery_id;
+      this.supplierName = item.supplier_name;
+      this.deliveryDate = this.formatDate(item.date_received);
+      this.deliveryCode = item.delivery_id;
+
       // this.totalPaid = item.total_price;
       // this.customerPaid = item.customer_id;
       // this.paidDate = moment(item.created_at).format("LL");
@@ -369,5 +386,8 @@ export default {
   z-index: 10;
   width: 500px;
   float: right;
+}
+p {
+  margin: 0;
 }
 </style>
