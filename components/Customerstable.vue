@@ -184,7 +184,6 @@ export default {
   methods: {
     formatItems(item) {
       if (item == null) {
-        console.log("null:" + item);
         return "null";
       }
       return item;
@@ -220,6 +219,7 @@ export default {
           SecretKey: localStorage.SecretKey
         })
         .then(res => {
+          console.log("res custom", res);
           this.customerModal.content = res;
 
           this.$root.$emit("bv::show::modal", this.customerModal.id, button);

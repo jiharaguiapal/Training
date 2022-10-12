@@ -68,7 +68,7 @@
         }}</template>
       </b-table>
       <b-modal
-      scrollable
+        scrollable
         size="lg"
         :header-bg-variant="modalheadbg"
         :id="deliveryModal.id"
@@ -86,28 +86,34 @@
           Delivery Date: <b>{{ deliveryDate }} </b>
         </p>
 
-        <b-row no-gutters>
-          <b-col cols="4">
-            <b-list-group-item
-              variant="primary"
-              v-for="name in detailName"
-              :key="name"
-            >
-              <b>
-                {{ name }}
-              </b>
-            </b-list-group-item>
-          </b-col>
-          <b-col>
-            <b-list-group-item
-              variant="light"
-              v-for="items in deliveryModal.content[0]"
-              :key="items"
-            >
-              {{ formatItem(items) }}
-            </b-list-group-item>
-          </b-col>
-        </b-row>
+        <b-list-group
+          class="mb-2"
+          v-for="details in deliveryModal.content"
+          :key="details"
+        >
+          <b-row no-gutters>
+            <b-col cols="4">
+              <b-list-group-item
+                variant="primary"
+                v-for="name in detailName"
+                :key="name"
+              >
+                <b>
+                  {{ name }}
+                </b>
+              </b-list-group-item>
+            </b-col>
+            <b-col>
+              <b-list-group-item
+                variant="light"
+                v-for="items in details"
+                :key="items"
+              >
+                {{ formatItems(items) }}
+              </b-list-group-item>
+            </b-col>
+          </b-row>
+        </b-list-group>
       </b-modal>
       <div class="mt-3">
         <b-pagination
@@ -256,7 +262,7 @@ export default {
   },
 
   methods: {
-    formatItem(item) {
+    formatItems(item) {
       console.log(item);
       if (item == null) {
         return "null";
@@ -339,6 +345,7 @@ export default {
           SecretKey: localStorage.SecretKey
         })
         .then(res => {
+          console.log("res del", res);
           this.deliveryModal.content = res;
           this.$root.$emit("bv::show::modal", this.deliveryModal.id, button);
 
