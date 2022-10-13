@@ -12,7 +12,7 @@
                 borderless
                 show-empty
                 :fields="fields"
-                :items="cartState[0]"
+                :items="cartState"
                 @row-selected="onRowSelected"
                 selectable
               >
@@ -40,6 +40,7 @@
                       class="sqrBtn"
                       variant="white"
                       v-b-tooltip.hover
+                      @click="minusToCart(row.item)"
                     >
                       <font-awesome-icon icon="minus" />
                     </b-button>
@@ -53,7 +54,7 @@
                       class="sqrBtn"
                       variant="primary"
                       v-b-tooltip.hover
-                      @click="addQ()"
+                      @click="editToCart(row.item)"
                     >
                       <font-awesome-icon icon="plus" />
                     </b-button>
@@ -312,6 +313,65 @@ export default {
 
       console.log(" this.selectedItems", this.selectedItems);
     },
+    async editToCart(row) {
+      console.log("id", row);
+      await this.$store
+        .dispatch("editCartItem", {
+          // customer_id: localStorage.id,
+          cart_id: row.cart_id,
+          quantity: 1
+          // product_images: this.fileName
+        })
+        .then(res => {
+          console.log("res", res);
+          let msg = res.message;
+          this.toast(
+            "b-toaster-bottom-right",
+            true,
+            "success",
+            msg,
+            "Added to Cart"
+          );
+          this.$store.dispatch("getCart", {
+            id: localStorage.id
+          });
+
+          // this.showAlert(res.message, "success");
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    async minusToCart(row) {
+      console.log("id", row);
+      await this.$store
+        .dispatch("editCartItem", {
+          // customer_id: localStorage.id,
+          cart_id: row.cart_id,
+          quantity: -1
+          // product_images: this.fileName
+        })
+        .then(res => {
+          console.log("res", res);
+          let msg = res.message;
+          this.toast(
+            "b-toaster-bottom-right",
+            true,
+            "success",
+            msg,
+            "Added to Cart"
+          );
+          this.$store.dispatch("getCart", {
+            id: localStorage.id
+          });
+
+          // this.showAlert(res.message, "success");
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+
     addToLogs(action, id) {
       console.log("action, id", action, id);
       this.$store
@@ -374,29 +434,7 @@ export default {
       }
     },
     addQ() {},
-    async editToCart(id) {
-      console.log("id", id, this.quantity);
-      await this.$store
-        .dispatch("editCartItem", {
-          // customer_id: localStorage.id,
-          cart_id: id,
-          quantity: this.quantity
-          // product_images: this.fileName
-        })
-        .then(res => {
-          console.log("res", res);
-          let msg = res.message;
-          this.toast("b-toaster-bottom-right", true, "success", msg, "Success");
-          this.$store.dispatch("loadProducts", {
-            SecretKey: localStorage.SecretKey
-          });
 
-          // this.showAlert(res.message, "success");
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    },
     addtoorder() {
       console.log(
         "addtoorder",

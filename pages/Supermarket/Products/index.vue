@@ -198,6 +198,7 @@ export default {
         })
         .then(res => {
           console.log("res", res);
+
           if (res.response.data.error == "Product is already exist") {
             console.log("here");
             this.editToCart(res.response.data.cart_id);
@@ -221,7 +222,7 @@ export default {
               SecretKey: localStorage.SecretKey
             });
 
-            // this.showAlert(res.message, "success");
+            this.showAlert(res.message, "success");
             let msg = res.message;
             this.toast(
               "b-toaster-bottom-right",
@@ -232,8 +233,9 @@ export default {
             );
           }
         })
+
         .catch(err => {
-          console.log(err);
+          console.log("add", err);
         });
     },
     async editToCart(id) {
@@ -248,7 +250,13 @@ export default {
         .then(res => {
           console.log("res", res);
           let msg = res.message;
-          this.toast("b-toaster-bottom-right", true, "success", msg, "Success");
+          this.toast(
+            "b-toaster-bottom-right",
+            true,
+            "success",
+            msg,
+            "Added to Cart"
+          );
           this.$store.dispatch("loadProducts", {
             SecretKey: localStorage.SecretKey
           });

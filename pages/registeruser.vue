@@ -40,6 +40,15 @@
               v-model="address"
               required
             ></b-form-input>
+            <label class="mt-3" for="">Contact Number</label>
+
+            <b-form-input
+              size="sm"
+              class="input"
+              placeholder="Enter contact number"
+              v-model="contact"
+              required
+            ></b-form-input>
 
             <label class="mt-3" for="">Create Username</label>
             <b-form-input
@@ -109,6 +118,7 @@ export default {
       lastName: "",
       userName: "",
       address: "",
+      contact: "",
       password: "",
       prePassword: "",
       userType: ""
@@ -133,6 +143,7 @@ export default {
           first_name: this.firstName,
           last_name: this.lastName,
           address: this.address,
+          contact: this.contact,
           role: "customer",
           SecretKey: localStorage.SecretKey
         })
@@ -162,6 +173,7 @@ export default {
       this.firstName = "";
       this.lastName = "";
       this.address = "";
+      this.contact = "";
       // this.role = "";
     }
   }

@@ -35,10 +35,10 @@ export default {
     state.deliveriesState.push(delivery);
   },
   SET_SALES(state, sale) {
-    state.salesState.push(sale);
+    state.salesState = sale;
   },
   SET_CART(state, cart) {
-    state.cartState.push(cart);
+    state.cartState = cart;
   },
   SET_CATEGORY(state, category) {
     state.categoryState.push(category);

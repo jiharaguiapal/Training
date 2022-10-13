@@ -82,7 +82,16 @@ export default {
 
   async addUser(
     { commit },
-    { username, password, first_name, last_name, role, SecretKey, address }
+    {
+      username,
+      password,
+      contact,
+      first_name,
+      last_name,
+      role,
+      SecretKey,
+      address
+    }
   ) {
     return await axios({
       method: "POST",
@@ -97,6 +106,7 @@ export default {
         first_name,
         last_name,
         address,
+        contact,
         role
       }
     }).then(res => {
@@ -434,7 +444,7 @@ export default {
     })
       .then(res => {
         console.log("ress add cart", res);
-        commit("SET_CART", res.data);
+        commit("ADD_CART", res.data);
 
         return res.data;
       })
@@ -454,7 +464,7 @@ export default {
     })
       .then(res => {
         console.log("ress add cart", res);
-        commit("SET_CART", res.data);
+        commit("ADD_CART", res.data);
 
         return res.data;
       })
