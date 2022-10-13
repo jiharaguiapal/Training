@@ -140,8 +140,16 @@ export default {
           localStorage.role = res.data.User.data[0].role;
           localStorage.address = res.data.User.data[0].address;
           localStorage.SecretKey = res.data.User.token;
-
-          this.$router.push("/main");
+          if (
+            res.data.User.data[0].role == "Admin" ||
+            res.data.User.data[0].role == "admin"
+          ) {
+            this.$router.push("/main");
+          } else {
+            this.$router.push("/");
+            // @click="$bvModal.hide('loginModal')"
+            this.$root.$emit("bv::show::modal", "loginModal", "loginModal");
+          }
           // this.showAlert(res.data.message, "success");
           let msg = res.data.message;
 

@@ -303,7 +303,7 @@
                   @click="clickSubmit()"
                   class="co-btn2"
                 >
-                  <font-awesome-icon icon="cart-plus" /> Checkout</b-button
+                  Checkout</b-button
                 >
               </b-col>
             </b-row>
@@ -314,7 +314,7 @@
                   @click="closePayment()"
                   class="co-btn3"
                 >
-                  <font-awesome-icon icon="cart-plus" /> Back</b-button
+                  Back</b-button
                 >
               </b-col>
             </b-row>

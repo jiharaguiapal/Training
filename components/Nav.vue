@@ -27,7 +27,11 @@
           >
             <font-awesome-icon icon="cart-plus" /> Checkout</b-button
           > -->
-          <b-nav-item active-class="active" href="/main" v-if="checkToken">
+          <b-nav-item
+            active-class="active"
+            href="/main"
+            v-if="adminUser && checkToken"
+          >
             Admin</b-nav-item
           >
           <b-nav-item active href="/supermarket"> Home</b-nav-item>
@@ -86,7 +90,7 @@ export default {
       }
     },
     adminUser() {
-      if (localStorage.role == "admin") {
+      if (localStorage.role == "admin" || localStorage.role == "Admin") {
         return true;
       } else {
         return false;
