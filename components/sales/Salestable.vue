@@ -191,7 +191,7 @@ export default {
     }),
 
     getsales() {
-      return this.salesState[0];
+      return this.salesState;
     }
   },
 
