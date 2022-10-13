@@ -131,6 +131,7 @@
       </template>
     </b-modal>
     <b-modal
+      size="lg"
       scrollable
       :header-bg-variant="modalheadbg"
       :id="productModal.id"
@@ -441,10 +442,20 @@ export default {
         { key: "actions", sortable: false }
       ],
       detailName: [
-        "Category ID: ",
-        "Category Name: ",
-        "Date Added: ",
-        "Status: "
+        "Product ID: ",
+        "Product Name: ",
+        "Barcode: ",
+        "Details: ",
+        "Quantity: ",
+        "Price: ",
+        "Status: ",
+        "Date Created: ",
+        "Cost Per Unit: ",
+        "Date Received: ",
+        "Expiration Date: ",
+        "Delivery ID: ",
+        "Image: ",
+        "Category ID: "
       ],
       isBusy: false,
       alert: {
@@ -754,8 +765,10 @@ export default {
     },
 
     info(product, index, button) {
+      console.log("pr", product);
       this.productModal.title = product.product_name;
-      this.productModal.content = JSON.stringify(product, null, 2);
+      // this.productModal.content = JSON.stringify(product, null, 2);
+      this.productModal.content = product;
       this.$root.$emit("bv::show::modal", this.productModal.id, button);
     },
     resetInfoModal() {

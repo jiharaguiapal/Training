@@ -21,7 +21,7 @@
         </b-row>
         <b-card-body>
           <b-form>
-            <b-img src="@/assets/img/shop.svg" class="shop-img"></b-img>
+            <!-- <b-img src="@/assets/img/shop.svg" class="shop-img"></b-img> -->
             <h2 class="titlecard">LougehTech</h2>
             <h2 class="titlecard">Shop</h2>
             <label for=""></label>
@@ -47,7 +47,7 @@
               >Login</b-button
             >
             <div class="link">
-              <nuxt-link :to="{ name: 'registeruser' }">Sign up</nuxt-link>
+              <nuxt-link :to="{ name: 'registeruser' }">Sign Up</nuxt-link>
             </div>
           </b-form>
           <b-alert
@@ -222,6 +222,7 @@ export default {
 
 .link {
   margin-top: 10px;
+  font-size: 16px;
 }
 .container {
   /* width: 450px; */
@@ -231,7 +232,8 @@ export default {
 }
 .titlecard {
   text-align: center;
-  color: #28594b;
+  color: #012340;
+  font-weight: 600;
 }
 .shop-img {
   height: 110px;
