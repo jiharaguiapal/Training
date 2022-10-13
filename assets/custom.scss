@@ -237,6 +237,53 @@ padding: 4px 10px;
   }
 
 }
+.label-name{
+  margin-bottom: 0;
+  margin-top: 20px;
+    text-transform: uppercase;
+    font-size: 14px;
+
+  // font-style:;
+
+}
+.side-card{
+  margin-left: 10px;
+  height: 100%;
+  padding: 0 12px;
+  p{
+    font-size: 14px;
+  }
+}
+.center-text{
+  margin: 20px auto;
+  // text-align: center;
+}
+.paypal{
+  height: 100px;
+  // width: 200px;
+}
+.visa{
+  height: 100px;
+  // width: 150px;
+  // height: 100px;
+}
+.gcash{
+  height: 100px;
+  // width: 175px;
+  // margin: 0 5px;
+}
+.selectCard{
+  margin: 5px 0;
+  border: none;
+}
+.paymentModal{
+  border: 1px solid red;
+}
+.payment-div{
+    // border: 1px solid red;
+    padding: 10px;
+
+}
 .prod-img{
   // border: 1px solid red;
   height: 120px;
@@ -531,6 +578,18 @@ div .modal-header {
 .co-btn{
   display: inline;
       width: 100%;
+}
+.co-btn3{
+  display: inline;
+      width: 100%;
+      position:absolute;
+      top: 120px;
+}
+.co-btn2{
+  display: inline;
+      width: 100%;
+      position:absolute;
+      top: 75px;
 }
 .btn-col{
     display: inline;

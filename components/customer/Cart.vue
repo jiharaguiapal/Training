@@ -110,6 +110,12 @@
             <br />
             <br />
             <b-row>
+              <b-col><p>Total Items</p> </b-col>
+              <b-col
+                ><p>{{ formatAmount(subTotal) }}</p>
+              </b-col>
+            </b-row>
+            <b-row>
               <b-col><p>Subtotal</p> </b-col>
               <b-col
                 ><p>{{ formatAmount(subTotal) }}</p>
@@ -132,10 +138,10 @@
               <b-col class="btn-col">
                 <b-button
                   variant="primary"
-                  @click="clickSubmit()"
+                  @click="openPayment()"
                   class="co-btn"
                 >
-                  <font-awesome-icon icon="cart-plus" /> Checkout</b-button
+                  Proceed to Payment</b-button
                 >
               </b-col>
             </b-row>
@@ -164,12 +170,174 @@
           type="submit"
           class="mt-3"
           block
-          @click="$bvModal.hide('orderconfirm'), addtoorder()"
+          @click="
+            $bvModal.hide('orderconfirm'),
+              $bvModal.hide('payment-modal'),
+              addtoorder()
+          "
           >Confirm</b-button
         >
 
         <b-button @click="hide()" block variant="danger"> Cancel</b-button>
       </template>
+    </b-modal>
+    <b-modal
+      class="paymentModal"
+      size="lg"
+      id="payment-modal"
+      centered
+      hide-footer
+      hide-header
+    >
+      <b-row class="payment-div" no-gutters>
+        <!-- <template #modal-title class="headerBG"> Confirm Order</template> -->
+        <b-col cols="8">
+          <b-card>
+            <b-row>
+              <b-col>
+                <b-card class="selectCard" no-body>
+                  <img
+                    class="visa"
+                    src="~/static/imgs/card/icons8-visa.svg"
+                    alt="visa"
+                /></b-card>
+              </b-col>
+              <b-col>
+                <b-card class="selectCard" no-body>
+                  <img
+                    class="paypal"
+                    src="~/static/imgs/card/icons8-paypal.svg"
+                    alt="paypal"
+                  />
+                </b-card>
+              </b-col>
+              <b-col>
+                <b-card class="selectCard" no-body>
+                  <img
+                    class="gcash"
+                    src="~/static/imgs/card/icons8-gcash.svg"
+                    alt="gcash"
+                /></b-card>
+              </b-col>
+            </b-row>
+            <b-row>
+              <b-col>
+                <label class="label-name" for="">Name on card</label>
+                <b-input size="sm" placeholder="Jose Mari Chan"></b-input>
+              </b-col>
+            </b-row>
+            <b-row>
+              <b-col>
+                <label class="label-name" for="">Card Number</label>
+                <b-input size="sm" placeholder="0000 0000 0000 0000"></b-input>
+              </b-col>
+            </b-row>
+            <b-row>
+              <b-col>
+                <label class="label-name" for="">Month</label>
+                <b-select
+                  :options="months"
+                  size="sm"
+                  placeholder="0000 0000 0000 0000"
+                ></b-select>
+              </b-col>
+              <b-col>
+                <label class="label-name" for="">Year</label>
+                <b-select
+                  :options="years"
+                  size="sm"
+                  placeholder="0000 0000 0000 0000"
+                ></b-select>
+              </b-col>
+              <b-col>
+                <label class="label-name" for="">CVV</label>
+                <b-input size="sm" placeholder=""></b-input>
+              </b-col>
+            </b-row>
+
+            <!-- <b-row>
+          <b-col>
+            <b-button
+              type="submit"
+              class=""
+              block
+              @click="$bvModal.hide('orderconfirm'), addtoorder()"
+              >Confirm</b-button
+            >
+          </b-col>
+          <b-col>
+            <b-button @click="hide()" block variant="danger"> Cancel</b-button>
+          </b-col>
+        </b-row> -->
+          </b-card>
+        </b-col>
+        <b-col>
+          <b-card class="side-card" no-body>
+            <b-row class="center-text">
+              <b>Payment Summary</b>
+            </b-row>
+
+            <b-row no-gutters>
+              <b-col><p>Subtotal</p> </b-col>
+              <b-col
+                ><p>{{ formatAmount(subTotal) }}</p>
+              </b-col>
+            </b-row>
+            <b-row no-gutters>
+              <b-col><p>Shipping Fee</p> </b-col>
+              <b-col
+                ><p>{{ formatAmount(shippingFee) }}</p>
+              </b-col>
+            </b-row>
+            <b-row no-gutters>
+              <b-col><p>Total Amount</p></b-col>
+              <b-col
+                ><p>{{ formatAmount(totalAmount) }}</p></b-col
+              >
+            </b-row>
+            <br />
+            <b-row no-gutters>
+              <b-col class="btn-col">
+                <b-button
+                  variant="primary"
+                  @click="clickSubmit()"
+                  class="co-btn2"
+                >
+                  <font-awesome-icon icon="cart-plus" /> Checkout</b-button
+                >
+              </b-col>
+            </b-row>
+            <b-row no-gutters>
+              <b-col class="btn-col">
+                <b-button
+                  variant="danger"
+                  @click="closePayment()"
+                  class="co-btn3"
+                >
+                  <font-awesome-icon icon="cart-plus" /> Back</b-button
+                >
+              </b-col>
+            </b-row>
+          </b-card>
+        </b-col>
+      </b-row>
+
+      <!-- <template #default="{ hide }">
+        <b-row>
+          <b-col>
+            <b-button
+              type="submit"
+              class=""
+              block
+              @click="$bvModal.hide('orderconfirm'), addtoorder()"
+              >Confirm</b-button
+            >
+          </b-col>
+          <b-col>
+            <b-button @click="hide()" block variant="danger"> Cancel</b-button>
+          </b-col>
+        </b-row>
+      </template> -->
     </b-modal>
   </div>
 </template>
@@ -254,7 +422,32 @@ export default {
       shippingAddress: localStorage.address,
       shippingType: "",
       allDetails: [],
-      api: ""
+      api: "",
+      months: [
+        { value: "January", text: "January" },
+        { value: "February", text: "February" },
+        { value: "March", text: "March" },
+        { value: "April", text: "April" },
+        { value: "May", text: "May" },
+        { value: "June", text: "June" },
+        { value: "July", text: "July" },
+        { value: "August", text: "August" },
+        { value: "September", text: "September" },
+        { value: "October", text: "October" },
+        { value: "November", text: "November" },
+        { value: "December", text: "December" }
+      ],
+      years: [
+        { value: "2020", text: "2020" },
+        { value: "2021", text: "2021" },
+        { value: "2022", text: "2022" },
+        { value: "2023", text: "2023" },
+        { value: "2024", text: "2024" },
+        { value: "2025", text: "2025" },
+        { value: "2026", text: "2026" },
+        { value: "2027", text: "2027" },
+        { value: "2028", text: "2028" }
+      ]
     };
   },
   beforeCreate() {
@@ -312,6 +505,12 @@ export default {
       this.selectedItems = items;
 
       console.log(" this.selectedItems", this.selectedItems);
+    },
+    closePayment() {
+      this.$root.$emit("bv::hide::modal", "payment-modal", "payment-modal");
+    },
+    openPayment() {
+      this.$root.$emit("bv::show::modal", "payment-modal", "payment-modal");
     },
     async editToCart(row) {
       console.log("id", row);

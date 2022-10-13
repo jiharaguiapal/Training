@@ -197,10 +197,32 @@ export default {
           // product_images: this.fileName
         })
         .then(res => {
-          console.log("res", res);
-
+          console.log("addToCart", res.response);
+          if (res.message == "Added product to Cart") {
+            this.$root.$emit(
+              "bv::hide::modal",
+              "productmodal",
+              "#productmodal"
+            );
+            this.$store.dispatch("loadProducts", {
+              SecretKey: localStorage.SecretKey
+            });
+            console.log("res.message", res.message);
+            let msg = res.message;
+            this.toast(
+              "b-toaster-bottom-right",
+              true,
+              "success",
+              msg,
+              "Success"
+            );
+            this.addToLogs(
+              `Customer ${localStorage.firstname} ${localStorage.lastname} added products to cart`,
+              localStorage.id
+            );
+          } else {
+          }
           if (res.response.data.error == "Product is already exist") {
-            console.log("here");
             this.editToCart(res.response.data.cart_id);
           }
           if (res.response.data.error == "quantity is required.") {
@@ -212,26 +234,27 @@ export default {
               errMsg,
               "Warning"
             );
-          } else {
-            this.$root.$emit(
-              "bv::hide::modal",
-              "productmodal",
-              "#productmodal"
-            );
-            this.$store.dispatch("loadProducts", {
-              SecretKey: localStorage.SecretKey
-            });
-
-            this.showAlert(res.message, "success");
-            let msg = res.message;
-            this.toast(
-              "b-toaster-bottom-right",
-              true,
-              "success",
-              msg,
-              "Success"
-            );
           }
+          // } else {
+          //   this.$root.$emit(
+          //     "bv::hide::modal",
+          //     "productmodal",
+          //     "#productmodal"
+          //   );
+          //   this.$store.dispatch("loadProducts", {
+          //     SecretKey: localStorage.SecretKey
+          //   });
+
+          //   this.showAlert(res.message, "success");
+          //   let msg = res.message;
+          //   this.toast(
+          //     "b-toaster-bottom-right",
+          //     true,
+          //     "success",
+          //     msg,
+          //     "Success"
+          //   );
+          // }
         })
 
         .catch(err => {
@@ -239,7 +262,6 @@ export default {
         });
     },
     async editToCart(id) {
-      console.log("id", id, this.quantity);
       await this.$store
         .dispatch("editCartItem", {
           // customer_id: localStorage.id,
@@ -248,7 +270,7 @@ export default {
           // product_images: this.fileName
         })
         .then(res => {
-          console.log("res", res);
+          console.log("editToCart", res);
           let msg = res.message;
           this.toast(
             "b-toaster-bottom-right",
@@ -260,11 +282,34 @@ export default {
           this.$store.dispatch("loadProducts", {
             SecretKey: localStorage.SecretKey
           });
+          this.addToLogs(
+            `Customer ${localStorage.firstname} ${localStorage.lastname} added products to cart`,
+            localStorage.id
+          );
 
           // this.showAlert(res.message, "success");
         })
         .catch(err => {
           console.log(err);
+        });
+    },
+    addToLogs(action, id) {
+      console.log("action, id", action, id);
+      this.$store
+        .dispatch("addLog", {
+          action_made: action,
+          user_id: id,
+          SecretKey: localStorage.SecretKey
+        })
+
+        .then(res => {
+          console.log("res log", res);
+          this.$store.dispatch("getLog", {
+            SecretKey: localStorage.SecretKey
+          });
+        })
+        .catch(err => {
+          console.log("err log", err);
         });
     }
   }
