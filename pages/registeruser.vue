@@ -2,15 +2,15 @@
   <div class="container">
     <b-card class="bcard">
       <b-row>
-        <b-col>
+        <!-- <b-col>
           <b-card-img
             src="~/static/imgs/signup.png"
             alt="Image"
             class="rounded-0 image-ill"
           ></b-card-img>
-        </b-col>
+        </b-col> -->
         <b-col>
-          <h2 class="titlecard">Sign up</h2>
+          <h2 class="titlecard">Register</h2>
           <b-form>
             <label for="">First Name</label>
 
@@ -205,6 +205,8 @@ export default {
 }
 .bcard {
   border-radius: 15px;
+  width: 50vw;
+  margin: auto;
   /* margin-top: 190px; */
   /* height: 580px; */
 }

@@ -62,9 +62,10 @@
 
     <div>
       <b-modal
+        centered
         header-bg-variant="white"
         id="loginModal"
-        size="xl"
+        size="lg"
         class="order-modal"
         hide-footer
         hide-header

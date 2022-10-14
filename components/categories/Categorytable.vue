@@ -476,7 +476,12 @@ export default {
   //
   computed: {
     rows() {
-      return this.categoryState.length;
+      // return this.categoryState.length;
+      if (this.categoryState[0]) {
+        return this.categoryState[0].length;
+      } else {
+        return this.categoryState.length;
+      }
     },
     ...mapGetters({
       categoryState: "allCategory"

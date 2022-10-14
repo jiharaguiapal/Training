@@ -24,6 +24,7 @@
             head-variant="light"
             bordered
             hover
+            id="log-table"
             :items="logState[0]"
             :per-page="perPage"
             :current-page="currentPage"
@@ -51,7 +52,6 @@
               formatDate(row.item.created_at)
             }}</template></b-table
           >
-
           <b-modal
             size="lg"
             :header-bg-variant="modalheadbg"
@@ -106,7 +106,7 @@
               pills
               :total-rows="rows"
               :per-page="perPage"
-              aria-controls="supplier-table"
+              aria-controls="log-table"
               align="center"
               size="sm"
               limit="3"
@@ -129,7 +129,8 @@ export default {
       customer_number: "",
       options: [],
       // rows: 100,
-      perPage: 100,
+      // rows: 0,
+      perPage: 8,
       currentPage: 1,
       item: [],
       filter: null,
@@ -199,7 +200,7 @@ export default {
     },
     onFiltered(filteredItems) {
       // Trigger pagination to update the number of buttons/pages due to filtering
-      this.totalRows = filteredItems.length;
+      this.rows = filteredItems.length;
       this.currentPage = 1;
     },
     resetcustomerModal() {
@@ -234,12 +235,17 @@ export default {
   },
   //
   computed: {
-    rows() {
-      return this.logState.length;
-    },
     ...mapGetters({
       logState: "allLog"
-    })
+    }),
+    rows() {
+      console.log("this.logState", this.logState);
+      if (this.logState[0]) {
+        return this.logState[0].length;
+      } else {
+        return this.logState.length;
+      }
+    }
   }
 };
 </script>
