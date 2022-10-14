@@ -463,6 +463,7 @@ export default {
   },
   watch: {
     selectedItems() {
+      this.allDetails = [];
       if (this.selectedItems.length == 0) {
         this.subTotal = 0;
         this.totalAmount = 0;
@@ -484,7 +485,7 @@ export default {
           });
         }
         this.totalAmount = this.subTotal + this.shippingFee;
-        console.log(" this.subtotal ", this.subTotal);
+        console.log("  this.allDetails ", this.allDetails);
       }
     }
   },
@@ -503,6 +504,7 @@ export default {
       this.totalAmount = 0;
       this.shippingFee = 150;
       this.selectedItems = items;
+      console.log("items", items);
 
       console.log(" this.selectedItems", this.selectedItems);
     },
@@ -635,12 +637,7 @@ export default {
     addQ() {},
 
     addtoorder() {
-      console.log(
-        "addtoorder",
-        this.shippingAddress,
-        this.shippingType,
-        this.selectedItems
-      );
+      console.log("this.allDetails", this.allDetails);
       this.$store
         .dispatch("addOrder", {
           // order_details: this.allDetails,

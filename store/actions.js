@@ -386,7 +386,7 @@ export default {
       }
     })
       .then(res => {
-        commit("SET_SALES", res.data);
+        // commit("SET_SALES", res.data);
         return res.data;
       })
       .catch(err => {
