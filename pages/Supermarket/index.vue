@@ -48,7 +48,7 @@
             <!-- <p>This is a test</p> -->
           </div>
         </b-row>
-        <b-row>
+        <b-row no-gutters>
           <b-col class="card-category">
             <b-img
               class="img-categ"
@@ -82,7 +82,7 @@
               alt="Responsive image"
             ></b-img>
           </b-col>
-          <b-col class="card-category ml-2">
+          <b-col class="card-category">
             <b-img
               class="img-categ"
               src="~/static/imgs/categ/more-categ.png"
