@@ -5,7 +5,7 @@
       class="nav-header"
       active-class="font-weight-bold "
     >
-      <b-navbar-brand href="#" class="icon-name"> LOUGEH TECH</b-navbar-brand>
+      <b-navbar-brand href="#" class="icon-name"> LOUGEHTECH</b-navbar-brand>
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
       <b-collapse id="nav-collapse" is-nav>
         <!-- <b-navbar-nav>
