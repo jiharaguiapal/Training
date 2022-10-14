@@ -112,7 +112,7 @@
 import axios from "axios";
 import moment from "moment";
 import { mapState, mapMutations, mapGetters, createLogger } from "vuex";
-import backgroundUrl from "@/static/imgs/categ/veges.jpg";
+// import backgroundUrl from "@/static/imgs/categ/veges.jpg";
 export default {
   props: {},
 

@@ -286,14 +286,14 @@
               </div>
             </b-col>
           </b-col>
-        </b-row>
-        <!-- <div class="line-break"></div> -->
-        <b-row no-gutters>
-          <!-- <div class="center-title">
+          <!-- </b-row> -->
+          <!-- <div class="line-break"></div> -->
+          <b-row no-gutters>
+            <!-- <div class="center-title">
             <p class="title-categ"><b>Featured Products</b></p>
           </div> -->
-        </b-row>
-        <b-row no-gutters>
+          </b-row>
+          <!-- <b-row no-gutters> -->
           <b-col>
             <b-col class="">
               <b-card class="home-product-card" no-body>
@@ -492,9 +492,8 @@
 
     <b-card class="info-card" no-body>
       <b-row no-gutters>
-        <b-col>
+        <!-- <b-col>
           <b-card class="info-item">
-            <!-- <font-awesome-icon icon="shopping-cart" /> -->
             <b-img
               class="img-info"
               src="~/static/imgs/info/cart-empty.svg"
@@ -507,14 +506,14 @@
             </p>
           </b-card>
         </b-col>
-        <div class="hori-line"></div>
+        <div class="hori-line"></div> -->
 
         <b-col>
           <b-card class="info-item">
             <!-- <font-awesome-icon icon="shopping-cart" /> -->
             <b-img
               class="img-info"
-              src="~/static/imgs/info/select.svg"
+              src="~/static/imgs/info/select1.svg"
               fluid
               alt="Responsive image"
             ></b-img>
@@ -530,7 +529,7 @@
             <!-- <font-awesome-icon icon="shopping-cart" /> -->
             <b-img
               class="img-info"
-              src="~/static/imgs/info/review.svg"
+              src="~/static/imgs/info/trust.svg"
               fluid
               alt="Responsive image"
             ></b-img>
@@ -554,7 +553,7 @@
           <b>OPERATING HOURS</b>
         </b-col>
         <b-col>
-          <b>EMAIL</b>
+          <b> EMAIL</b>
         </b-col>
       </b-row>
       <br />
@@ -563,13 +562,13 @@
           <p>Shipping and Returns</p>
         </b-col>
         <b-col>
-          <p>Lagao, General Santos City</p>
+          <p>J.Catolico Sr. Avenue, Lagao</p>
         </b-col>
         <b-col>
-          <p>Opening Hours</p>
+          <p>Mon-Sat</p>
         </b-col>
         <b-col>
-          <p></p>
+          <p>lougehtech@getnada.com</p>
         </b-col>
       </b-row>
       <b-row>
@@ -577,10 +576,10 @@
           <p>Store Policy</p>
         </b-col>
         <b-col>
-          <p></p>
+          <p>9500, General Santos City Philippines</p>
         </b-col>
         <b-col>
-          <p>Opening Hours</p>
+          <p>8:00AM - 8:00PM</p>
         </b-col>
         <b-col>
           <p></p>
@@ -594,7 +593,7 @@
           <p></p>
         </b-col>
         <b-col>
-          <p>Opening Hours</p>
+          <p></p>
         </b-col>
         <b-col>
           <p></p>
@@ -607,7 +606,7 @@
     <b-card class="footer-card-sm" no-body>
       <b-row>
         <b-col>
-          <p>2022</p>
+          <p>&copy; 2022 &#9733; Troy Michael Garidos</p>
         </b-col>
       </b-row>
     </b-card>
@@ -615,12 +614,12 @@
 </template>
 
 <script>
-import backgroundUrl from "@/static/imgs/categ/veges.jpg";
+// import backgroundUrl from "@/static/imgs/categ/veges.jpg";
 export default {
   props: {},
 
   data() {
-    return { backgroundUrl };
+    return {};
   },
   methods: {
     formatAmount(amount) {

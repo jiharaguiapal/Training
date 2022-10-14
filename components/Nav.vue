@@ -65,7 +65,7 @@
         centered
         header-bg-variant="white"
         id="loginModal"
-        size="lg"
+        size="xl"
         class="order-modal"
         hide-footer
         hide-header

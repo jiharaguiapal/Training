@@ -5,7 +5,7 @@
         <b-row> </b-row>
         <b-row>
           <b-card-img
-            src="~/static/imgs/login-illus (3).png"
+            src="~/static/imgs/login-illus.svg"
             alt="Image"
             class="rounded-0 image-ill"
           ></b-card-img>
@@ -21,9 +21,9 @@
         </b-row>
         <b-card-body>
           <b-form>
-            <!-- <b-img src="@/assets/img/shop.svg" class="shop-img"></b-img> -->
-            <h2 class="titlecard">LougehTech</h2>
-            <h2 class="titlecard">Shop</h2>
+            <b-img src="~/static/imgs/l.png" class="shop-img"></b-img>
+            <!-- <h2 class="titlecard">LougehTech</h2>
+            <h2 class="titlecard">Shop</h2> -->
             <label for=""></label>
             <b-form-input
               @keyup.enter="loginUser()"
@@ -236,7 +236,8 @@ export default {
   font-weight: 600;
 }
 .shop-img {
-  height: 110px;
+  height: 250px;
+  margin: 0 0 20px 0;
   /* margin: 50px 50px 20px 50px; */
 }
 label {

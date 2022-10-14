@@ -392,7 +392,7 @@ padding: 30px 45px 20px 55px;
 
 }
 .img-info{
-  height: 100px;
+  height: 220px;
  display: block;
   margin: 0 auto;
 }
@@ -569,9 +569,13 @@ div .modal-header {
     cursor: pointer;
   }
 }
+.login-btn{}
 .image-ill{
   display: block;
-  margin-top: auto;
+  // margin: auto;
+  position: absolute;
+  top: 60px;
+  left: 0;
   // padding-top: 50px;
 // height: 400px;
 // border: 1px solid red;
