@@ -559,7 +559,7 @@
       <br />
       <b-row>
         <b-col>
-          <p>Shipping and Returns</p>
+          <p>FAQ</p>
         </b-col>
         <b-col>
           <p>J.Catolico Sr. Avenue, Lagao</p>
@@ -585,7 +585,7 @@
           <p></p>
         </b-col>
       </b-row>
-      <b-row class="mb-3">
+      <!-- <b-row class="mb-3">
         <b-col>
           <p>FAQ</p>
         </b-col>
@@ -598,7 +598,7 @@
         <b-col>
           <p></p>
         </b-col>
-      </b-row>
+      </b-row> -->
       <!-- <template #footer>
         <em>Footer Slot</em>
       </template> -->
