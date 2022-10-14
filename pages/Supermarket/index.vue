@@ -565,7 +565,7 @@
           <p>J.Catolico Sr. Avenue, Lagao</p>
         </b-col>
         <b-col>
-          <p>Mon-Sat</p>
+          <p>Mondays - Fridays</p>
         </b-col>
         <b-col>
           <p>lougehtech@getnada.com</p>
@@ -579,7 +579,7 @@
           <p>9500, General Santos City Philippines</p>
         </b-col>
         <b-col>
-          <p>8:00AM - 8:00PM</p>
+          <p>8:00AM - 6:00PM</p>
         </b-col>
         <b-col>
           <p></p>
