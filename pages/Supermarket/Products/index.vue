@@ -118,7 +118,6 @@ export default {
 
   data() {
     return {
-      backgroundUrl,
       quantity: 0,
       api: ""
     };
