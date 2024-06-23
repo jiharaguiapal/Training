@@ -1,4 +1,4 @@
-# 555
+# Training Material for NUxt & Vue
 
 ## Build Setup
 
