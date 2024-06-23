@@ -1,4 +1,4 @@
-# Training Material for NUxt & Vue
+# Training Material for Nuxt & Vue
 
 ## Build Setup
 
