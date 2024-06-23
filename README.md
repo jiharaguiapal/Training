@@ -1,4 +1,4 @@
-# 555
+# Training Project for Nuxt and View
 
 ## Build Setup
 
